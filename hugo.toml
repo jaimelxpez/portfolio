@@ -1,0 +1,49 @@
+baseURL = "https://jaimelxpez.com/"
+languageCode = "en-us"
+title = "Jaime López"
+theme = "PaperMod"
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[params]
+    env = "production"
+    title = "Jaime López"
+    description = "Senior Android Engineer | Kotlin & Clean Architecture Specialist"
+    author = "Jaime López"
+    defaultTheme = "auto"
+    ShowReadingTime = true
+    ShowShareButtons = true
+    ShowPostNavLinks = true
+    ShowBreadCrumbs = true
+    ShowCodeCopyButtons = true
+    
+    # Perfil en la Home
+    [params.homeInfoParams]
+        Title = "Hola, soy Jaime 👋"
+        Content = "Soy **Android Engineer** especializado en crear arquitecturas escalables con **Kotlin** y **Jetpack Compose**. Me apasiona el código limpio, la eficiencia y crear productos que la gente disfrute usar."
+
+    # Redes Sociales (Iconos en la home)
+    [[params.socialIcons]]
+        name = "linkedin"
+        url = "https://linkedin.com/in/jaimelpz2412"
+    [[params.socialIcons]]
+        name = "github"
+        url = "https://github.com/jaimelxpez"
+    [[params.socialIcons]]
+        name = "email"
+        url = "mailto:hello@jaimelxpez.com"
+
+[menu]
+    [[menu.main]]
+        identifier = "projects"
+        name = "Proyectos"
+        url = "/projects/"
+        weight = 10
+    [[menu.main]]
+        identifier = "github"
+        name = "GitHub"
+        url = "https://github.com/jaimelxpez"
+        weight = 20
