@@ -11,7 +11,7 @@ buildExpired = false
 [params]
     env = "production"
     title = "Jaime López"
-    description = "Senior Android Engineer | Kotlin & Clean Architecture Specialist"
+    description = "Android Engineer | Kotlin & Clean Architecture Specialist"
     author = "Jaime López"
     defaultTheme = "auto"
     ShowReadingTime = true
@@ -19,6 +19,7 @@ buildExpired = false
     ShowPostNavLinks = true
     ShowBreadCrumbs = true
     ShowCodeCopyButtons = true
+    mainSections = ["projects"]
     
     # Perfil en la Home
     [params.homeInfoParams]

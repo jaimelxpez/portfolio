@@ -4,6 +4,7 @@ date: 2026-01-08
 url: "/daymood/terms-of-use.html"
 summary: "Términos legales para el uso de la aplicación DayMood."
 hidemeta: true
+hidden: true
 ---
 
 **DayMood - Diario Emocional** *Última actualización: 6 de enero de 2026*

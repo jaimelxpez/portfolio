@@ -4,6 +4,7 @@ date: 2026-01-08
 url: "/daymood/privacy-policy.html"
 summary: "Cómo DayMood gestiona, protege y utiliza tus datos personales."
 hidemeta: true
+hidden: true
 ---
 
 **DayMood - Diario Emocional** *Última actualización: 6 de enero de 2026*
