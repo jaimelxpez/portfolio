@@ -1,13 +1,13 @@
 ---
 title: "Términos y Condiciones de Uso"
-date: 2026-01-08
+date: 2026-01-11
 url: "/daymood/terms-of-use.html"
 summary: "Términos legales para el uso de la aplicación DayMood."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Diario Emocional** *Última actualización: 6 de enero de 2026*
+**DayMood - Diario Emocional** *Última actualización: 11 de enero de 2026*
 
 ---
 
@@ -49,6 +49,16 @@ Para utilizar DayMood necesita:
 
 Usted se compromete a proporcionar información veraz y a mantener actualizada la información de su cuenta.
 
+### 3.4 Requisitos técnicos y verificación de integridad
+
+Para garantizar la seguridad del servicio, DayMood implementa medidas de verificación de integridad:
+
+* La Aplicación utiliza Firebase App Check con Google Play Integrity para verificar que las solicitudes provienen de una versión legítima de la aplicación.
+* Dispositivos que no superen las verificaciones de integridad pueden tener funcionalidad limitada o no poder acceder al servicio.
+* Dispositivos con el sistema operativo modificado (root) o con la aplicación alterada pueden no funcionar correctamente.
+
+Estas medidas protegen tanto sus datos como la infraestructura del servicio contra accesos no autorizados.
+
 ## 4. Uso Permitido
 
 La Aplicación debe utilizarse únicamente para:
@@ -68,7 +78,8 @@ Queda expresamente prohibido:
 * Utilizar la Aplicación para recopilar datos de terceros
 * Interferir con el funcionamiento normal de la Aplicación
 * Usar la Aplicación para actividades comerciales no autorizadas
-* Eludir las medidas de seguridad implementadas
+* Eludir las medidas de seguridad implementadas, incluyendo la verificación de integridad (App Check)
+* Intentar acceder a los servicios de backend sin pasar por la aplicación oficial
 
 El incumplimiento de estas prohibiciones puede resultar en la suspensión o cancelación de su cuenta.
 

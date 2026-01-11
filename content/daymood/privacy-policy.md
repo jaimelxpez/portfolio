@@ -1,13 +1,13 @@
 ---
 title: "Política de Privacidad"
-date: 2026-01-08
+date: 2026-01-11
 url: "/daymood/privacy-policy.html"
 summary: "Cómo DayMood gestiona, protege y utiliza tus datos personales."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Diario Emocional** *Última actualización: 6 de enero de 2026*
+**DayMood - Diario Emocional** *Última actualización: 11 de enero de 2026*
 
 ---
 
@@ -48,9 +48,13 @@ DayMood recopila los siguientes tipos de datos:
 > El tratamiento de estos datos requiere su **consentimiento explícito**, que usted otorga al aceptar esta política y usar la aplicación.
 
 ### 2.4 Datos técnicos
-* Informes de errores y fallos de la aplicación (Crashlytics)
+* Informes de errores y fallos de la aplicación (Firebase Crashlytics)
 * Información del dispositivo (modelo, versión del sistema operativo)
-* Preferencias de la aplicación (tema claro/oscuro)
+* Preferencias de la aplicación (tema claro/oscuro, idioma)
+* Metadatos de llamadas API: endpoint, método HTTP, código de estado, tiempos de respuesta (Firebase Crashlytics y Performance)
+* Verificación de integridad del dispositivo y la aplicación (Firebase App Check con Google Play Integrity)
+
+> **Nota sobre monitoreo de API:** Para garantizar la calidad del servicio, registramos metadatos técnicos de las llamadas a nuestras APIs (como tiempos de respuesta y códigos de error). **Nunca registramos el contenido de sus entradas de diario** en estos registros técnicos, preservando la privacidad de su información personal.
 
 ## 3. Finalidad del Tratamiento
 
@@ -73,7 +77,9 @@ Para proporcionar el servicio, compartimos sus datos con los siguientes proveedo
 | **Google Firebase** | Autenticación y almacenamiento | Datos de cuenta, entradas, emociones | UE / EEUU |
 | **Google Identity** | Inicio de sesión con Google | Credenciales de autenticación | UE / EEUU |
 | **OpenAI** | Análisis emocional con IA (GPT-4) | Texto de las entradas de diario | EEUU |
-| **Firebase Crashlytics** | Informes de errores | Datos técnicos del dispositivo | UE / EEUU |
+| **Firebase Crashlytics** | Informes de errores y monitoreo de API | Datos técnicos, metadatos API (sin contenido) | UE / EEUU |
+| **Firebase Performance** | Métricas de rendimiento | Tiempos de respuesta, tamaños de payload | UE / EEUU |
+| **Google Play Integrity** | Verificación de integridad | Attestation del dispositivo y la aplicación | UE / EEUU |
 
 Todos estos proveedores actúan como **encargados del tratamiento** y están obligados contractualmente a proteger sus datos conforme al RGPD.
 
@@ -95,6 +101,7 @@ Puede obtener más información sobre estas garantías contactando con nosotros 
 | Entradas de diario y emociones | Hasta que las elimine o elimine su cuenta |
 | Preferencias de la aplicación | Hasta que desinstale la app o borre los datos |
 | Informes de errores (Crashlytics) | 90 días (política de Google) |
+| Métricas de rendimiento (Performance) | 90 días (política de Google) |
 | Datos enviados a OpenAI | 30 días (política de OpenAI para API) |
 
 ## 7. Sus Derechos
@@ -110,13 +117,14 @@ De acuerdo con el RGPD y la LOPDGDD, usted tiene los siguientes derechos:
 
 ### Cómo ejercer sus derechos
 
-Puede ejercer cualquiera de estos derechos enviando un email a:  
+Puede ejercer cualquiera de estos derechos enviando un email a:
 **[hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)**
 
 Incluya en su solicitud:
 * Su nombre completo
 * El email asociado a su cuenta de DayMood
 * El derecho que desea ejercer
+* Cualquier información adicional relevante
 
 Responderemos a su solicitud en un plazo máximo de 30 días.
 
@@ -141,8 +149,18 @@ Implementamos las siguientes medidas de seguridad para proteger sus datos:
 * **Cifrado en reposo:** Los datos locales se almacenan cifrados (EncryptedSharedPreferences).
 * **Certificate Pinning:** Protección contra ataques man-in-the-middle.
 * **Autenticación segura:** Google Sign-In con tokens de sesión.
-* **Logs seguros:** Redacción automática de datos sensibles en registros.
-* **Detección de manipulación:** Verificación de integridad de la aplicación.
+* **Logs seguros:** Redacción automática de datos sensibles en registros. El contenido de sus entradas de diario nunca se registra en logs de monitoreo.
+* **Verificación de integridad:** Firebase App Check con Google Play Integrity verifica que las solicitudes provienen de la aplicación legítima.
+
+> **Cifrado de extremo a extremo (E2E)**
+>
+> **Su privacidad es nuestra prioridad.** El contenido sensible de sus entradas de diario está protegido con cifrado de extremo a extremo:
+> * **Algoritmo:** AES-256-GCM con claves de 256 bits
+> * **Campos cifrados:** El texto de sus entradas (*rawEntry*) y el contexto clínico de cada emoción
+> * **Control de claves:** Su clave de cifrado se deriva de su cuenta de Google y se almacena de forma segura en su dispositivo
+> * **Sincronización segura:** Sus datos viajan cifrados a la nube; ni siquiera nosotros podemos leer el contenido de sus entradas
+>
+> Los metadatos no sensibles (título, emociones detectadas, fechas) permanecen sin cifrar para permitir funcionalidades de búsqueda y estadísticas.
 
 ## 10. Edad Mínima
 
@@ -166,6 +184,8 @@ Nos reservamos el derecho de modificar esta Política de Privacidad. En caso de 
 * Actualizaremos la fecha de "última actualización"
 * Podremos notificarle a través de la aplicación
 * El uso continuado de la aplicación tras los cambios implica su aceptación
+
+Le recomendamos revisar esta política periódicamente.
 
 ## 13. Contacto
 
