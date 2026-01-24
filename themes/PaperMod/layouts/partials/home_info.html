@@ -1,18 +1,22 @@
 {{- with site.Params.homeInfoParams }}
 <article class="first-entry home-info">
-    {{- if .ImageUrl }}
-    <figure class="home-info-image">
-        <img src="{{ .ImageUrl | absURL }}" alt="{{ site.Params.author }}" width="{{ .ImageWidth | default 180 }}" height="{{ .ImageHeight | default 180 }}" loading="eager" />
-    </figure>
-    {{- end }}
-    <header class="entry-header">
-        <h1>{{ .Title | markdownify }}</h1>
-    </header>
-    <div class="entry-content">
-        {{ .Content | markdownify }}
+    <div class="home-info-container">
+        {{- if .ImageUrl }}
+        <figure class="home-info-image">
+            <img src="{{ .ImageUrl | absURL }}" alt="{{ site.Params.author }}" width="{{ .ImageWidth | default 180 }}" height="{{ .ImageHeight | default 180 }}" loading="eager" />
+        </figure>
+        {{- end }}
+        <div class="home-info-content">
+            <header class="entry-header">
+                <h1>{{ .Title | markdownify }}</h1>
+            </header>
+            <div class="entry-content">
+                {{ .Content | markdownify }}
+            </div>
+            <footer class="entry-footer">
+                {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
+            </footer>
+        </div>
     </div>
-    <footer class="entry-footer">
-        {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
-    </footer>
 </article>
 {{- end -}}

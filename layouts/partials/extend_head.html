@@ -1,0 +1,38 @@
+<style>
+.home-info-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.home-info-image {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.home-info-image img {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--tertiary);
+}
+
+.home-info-content {
+    flex: 1;
+}
+
+.home-info-content .entry-header {
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+    .home-info-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .home-info-image img {
+        width: 140px;
+        height: 140px;
+    }
+}
+</style>
