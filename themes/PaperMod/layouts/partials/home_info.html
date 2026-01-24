@@ -1,5 +1,10 @@
 {{- with site.Params.homeInfoParams }}
 <article class="first-entry home-info">
+    {{- if .ImageUrl }}
+    <figure class="home-info-image">
+        <img src="{{ .ImageUrl | absURL }}" alt="{{ site.Params.author }}" width="{{ .ImageWidth | default 180 }}" height="{{ .ImageHeight | default 180 }}" loading="eager" />
+    </figure>
+    {{- end }}
     <header class="entry-header">
         <h1>{{ .Title | markdownify }}</h1>
     </header>

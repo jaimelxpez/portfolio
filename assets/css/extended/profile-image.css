@@ -1,0 +1,12 @@
+.home-info-image {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1rem;
+}
+
+.home-info-image img {
+    border-radius: 50%;
+    object-fit: cover;
+    aspect-ratio: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
