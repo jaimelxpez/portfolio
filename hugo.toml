@@ -24,7 +24,7 @@ buildExpired = false
     # Perfil en la Home
     [params.homeInfoParams]
         Title = "Hola, soy Jaime 👋"
-        ImageUrl = "images/profile.jpg"
+        ImageUrl = "images/profile.png"
         ImageWidth = 180
         ImageHeight = 180
         Content = "Soy **Android Engineer** especializado en crear arquitecturas escalables con **Kotlin** y **Jetpack Compose**. Me apasiona el código limpio, la eficiencia y crear productos que la gente disfrute usar."
