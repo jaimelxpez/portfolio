@@ -1,4 +1,4 @@
 ---
-title: "DayMood - Documentación Legal"
+title: "DayMood - Legal Documentation"
 hidemeta: true
 ---

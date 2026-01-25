@@ -1,196 +1,196 @@
 ---
-title: "Términos y Condiciones de Uso"
+title: "Terms and Conditions of Use"
 date: 2026-01-11
 url: "/daymood/terms-of-use.html"
-summary: "Términos legales para el uso de la aplicación DayMood."
+summary: "Legal terms for the use of the DayMood application."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Diario Emocional** *Última actualización: 11 de enero de 2026*
+**DayMood - Emotional Journal** *Last updated: January 11, 2026*
 
 ---
 
-## 1. Objeto y Aceptación
+## 1. Purpose and Acceptance
 
-Los presentes Términos y Condiciones de Uso (en adelante, "Términos") regulan el acceso y uso de la aplicación móvil DayMood (en adelante, "la Aplicación"), desarrollada y gestionada por Jaime López Muñoz (en adelante, "el Desarrollador").
+These Terms and Conditions of Use (hereinafter, "Terms") govern the access and use of the DayMood mobile application (hereinafter, "the Application"), developed and managed by Jaime López Muñoz (hereinafter, "the Developer").
 
-Al descargar, instalar o utilizar la Aplicación, usted acepta quedar vinculado por estos Términos. Si no está de acuerdo con alguna de las condiciones, no debe usar la Aplicación.
+By downloading, installing, or using the Application, you agree to be bound by these Terms. If you do not agree with any of the conditions, you must not use the Application.
 
-> **Importante:** Estos Términos deben leerse conjuntamente con nuestra [Política de Privacidad](/daymood/privacy-policy.html), que forma parte integrante de este acuerdo.
+> **Important:** These Terms should be read in conjunction with our [Privacy Policy](/daymood/privacy-policy.html), which forms an integral part of this agreement.
 
-## 2. Descripción del Servicio
+## 2. Description of the Service
 
-DayMood es una aplicación de diario emocional que permite a los usuarios:
+DayMood is an emotional journal application that allows users to:
 
-* Crear y almacenar entradas de diario personal
-* Recibir análisis emocional automatizado mediante inteligencia artificial
-* Visualizar patrones emocionales y estadísticas de bienestar
-* Gestionar y exportar sus datos personales
+* Create and store personal journal entries
+* Receive automated emotional analysis through artificial intelligence
+* Visualize emotional patterns and wellness statistics
+* Manage and export their personal data
 
-El análisis emocional se basa en el modelo clínico de la Rueda de Emociones de Plutchik y utiliza tecnología de inteligencia artificial (OpenAI GPT-4) para identificar emociones, su intensidad y posibles desencadenantes.
+The emotional analysis is based on the clinical model of Plutchik's Wheel of Emotions and uses artificial intelligence technology (OpenAI GPT-4) to identify emotions, their intensity, and possible triggers.
 
-## 3. Requisitos de Uso
+## 3. Usage Requirements
 
-### 3.1 Edad mínima
+### 3.1 Minimum age
 
-> **La Aplicación está destinada exclusivamente a usuarios mayores de 16 años.**
+> **The Application is intended exclusively for users 16 years of age or older.**
 >
-> Al usar DayMood, usted declara y garantiza que tiene al menos 16 años de edad. Si es menor de 16 años, no debe usar esta Aplicación.
+> By using DayMood, you represent and warrant that you are at least 16 years old. If you are under 16 years of age, you must not use this Application.
 
-### 3.2 Cuenta de Google
+### 3.2 Google account
 
-Para utilizar DayMood necesita:
-* Una cuenta de Google válida
-* Un dispositivo Android compatible
-* Conexión a Internet para sincronizar datos y análisis emocional
+To use DayMood you need:
+* A valid Google account
+* A compatible Android device
+* Internet connection to sync data and emotional analysis
 
-### 3.3 Veracidad de la información
+### 3.3 Accuracy of information
 
-Usted se compromete a proporcionar información veraz y a mantener actualizada la información de su cuenta.
+You agree to provide accurate information and to keep your account information up to date.
 
-### 3.4 Requisitos técnicos y verificación de integridad
+### 3.4 Technical requirements and integrity verification
 
-Para garantizar la seguridad del servicio, DayMood implementa medidas de verificación de integridad:
+To ensure service security, DayMood implements integrity verification measures:
 
-* La Aplicación utiliza Firebase App Check con Google Play Integrity para verificar que las solicitudes provienen de una versión legítima de la aplicación.
-* Dispositivos que no superen las verificaciones de integridad pueden tener funcionalidad limitada o no poder acceder al servicio.
-* Dispositivos con el sistema operativo modificado (root) o con la aplicación alterada pueden no funcionar correctamente.
+* The Application uses Firebase App Check with Google Play Integrity to verify that requests come from a legitimate version of the application.
+* Devices that do not pass integrity checks may have limited functionality or may not be able to access the service.
+* Devices with modified operating systems (root) or with altered applications may not function correctly.
 
-Estas medidas protegen tanto sus datos como la infraestructura del servicio contra accesos no autorizados.
+These measures protect both your data and the service infrastructure against unauthorized access.
 
-## 4. Uso Permitido
+## 4. Permitted Use
 
-La Aplicación debe utilizarse únicamente para:
-* Registro y seguimiento emocional personal
-* Autoconocimiento y reflexión personal
-* Análisis de patrones emocionales propios
+The Application must be used only for:
+* Personal emotional tracking and monitoring
+* Self-awareness and personal reflection
+* Analysis of your own emotional patterns
 
-Usted se compromete a usar la Aplicación de forma responsable, legal y conforme a estos Términos.
+You agree to use the Application responsibly, legally, and in accordance with these Terms.
 
-## 5. Uso Prohibido
+## 5. Prohibited Use
 
-Queda expresamente prohibido:
-* Usar la Aplicación con fines ilegales o no autorizados
-* Introducir contenido que incite al odio, violencia o discriminación
-* Intentar acceder a cuentas de otros usuarios
-* Realizar ingeniería inversa, descompilar o modificar la Aplicación
-* Utilizar la Aplicación para recopilar datos de terceros
-* Interferir con el funcionamiento normal de la Aplicación
-* Usar la Aplicación para actividades comerciales no autorizadas
-* Eludir las medidas de seguridad implementadas, incluyendo la verificación de integridad (App Check)
-* Intentar acceder a los servicios de backend sin pasar por la aplicación oficial
+The following is expressly prohibited:
+* Using the Application for illegal or unauthorized purposes
+* Introducing content that incites hatred, violence, or discrimination
+* Attempting to access other users' accounts
+* Reverse engineering, decompiling, or modifying the Application
+* Using the Application to collect third-party data
+* Interfering with the normal operation of the Application
+* Using the Application for unauthorized commercial activities
+* Circumventing implemented security measures, including integrity verification (App Check)
+* Attempting to access backend services without going through the official application
 
-El incumplimiento de estas prohibiciones puede resultar en la suspensión o cancelación de su cuenta.
+Violation of these prohibitions may result in the suspension or cancellation of your account.
 
-## 6. Propiedad Intelectual
+## 6. Intellectual Property
 
-### 6.1 Propiedad de la Aplicación
+### 6.1 Ownership of the Application
 
-La Aplicación, incluyendo su código fuente, diseño, gráficos, logotipos y demás elementos, es propiedad exclusiva del Desarrollador y está protegida por las leyes de propiedad intelectual españolas e internacionales.
+The Application, including its source code, design, graphics, logos, and other elements, is the exclusive property of the Developer and is protected by Spanish and international intellectual property laws.
 
-### 6.2 Contenido del usuario
+### 6.2 User content
 
-**Usted mantiene la titularidad de todo el contenido que introduce en la Aplicación** (entradas de diario, textos, etc.). Al usar la Aplicación, usted nos otorga una licencia limitada, no exclusiva y revocable para:
+**You retain ownership of all content you enter into the Application** (journal entries, texts, etc.). By using the Application, you grant us a limited, non-exclusive, and revocable license to:
 
-* Almacenar su contenido en nuestros servidores
-* Procesar su contenido para proporcionar el servicio de análisis emocional
-* Mostrarle su contenido dentro de la Aplicación
+* Store your content on our servers
+* Process your content to provide the emotional analysis service
+* Display your content to you within the Application
 
-Esta licencia termina cuando usted elimina su contenido o su cuenta.
+This license terminates when you delete your content or your account.
 
-## 7. Limitación de Responsabilidad
+## 7. Limitation of Liability
 
-### 7.1 Aviso de salud mental
+### 7.1 Mental health notice
 
-> **DayMood NO es un sustituto del asesoramiento, diagnóstico o tratamiento psicológico o médico profesional.**
+> **DayMood is NOT a substitute for professional psychological or medical advice, diagnosis, or treatment.**
 >
-> El análisis emocional proporcionado es meramente orientativo y tiene fines de autoconocimiento personal. Si experimenta problemas de salud mental, depresión, ansiedad u otras condiciones, debe consultar con un profesional de la salud mental cualificado.
+> The emotional analysis provided is merely indicative and is intended for personal self-awareness purposes. If you experience mental health problems, depression, anxiety, or other conditions, you should consult a qualified mental health professional.
 >
-> **En caso de emergencia o crisis de salud mental, contacte inmediatamente con los servicios de emergencia (112) o el Teléfono de la Esperanza (717 003 717).**
+> **In case of emergency or mental health crisis, immediately contact emergency services (112) or the Hope Hotline (717 003 717).**
 
-### 7.2 Limitación general
+### 7.2 General limitation
 
-En la máxima medida permitida por la ley aplicable:
-* La Aplicación se proporciona "tal cual" y "según disponibilidad"
-* No garantizamos que la Aplicación esté libre de errores o interrupciones
-* No garantizamos la precisión o exactitud del análisis emocional
-* No seremos responsables de daños indirectos, incidentales o consecuentes
-* Nuestra responsabilidad total no excederá el importe pagado por el servicio (si lo hubiera)
+To the maximum extent permitted by applicable law:
+* The Application is provided "as is" and "as available"
+* We do not guarantee that the Application will be error-free or uninterrupted
+* We do not guarantee the accuracy or precision of the emotional analysis
+* We will not be liable for indirect, incidental, or consequential damages
+* Our total liability will not exceed the amount paid for the service (if any)
 
-### 7.3 Disponibilidad del servicio
+### 7.3 Service availability
 
-No garantizamos la disponibilidad continua e ininterrumpida de la Aplicación. Podremos suspender temporalmente el servicio por mantenimiento, actualizaciones o circunstancias ajenas a nuestro control.
+We do not guarantee continuous and uninterrupted availability of the Application. We may temporarily suspend the service for maintenance, updates, or circumstances beyond our control.
 
-## 8. Exención de Garantías
+## 8. Disclaimer of Warranties
 
-Salvo lo expresamente establecido en estos Términos, el Desarrollador no ofrece ninguna garantía, expresa o implícita, incluyendo pero no limitado a:
-* Garantías de comerciabilidad
-* Adecuación para un propósito particular
-* No infracción de derechos de terceros
-* Resultados derivados del uso de la Aplicación
+Except as expressly stated in these Terms, the Developer makes no warranties, express or implied, including but not limited to:
+* Warranties of merchantability
+* Fitness for a particular purpose
+* Non-infringement of third-party rights
+* Results derived from the use of the Application
 
-## 9. Indemnización
+## 9. Indemnification
 
-Usted acepta indemnizar y mantener indemne al Desarrollador frente a cualquier reclamación, daño, pérdida, responsabilidad y gasto (incluidos honorarios de abogados) que surjan de:
-* Su uso de la Aplicación
-* Su incumplimiento de estos Términos
-* Su vulneración de derechos de terceros
-* El contenido que introduzca en la Aplicación
+You agree to indemnify and hold harmless the Developer from any claim, damage, loss, liability, and expense (including attorney fees) arising from:
+* Your use of the Application
+* Your breach of these Terms
+* Your violation of third-party rights
+* Content you enter into the Application
 
-## 10. Terminación
+## 10. Termination
 
-### 10.1 Por el usuario
+### 10.1 By the user
 
-Puede dejar de usar la Aplicación en cualquier momento y eliminar su cuenta desde la sección "Perfil" > "Borrar cuenta". Al eliminar su cuenta, se eliminarán todos sus datos de nuestros servidores.
+You may stop using the Application at any time and delete your account from the "Profile" > "Delete account" section. When you delete your account, all your data will be deleted from our servers.
 
-### 10.2 Por el Desarrollador
+### 10.2 By the Developer
 
-Nos reservamos el derecho de suspender o terminar su acceso a la Aplicación:
-* Si incumple estos Términos
-* Si detectamos uso fraudulento o abusivo
-* Por requerimiento legal
-* Si decidimos descontinuar el servicio (con preaviso razonable)
+We reserve the right to suspend or terminate your access to the Application:
+* If you breach these Terms
+* If we detect fraudulent or abusive use
+* By legal requirement
+* If we decide to discontinue the service (with reasonable notice)
 
-### 10.3 Efectos de la terminación
+### 10.3 Effects of termination
 
-Tras la terminación, las disposiciones que por su naturaleza deban sobrevivir (propiedad intelectual, limitación de responsabilidad, indemnización, ley aplicable) seguirán en vigor.
+After termination, provisions that by their nature should survive (intellectual property, limitation of liability, indemnification, applicable law) will remain in effect.
 
-## 11. Modificaciones
+## 11. Modifications
 
-Nos reservamos el derecho de modificar estos Términos en cualquier momento. En caso de cambios sustanciales:
-* Actualizaremos la fecha de "última actualización"
-* Podremos notificarle a través de la Aplicación
-* El uso continuado tras la modificación implica su aceptación
+We reserve the right to modify these Terms at any time. In case of substantial changes:
+* We will update the "last updated" date
+* We may notify you through the Application
+* Continued use after modification implies your acceptance
 
-Si no está de acuerdo con los nuevos términos, deberá dejar de usar la Aplicación.
+If you do not agree with the new terms, you must stop using the Application.
 
-## 12. Ley Aplicable y Jurisdicción
+## 12. Applicable Law and Jurisdiction
 
-Estos Términos se rigen por la legislación española.
+These Terms are governed by Spanish law.
 
-Para la resolución de cualquier controversia derivada de estos Términos o del uso de la Aplicación, las partes se someten a los Juzgados y Tribunales de la ciudad de residencia del usuario en España, salvo que la normativa de consumidores establezca otro fuero.
+For the resolution of any dispute arising from these Terms or the use of the Application, the parties submit to the Courts and Tribunals of the user's city of residence in Spain, unless consumer regulations establish another jurisdiction.
 
-> **Resolución alternativa de disputas:** Conforme al Reglamento (UE) 524/2013, puede acceder a la plataforma de resolución de litigios en línea de la Comisión Europea en: [https://ec.europa.eu/consumers/odr](https://ec.europa.eu/consumers/odr)
+> **Alternative dispute resolution:** In accordance with Regulation (EU) 524/2013, you can access the European Commission's online dispute resolution platform at: [https://ec.europa.eu/consumers/odr](https://ec.europa.eu/consumers/odr)
 
-## 13. Disposiciones Generales
+## 13. General Provisions
 
-### 13.1 Acuerdo completo
-Estos Términos, junto con la Política de Privacidad, constituyen el acuerdo completo entre usted y el Desarrollador respecto al uso de la Aplicación.
+### 13.1 Entire agreement
+These Terms, together with the Privacy Policy, constitute the entire agreement between you and the Developer regarding the use of the Application.
 
-### 13.2 Divisibilidad
-Si alguna disposición de estos Términos se considera inválida o inaplicable, las restantes disposiciones continuarán en pleno vigor y efecto.
+### 13.2 Severability
+If any provision of these Terms is deemed invalid or unenforceable, the remaining provisions will continue in full force and effect.
 
-### 13.3 Renuncia
-La falta de ejercicio de cualquier derecho bajo estos Términos no constituirá una renuncia a dicho derecho.
+### 13.3 Waiver
+Failure to exercise any right under these Terms will not constitute a waiver of that right.
 
-### 13.4 Cesión
-No puede ceder ni transferir estos Términos ni sus derechos bajo los mismos sin nuestro consentimiento previo por escrito.
+### 13.4 Assignment
+You may not assign or transfer these Terms or your rights thereunder without our prior written consent.
 
-## 14. Contacto
+## 14. Contact
 
-Para cualquier consulta relacionada con estos Términos de Uso:
+For any questions related to these Terms of Use:
 
 * **Email:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
-* **Web:** [jaimelxpez.com](http://jaimelxpez.com/)
-* **Desarrollador:** Jaime López Muñoz
+* **Website:** [jaimelxpez.com](http://jaimelxpez.com/)
+* **Developer:** Jaime López Muñoz
