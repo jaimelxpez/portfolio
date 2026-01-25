@@ -1,196 +1,196 @@
 ---
-title: "Política de Privacidad"
+title: "Privacy Policy"
 date: 2026-01-11
 url: "/daymood/privacy-policy.html"
-summary: "Cómo DayMood gestiona, protege y utiliza tus datos personales."
+summary: "How DayMood manages, protects, and uses your personal data."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Diario Emocional** *Última actualización: 11 de enero de 2026*
+**DayMood - Emotional Journal** *Last updated: January 11, 2026*
 
 ---
 
-## 1. Identidad del Responsable del Tratamiento
+## 1. Data Controller Identity
 
-* **Responsable:** Jaime López Muñoz
-* **Email de contacto:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
-* **Web:** [jaimelxpez.com](https://jaimelxpez.com/)
-* **Finalidad:** Desarrollo y mantenimiento de la aplicación DayMood
+* **Data Controller:** Jaime López Muñoz
+* **Contact email:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
+* **Website:** [jaimelxpez.com](https://jaimelxpez.com/)
+* **Purpose:** Development and maintenance of the DayMood application
 
-En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016 (RGPD), y la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD), le informamos sobre el tratamiento de sus datos personales.
+In compliance with Regulation (EU) 2016/679 of the European Parliament and of the Council, of April 27, 2016 (GDPR), and Organic Law 3/2018, of December 5, on the Protection of Personal Data and guarantee of digital rights (LOPDGDD), we inform you about the processing of your personal data.
 
-## 2. Datos Personales que Recopilamos
+## 2. Personal Data We Collect
 
-DayMood recopila los siguientes tipos de datos:
+DayMood collects the following types of data:
 
-### 2.1 Datos de identificación (Google Sign-In)
-* Nombre completo
-* Dirección de correo electrónico
-* Fotografía de perfil (URL)
-* Identificador único de usuario
+### 2.1 Identification data (Google Sign-In)
+* Full name
+* Email address
+* Profile picture (URL)
+* Unique user identifier
 
-### 2.2 Datos de contenido del usuario
-* Entradas de diario (texto escrito por el usuario)
-* Títulos de las entradas
-* Fechas de creación
+### 2.2 User content data
+* Journal entries (text written by the user)
+* Entry titles
+* Creation dates
 
-### 2.3 Datos de categoría especial (Datos de Salud - Art. 9 RGPD)
+### 2.3 Special category data (Health Data - Art. 9 GDPR)
 
-> **IMPORTANTE:** DayMood procesa datos relativos a su salud mental y emocional, que constituyen una categoría especial de datos según el artículo 9 del RGPD. Esto incluye:
-> * Análisis emocional de sus entradas de diario
-> * Emociones identificadas (basadas en la rueda de emociones de Plutchik)
-> * Intensidad emocional (escala 1-10)
-> * Factores desencadenantes emocionales
-> * Estado de ánimo general (positivo, negativo, mixto, neutro)
-> * Notas de contexto clínico
+> **IMPORTANT:** DayMood processes data related to your mental and emotional health, which constitutes a special category of data under Article 9 of the GDPR. This includes:
+> * Emotional analysis of your journal entries
+> * Identified emotions (based on Plutchik's wheel of emotions)
+> * Emotional intensity (scale 1-10)
+> * Emotional triggers
+> * General mood (positive, negative, mixed, neutral)
+> * Clinical context notes
 >
-> El tratamiento de estos datos requiere su **consentimiento explícito**, que usted otorga al aceptar esta política y usar la aplicación.
+> The processing of this data requires your **explicit consent**, which you grant by accepting this policy and using the application.
 
-### 2.4 Datos técnicos
-* Informes de errores y fallos de la aplicación (Firebase Crashlytics)
-* Información del dispositivo (modelo, versión del sistema operativo)
-* Preferencias de la aplicación (tema claro/oscuro, idioma)
-* Metadatos de llamadas API: endpoint, método HTTP, código de estado, tiempos de respuesta (Firebase Crashlytics y Performance)
-* Verificación de integridad del dispositivo y la aplicación (Firebase App Check con Google Play Integrity)
+### 2.4 Technical data
+* Application crash and error reports (Firebase Crashlytics)
+* Device information (model, operating system version)
+* Application preferences (light/dark theme, language)
+* API call metadata: endpoint, HTTP method, status code, response times (Firebase Crashlytics and Performance)
+* Device and application integrity verification (Firebase App Check with Google Play Integrity)
 
-> **Nota sobre monitoreo de API:** Para garantizar la calidad del servicio, registramos metadatos técnicos de las llamadas a nuestras APIs (como tiempos de respuesta y códigos de error). **Nunca registramos el contenido de sus entradas de diario** en estos registros técnicos, preservando la privacidad de su información personal.
+> **Note on API monitoring:** To ensure service quality, we log technical metadata from our API calls (such as response times and error codes). **We never log the content of your journal entries** in these technical logs, preserving the privacy of your personal information.
 
-## 3. Finalidad del Tratamiento
+## 3. Purpose of Processing
 
-Sus datos personales serán tratados para las siguientes finalidades:
+Your personal data will be processed for the following purposes:
 
-| Finalidad | Base Legal |
+| Purpose | Legal Basis |
 | :--- | :--- |
-| Gestión de su cuenta de usuario y autenticación | Ejecución del contrato (Art. 6.1.b RGPD) |
-| Almacenamiento de sus entradas de diario | Ejecución del contrato (Art. 6.1.b RGPD) |
-| Análisis emocional mediante inteligencia artificial | Consentimiento explícito (Art. 6.1.a y 9.2.a RGPD) |
-| Mejora y mantenimiento de la aplicación | Interés legítimo (Art. 6.1.f RGPD) |
-| Detección y corrección de errores técnicos | Interés legítimo (Art. 6.1.f RGPD) |
+| Management of your user account and authentication | Contract performance (Art. 6.1.b GDPR) |
+| Storage of your journal entries | Contract performance (Art. 6.1.b GDPR) |
+| Emotional analysis through artificial intelligence | Explicit consent (Art. 6.1.a and 9.2.a GDPR) |
+| Application improvement and maintenance | Legitimate interest (Art. 6.1.f GDPR) |
+| Detection and correction of technical errors | Legitimate interest (Art. 6.1.f GDPR) |
 
-## 4. Terceros que Procesan sus Datos
+## 4. Third Parties That Process Your Data
 
-Para proporcionar el servicio, compartimos sus datos con los siguientes proveedores de servicios:
+To provide the service, we share your data with the following service providers:
 
-| Proveedor | Servicio | Datos Compartidos | Ubicación |
+| Provider | Service | Shared Data | Location |
 | :--- | :--- | :--- | :--- |
-| **Google Firebase** | Autenticación y almacenamiento | Datos de cuenta, entradas, emociones | UE / EEUU |
-| **Google Identity** | Inicio de sesión con Google | Credenciales de autenticación | UE / EEUU |
-| **OpenAI** | Análisis emocional con IA (GPT-4) | Texto de las entradas de diario | EEUU |
-| **Firebase Crashlytics** | Informes de errores y monitoreo de API | Datos técnicos, metadatos API (sin contenido) | UE / EEUU |
-| **Firebase Performance** | Métricas de rendimiento | Tiempos de respuesta, tamaños de payload | UE / EEUU |
-| **Google Play Integrity** | Verificación de integridad | Attestation del dispositivo y la aplicación | UE / EEUU |
+| **Google Firebase** | Authentication and storage | Account data, entries, emotions | EU / USA |
+| **Google Identity** | Google Sign-In | Authentication credentials | EU / USA |
+| **OpenAI** | AI emotional analysis (GPT-4) | Journal entry text | USA |
+| **Firebase Crashlytics** | Error reporting and API monitoring | Technical data, API metadata (no content) | EU / USA |
+| **Firebase Performance** | Performance metrics | Response times, payload sizes | EU / USA |
+| **Google Play Integrity** | Integrity verification | Device and application attestation | EU / USA |
 
-Todos estos proveedores actúan como **encargados del tratamiento** y están obligados contractualmente a proteger sus datos conforme al RGPD.
+All these providers act as **data processors** and are contractually obligated to protect your data in accordance with GDPR.
 
-## 5. Transferencias Internacionales de Datos
+## 5. International Data Transfers
 
-> **Aviso importante:** Sus datos pueden ser transferidos y procesados en Estados Unidos por Google y OpenAI.
+> **Important notice:** Your data may be transferred and processed in the United States by Google and OpenAI.
 
-Estas transferencias se realizan bajo las siguientes garantías:
-* **Google:** Cláusulas Contractuales Tipo de la Comisión Europea y certificación bajo el EU-US Data Privacy Framework.
-* **OpenAI:** Cláusulas Contractuales Tipo de la Comisión Europea y medidas de seguridad adicionales.
+These transfers are made under the following safeguards:
+* **Google:** European Commission Standard Contractual Clauses and certification under the EU-US Data Privacy Framework.
+* **OpenAI:** European Commission Standard Contractual Clauses and additional security measures.
 
-Puede obtener más información sobre estas garantías contactando con nosotros en el email indicado.
+You can obtain more information about these safeguards by contacting us at the email address indicated.
 
-## 6. Conservación de los Datos
+## 6. Data Retention
 
-| Tipo de Dato | Período de Conservación |
+| Data Type | Retention Period |
 | :--- | :--- |
-| Datos de cuenta de usuario | Hasta que elimine su cuenta |
-| Entradas de diario y emociones | Hasta que las elimine o elimine su cuenta |
-| Preferencias de la aplicación | Hasta que desinstale la app o borre los datos |
-| Informes de errores (Crashlytics) | 90 días (política de Google) |
-| Métricas de rendimiento (Performance) | 90 días (política de Google) |
-| Datos enviados a OpenAI | 30 días (política de OpenAI para API) |
+| User account data | Until you delete your account |
+| Journal entries and emotions | Until you delete them or delete your account |
+| Application preferences | Until you uninstall the app or clear data |
+| Error reports (Crashlytics) | 90 days (Google policy) |
+| Performance metrics (Performance) | 90 days (Google policy) |
+| Data sent to OpenAI | 30 days (OpenAI API policy) |
 
-## 7. Sus Derechos
+## 7. Your Rights
 
-De acuerdo con el RGPD y la LOPDGDD, usted tiene los siguientes derechos:
-* **Derecho de acceso:** Conocer qué datos tenemos sobre usted.
-* **Derecho de rectificación:** Corregir datos inexactos o incompletos.
-* **Derecho de supresión ("derecho al olvido"):** Solicitar la eliminación de sus datos.
-* **Derecho de oposición:** Oponerse al tratamiento de sus datos.
-* **Derecho a la limitación:** Solicitar que limitemos el tratamiento.
-* **Derecho a la portabilidad:** Recibir sus datos en formato estructurado.
-* **Derecho a retirar el consentimiento:** Puede retirar su consentimiento en cualquier momento.
+In accordance with GDPR and LOPDGDD, you have the following rights:
+* **Right of access:** Know what data we have about you.
+* **Right to rectification:** Correct inaccurate or incomplete data.
+* **Right to erasure ("right to be forgotten"):** Request the deletion of your data.
+* **Right to object:** Object to the processing of your data.
+* **Right to restriction:** Request that we limit the processing.
+* **Right to data portability:** Receive your data in a structured format.
+* **Right to withdraw consent:** You can withdraw your consent at any time.
 
-### Cómo ejercer sus derechos
+### How to exercise your rights
 
-Puede ejercer cualquiera de estos derechos enviando un email a:
+You can exercise any of these rights by sending an email to:
 **[hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)**
 
-Incluya en su solicitud:
-* Su nombre completo
-* El email asociado a su cuenta de DayMood
-* El derecho que desea ejercer
-* Cualquier información adicional relevante
+Include in your request:
+* Your full name
+* The email associated with your DayMood account
+* The right you wish to exercise
+* Any additional relevant information
 
-Responderemos a su solicitud en un plazo máximo de 30 días.
+We will respond to your request within a maximum of 30 days.
 
-También tiene derecho a presentar una reclamación ante la **Agencia Española de Protección de Datos (AEPD)**: [www.aepd.es](https://www.aepd.es)
+You also have the right to file a complaint with the **Spanish Data Protection Agency (AEPD)**: [www.aepd.es](https://www.aepd.es)
 
-## 8. Eliminación de Cuenta y Datos
+## 8. Account and Data Deletion
 
-Puede eliminar su cuenta y todos sus datos en cualquier momento desde la sección "Perfil" de la aplicación, seleccionando "Borrar cuenta".
+You can delete your account and all your data at any time from the "Profile" section of the application, by selecting "Delete account".
 
-Al eliminar su cuenta:
-* Se eliminarán todas sus entradas de diario de nuestros servidores
-* Se eliminarán todos los análisis emocionales asociados
-* Se eliminará su cuenta de Firebase Authentication
-* Se borrarán los datos locales de su dispositivo
+When you delete your account:
+* All your journal entries will be deleted from our servers
+* All associated emotional analyses will be deleted
+* Your Firebase Authentication account will be deleted
+* Local data on your device will be erased
 
-Este proceso es **irreversible**.
+This process is **irreversible**.
 
-## 9. Seguridad de los Datos
+## 9. Data Security
 
-Implementamos las siguientes medidas de seguridad para proteger sus datos:
-* **Cifrado en tránsito:** Todas las comunicaciones utilizan HTTPS/TLS.
-* **Cifrado en reposo:** Los datos locales se almacenan cifrados (EncryptedSharedPreferences).
-* **Certificate Pinning:** Protección contra ataques man-in-the-middle.
-* **Autenticación segura:** Google Sign-In con tokens de sesión.
-* **Logs seguros:** Redacción automática de datos sensibles en registros. El contenido de sus entradas de diario nunca se registra en logs de monitoreo.
-* **Verificación de integridad:** Firebase App Check con Google Play Integrity verifica que las solicitudes provienen de la aplicación legítima.
+We implement the following security measures to protect your data:
+* **Encryption in transit:** All communications use HTTPS/TLS.
+* **Encryption at rest:** Local data is stored encrypted (EncryptedSharedPreferences).
+* **Certificate Pinning:** Protection against man-in-the-middle attacks.
+* **Secure authentication:** Google Sign-In with session tokens.
+* **Secure logs:** Automatic redaction of sensitive data in logs. The content of your journal entries is never logged in monitoring logs.
+* **Integrity verification:** Firebase App Check with Google Play Integrity verifies that requests come from the legitimate application.
 
-> **Cifrado de extremo a extremo (E2E)**
+> **End-to-end encryption (E2E)**
 >
-> **Su privacidad es nuestra prioridad.** El contenido sensible de sus entradas de diario está protegido con cifrado de extremo a extremo:
-> * **Algoritmo:** AES-256-GCM con claves de 256 bits
-> * **Campos cifrados:** El texto de sus entradas (*rawEntry*) y el contexto clínico de cada emoción
-> * **Control de claves:** Su clave de cifrado se deriva de su cuenta de Google y se almacena de forma segura en su dispositivo
-> * **Sincronización segura:** Sus datos viajan cifrados a la nube; ni siquiera nosotros podemos leer el contenido de sus entradas
+> **Your privacy is our priority.** The sensitive content of your journal entries is protected with end-to-end encryption:
+> * **Algorithm:** AES-256-GCM with 256-bit keys
+> * **Encrypted fields:** The text of your entries (*rawEntry*) and the clinical context of each emotion
+> * **Key control:** Your encryption key is derived from your Google account and securely stored on your device
+> * **Secure sync:** Your data travels encrypted to the cloud; not even we can read the content of your entries
 >
-> Los metadatos no sensibles (título, emociones detectadas, fechas) permanecen sin cifrar para permitir funcionalidades de búsqueda y estadísticas.
+> Non-sensitive metadata (title, detected emotions, dates) remains unencrypted to enable search and statistics features.
 
-## 10. Edad Mínima
+## 10. Minimum Age
 
-> **DayMood está destinada a usuarios mayores de 16 años.**
+> **DayMood is intended for users 16 years of age or older.**
 >
-> No recopilamos intencionadamente datos de menores de 16 años. Si tiene conocimiento de que un menor ha proporcionado datos personales, contacte con nosotros para proceder a su eliminación.
+> We do not intentionally collect data from minors under 16 years of age. If you become aware that a minor has provided personal data, please contact us to proceed with its deletion.
 
-## 11. Uso de Inteligencia Artificial
+## 11. Use of Artificial Intelligence
 
-DayMood utiliza inteligencia artificial (OpenAI GPT-4) para analizar el contenido emocional de sus entradas de diario. Este análisis:
-* Se basa en el modelo clínico de la Rueda de Emociones de Plutchik
-* Identifica emociones, su intensidad y posibles desencadenantes
-* Proporciona contexto para su autoconocimiento emocional
-* **NO sustituye el asesoramiento psicológico profesional**
+DayMood uses artificial intelligence (OpenAI GPT-4) to analyze the emotional content of your journal entries. This analysis:
+* Is based on the clinical model of Plutchik's Wheel of Emotions
+* Identifies emotions, their intensity, and possible triggers
+* Provides context for your emotional self-awareness
+* **Does NOT replace professional psychological advice**
 
-> **Aviso:** El análisis emocional es orientativo y no constituye diagnóstico médico ni psicológico. Si experimenta problemas de salud mental, consulte con un profesional cualificado.
+> **Notice:** Emotional analysis is for guidance only and does not constitute medical or psychological diagnosis. If you experience mental health issues, please consult a qualified professional.
 
-## 12. Modificaciones de esta Política
+## 12. Modifications to this Policy
 
-Nos reservamos el derecho de modificar esta Política de Privacidad. En caso de cambios significativos:
-* Actualizaremos la fecha de "última actualización"
-* Podremos notificarle a través de la aplicación
-* El uso continuado de la aplicación tras los cambios implica su aceptación
+We reserve the right to modify this Privacy Policy. In case of significant changes:
+* We will update the "last updated" date
+* We may notify you through the application
+* Continued use of the application after changes implies your acceptance
 
-Le recomendamos revisar esta política periódicamente.
+We recommend reviewing this policy periodically.
 
-## 13. Contacto
+## 13. Contact
 
-Para cualquier consulta relacionada con esta Política de Privacidad o el tratamiento de sus datos:
+For any questions related to this Privacy Policy or the processing of your data:
 
 * **Email:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
-* **Web:** [jaimelxpez.com](https://jaimelxpez.com/)
-* **Responsable:** Jaime López Muñoz
+* **Website:** [jaimelxpez.com](https://jaimelxpez.com/)
+* **Data Controller:** Jaime López Muñoz

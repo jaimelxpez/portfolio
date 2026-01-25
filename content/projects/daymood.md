@@ -1,15 +1,15 @@
 ---
 title: "DayMood: AI-Powered Emotional Journal"
 date: 2026-01-08
-summary: "Una app nativa Android que combina Clean Architecture, OpenAI API y Análisis de Datos Clínicos."
+summary: "A native Android app that combines Clean Architecture, OpenAI API, and Clinical Data Analysis."
 tags: ["Kotlin", "Jetpack Compose", "OpenAI", "Clean Architecture"]
 weight: 1
 ---
 
 ## The Challenge
-Aquí pegas tu introducción...
+Write your introduction here...
 
 ## Architecture
-Aquí explicas la Clean Architecture...
+Explain the Clean Architecture here...
 
-(Copia y pega aquí el contenido de tu PROJECT_MAP.md que quieras mostrar)
+(Copy and paste here the content from your PROJECT_MAP.md that you want to show)

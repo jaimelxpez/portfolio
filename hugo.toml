@@ -21,15 +21,15 @@ buildExpired = false
     ShowCodeCopyButtons = true
     mainSections = ["projects"]
     
-    # Perfil en la Home
+    # Home Profile
     [params.homeInfoParams]
-        Title = "Hola, soy Jaime 👋"
+        Title = "Hey, I'm Jaime 👋"
         ImageUrl = "images/profile.png"
         ImageWidth = 180
         ImageHeight = 180
-        Content = "Soy **Android Engineer** especializado en crear arquitecturas escalables con **Kotlin** y **Jetpack Compose**. Me apasiona el código limpio, la eficiencia y crear productos que la gente disfrute usar."
+        Content = "I'm an **Android Engineer** specialized in building scalable architectures with **Kotlin** and **Jetpack Compose**. I'm passionate about clean code, efficiency, and creating products that people actually enjoy using."
 
-    # Redes Sociales (Iconos en la home)
+    # Social Networks (Home icons)
     [[params.socialIcons]]
         name = "linkedin"
         url = "https://linkedin.com/in/jaimelpz2412"
@@ -43,7 +43,7 @@ buildExpired = false
 [menu]
     [[menu.main]]
         identifier = "projects"
-        name = "Proyectos"
+        name = "Projects"
         url = "/projects/"
         weight = 10
     [[menu.main]]
