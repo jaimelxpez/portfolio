@@ -27,8 +27,8 @@ DayMood collects the following types of data:
 ### 2.1 Identification Data (platform-specific)
 
 **Available authentication methods:**
-* **Android:** Google Sign-In
-* **iOS:** Apple Sign-In, Google Sign-In, or Email/Password
+* **All platforms:** Google Sign-In or Email/Password
+* **iOS only:** Apple Sign-In
 
 Data collected during authentication:
 * Full name
@@ -81,10 +81,10 @@ To provide the service, we share your data with the following service providers:
 | Provider | Service | Shared Data | Location |
 | :--- | :--- | :--- | :--- |
 | **Google Firebase** | Authentication and storage | Account data, diary entries, emotions | EU / USA |
-| **Google Identity** | Sign-in (Android and iOS) | Authentication credentials | EU / USA |
+| **Google Identity** | Sign-in (all platforms) | Authentication credentials | EU / USA |
 | **Apple Sign-In** | Sign-in (iOS only) | Authentication credentials | EU / USA |
 | **Google Gemini** | AI emotional analysis (primary provider) | Diary entry text | EU / USA |
-| **OpenAI** | AI emotional analysis (backup provider) and OCR cleanup (Android) | Diary entry text | USA |
+| **OpenAI** | AI emotional analysis (backup provider) | Diary entry text | USA |
 | **Google ML Kit** | Optical character recognition (Android only) | Images for text extraction | On-device |
 | **Apple Vision Framework** | Optical character recognition (iOS only) | Images for text extraction | On-device |
 | **Firebase Crashlytics** | Error reporting and API monitoring | Technical device data, API metadata (no content) | EU / USA |

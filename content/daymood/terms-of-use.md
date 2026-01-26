@@ -28,7 +28,7 @@ DayMood is an emotional journal application that allows users to:
 * View emotional patterns and wellness statistics
 * Manage and export their personal data
 
-The emotional analysis is based on the clinical model of Plutchik's Wheel of Emotions and uses artificial intelligence technology (Google Gemini as the primary provider and OpenAI GPT-4 as backup) to identify emotions, their intensity, and possible triggers.
+The emotional analysis is based on the clinical model of Plutchik's Wheel of Emotions and uses artificial intelligence technology (Google Gemini as the primary provider and OpenAI GPT-4o as backup) to identify emotions, their intensity, and possible triggers.
 
 ## 3. Usage Requirements
 
@@ -41,8 +41,8 @@ The emotional analysis is based on the clinical model of Plutchik's Wheel of Emo
 ### 3.2 User Account
 
 To use DayMood you need:
-* **Android:** A valid Google account for sign-in
-* **iOS:** A valid Apple, Google, or Email/Password account for sign-in
+* **All platforms:** A valid Google account or Email/Password for sign-in
+* **iOS only:** Apple Sign-In is also available
 * A compatible device:
     * **Android:** Android 10 or higher (API 29+)
     * **iOS:** iOS 17.0 or higher
