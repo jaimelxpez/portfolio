@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <title>DayMood - Diario Emocional con IA | Emotional Journal with AI</title>
+    <meta name="description" content="DayMood es tu diario emocional inteligente. Analiza tus emociones con IA basada en la Rueda de Plutchik y descubre patrones en tu bienestar emocional.">
+    <meta name="keywords" content="journaling, emotional journal, AI, Plutchik, mental health, bienestar emocional, diario emocional, inteligencia artificial">
+    <meta name="author" content="Jaime López">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jaimelxpez.com/daymood/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jaimelxpez.com/daymood/">
+    <meta property="og:title" content="DayMood - Diario Emocional con IA">
+    <meta property="og:description" content="Analiza tus emociones con IA basada en la Rueda de Plutchik. Tu compañero para el bienestar emocional.">
+    <meta property="og:image" content="https://jaimelxpez.com/daymood/og-image.png">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://jaimelxpez.com/daymood/">
+    <meta name="twitter:title" content="DayMood - Diario Emocional con IA">
+    <meta name="twitter:description" content="Analiza tus emociones con IA basada en la Rueda de Plutchik. Tu compañero para el bienestar emocional.">
+    <meta name="twitter:image" content="https://jaimelxpez.com/daymood/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           CSS Variables & Theme
+           ========================================== */
+        :root {
+            /* Light theme colors - Calming wellness palette */
+            --color-primary: #6366f1;
+            --color-primary-light: #818cf8;
+            --color-primary-dark: #4f46e5;
+            --color-secondary: #14b8a6;
+            --color-secondary-light: #2dd4bf;
+            --color-accent: #f59e0b;
+
+            --color-bg: #fafbfc;
+            --color-bg-card: #ffffff;
+            --color-bg-gradient-start: #e0e7ff;
+            --color-bg-gradient-end: #dbeafe;
+
+            --color-text: #1e293b;
+            --color-text-secondary: #64748b;
+            --color-text-muted: #94a3b8;
+
+            --color-border: #e2e8f0;
+            --color-shadow: rgba(99, 102, 241, 0.1);
+            --color-shadow-strong: rgba(99, 102, 241, 0.2);
+
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+
+            /* Border radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+            --transition-slow: 500ms ease;
+        }
+
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-bg: #0f172a;
+                --color-bg-card: #1e293b;
+                --color-bg-gradient-start: #1e1b4b;
+                --color-bg-gradient-end: #172554;
+
+                --color-text: #f1f5f9;
+                --color-text-secondary: #cbd5e1;
+                --color-text-muted: #94a3b8;
+
+                --color-border: #334155;
+                --color-shadow: rgba(0, 0, 0, 0.3);
+                --color-shadow-strong: rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* ==========================================
+           Reset & Base Styles
+           ========================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: linear-gradient(135deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 50%, var(--color-bg) 100%);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ==========================================
+           Loading Screen (Mobile Redirect)
+           ========================================== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity var(--transition-slow);
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .loading-subtext {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin-top: var(--spacing-lg);
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* ==========================================
+           Main Container
+           ========================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        /* ==========================================
+           Header / Hero Section
+           ========================================== */
+        .hero {
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .logo-container {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .logo-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            filter: drop-shadow(0 4px 6px var(--color-shadow));
+        }
+
+        .logo-text {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+            line-height: 1.5;
+        }
+
+        .tagline-highlight {
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        /* ==========================================
+           Store Badges
+           ========================================== */
+        .store-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .store-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--color-bg-card);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            box-shadow: 0 4px 6px var(--color-shadow);
+        }
+
+        .store-badge:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--color-shadow-strong);
+            border-color: var(--color-primary);
+        }
+
+        .store-badge svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .store-badge-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+
+        .store-badge-text small {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--color-text-muted);
+        }
+
+        .store-badge-text span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .badge-coming-soon {
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .badge-coming-soon::after {
+            content: attr(data-coming-soon);
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--color-accent);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+        }
+
+        /* ==========================================
+           App Preview / Mockup
+           ========================================== */
+        .app-preview {
+            display: flex;
+            justify-content: center;
+            margin-bottom: var(--spacing-2xl);
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .phone-mockup {
+            position: relative;
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow:
+                0 25px 50px -12px var(--color-shadow-strong),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--color-bg-card);
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 25px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .screen-content {
+            text-align: center;
+        }
+
+        .screen-emoji {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .screen-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .screen-subtitle {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        .emotion-wheel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: var(--spacing-md);
+        }
+
+        .emotion-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            animation: emotionPulse 2s ease-in-out infinite;
+        }
+
+        .emotion-dot:nth-child(1) { background: #ef4444; animation-delay: 0s; }
+        .emotion-dot:nth-child(2) { background: #f97316; animation-delay: 0.2s; }
+        .emotion-dot:nth-child(3) { background: #eab308; animation-delay: 0.4s; }
+        .emotion-dot:nth-child(4) { background: #22c55e; animation-delay: 0.6s; }
+        .emotion-dot:nth-child(5) { background: #14b8a6; animation-delay: 0.8s; }
+        .emotion-dot:nth-child(6) { background: #3b82f6; animation-delay: 1s; }
+        .emotion-dot:nth-child(7) { background: #8b5cf6; animation-delay: 1.2s; }
+        .emotion-dot:nth-child(8) { background: #ec4899; animation-delay: 1.4s; }
+
+        @keyframes emotionPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* ==========================================
+           Features Section
+           ========================================== */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .feature-card {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-normal);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px var(--color-shadow);
+            border-color: var(--color-primary-light);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text);
+        }
+
+        .feature-description {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           Footer
+           ========================================== */
+        .footer {
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--color-border);
+            margin-top: var(--spacing-xl);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-copyright {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        .footer-copyright a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        /* ==========================================
+           Language Switcher
+           ========================================== */
+        .lang-switcher {
+            position: fixed;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .lang-btn:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 8px var(--color-shadow);
+        }
+
+        /* ==========================================
+           Animations
+           ========================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================
+           Responsive Design
+           ========================================== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: var(--spacing-xl) 0;
+            }
+
+            .logo-icon {
+                font-size: 4rem;
+            }
+
+            .logo-text {
+                font-size: 2.25rem;
+            }
+
+            .tagline {
+                font-size: 1.125rem;
+                padding: 0 var(--spacing-sm);
+            }
+
+            .store-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .store-badge {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .phone-mockup {
+                width: 240px;
+                height: 480px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: var(--spacing-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.875rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .phone-mockup {
+                width: 200px;
+                height: 400px;
+                border-radius: 32px;
+            }
+
+            .phone-screen {
+                border-radius: 24px;
+            }
+
+            .phone-notch {
+                width: 80px;
+                height: 20px;
+            }
+
+            .screen-emoji {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen for Mobile Redirect -->
+    <div id="loading-screen" class="loading-screen hidden">
+        <div class="loading-logo">🌤️</div>
+        <div class="loading-text" data-i18n="loading_title">Redirigiendo...</div>
+        <div class="loading-subtext" data-i18n="loading_subtitle">Llevándote a la tienda de aplicaciones</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn" id="lang-toggle" aria-label="Change language">
+            <span id="current-lang-flag">🇪🇸</span>
+            <span id="current-lang-code">ES</span>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" id="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="logo-container">
+                <span class="logo-icon">🌤️</span>
+                <h1 class="logo-text">DayMood</h1>
+            </div>
+
+            <p class="tagline" data-i18n="tagline">
+                Tu diario emocional inteligente. Analiza tus emociones con
+                <span class="tagline-highlight" data-i18n="tagline_highlight">IA basada en la Rueda de Plutchik</span>
+            </p>
+
+            <!-- Store Badges -->
+            <div class="store-badges">
+                <a href="https://play.google.com/store/apps/details?id=com.jaimegc.daymood"
+                   class="store-badge"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Download on Google Play">
+                    <!-- Google Play Icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/>
+                    </svg>
+                    <div class="store-badge-text">
+                        <small data-i18n="badge_available">Disponible en</small>
+                        <span>Google Play</span>
+                    </div>
+                </a>
+
+                <a href="https://apps.apple.com/app/idXXXXXXXXX"
+                   class="store-badge badge-coming-soon"
+                   data-coming-soon="Próximamente"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Download on App Store">
+                    <!-- Apple Icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <div class="store-badge-text">
+                        <small data-i18n="badge_download">Descargar en</small>
+                        <span>App Store</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- App Preview -->
+        <section class="app-preview">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="screen-content">
+                        <div class="screen-emoji">😊</div>
+                        <h3 class="screen-title" data-i18n="mockup_title">¿Cómo te sientes hoy?</h3>
+                        <p class="screen-subtitle" data-i18n="mockup_subtitle">Registra tu estado emocional</p>
+                        <div class="emotion-wheel">
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                            <div class="emotion-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <article class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title" data-i18n="feature1_title">Rueda de Plutchik</h3>
+                <p class="feature-description" data-i18n="feature1_desc">
+                    Clasifica tus emociones usando el modelo psicológico de la Rueda de Emociones de Plutchik,
+                    reconocido científicamente para entender las 8 emociones básicas.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3 class="feature-title" data-i18n="feature2_title">Análisis con IA</h3>
+                <p class="feature-description" data-i18n="feature2_desc">
+                    Inteligencia artificial que analiza tus entradas de diario y te ayuda a identificar
+                    patrones emocionales y tendencias en tu bienestar.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title" data-i18n="feature3_title">Estadísticas Visuales</h3>
+                <p class="feature-description" data-i18n="feature3_desc">
+                    Visualiza tu progreso emocional con gráficos intuitivos. Descubre cómo evolucionan
+                    tus emociones a lo largo del tiempo.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title" data-i18n="feature4_title">Privacidad Total</h3>
+                <p class="feature-description" data-i18n="feature4_desc">
+                    Tus datos son completamente privados. Tu diario emocional está protegido y
+                    solo tú tienes acceso a él.
+                </p>
+            </article>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <nav class="footer-links">
+                <a href="/daymood/privacy-policy/" class="footer-link" data-i18n="footer_privacy">Política de Privacidad</a>
+                <a href="/daymood/terms-of-use/" class="footer-link" data-i18n="footer_terms">Términos de Uso</a>
+                <a href="mailto:hello@jaimelxpez.com" class="footer-link" data-i18n="footer_contact">Contacto</a>
+            </nav>
+            <p class="footer-copyright">
+                © 2024 DayMood. <span data-i18n="footer_made">Hecho con</span> ❤️ <span data-i18n="footer_by">por</span>
+                <a href="https://jaimelxpez.com">Jaime López</a>
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        /* ==========================================
+           Internationalization (i18n)
+           ========================================== */
+        const translations = {
+            es: {
+                loading_title: "Redirigiendo...",
+                loading_subtitle: "Llevándote a la tienda de aplicaciones",
+                tagline: "Tu diario emocional inteligente. Analiza tus emociones con",
+                tagline_highlight: "IA basada en la Rueda de Plutchik",
+                badge_available: "Disponible en",
+                badge_download: "Descargar en",
+                badge_coming_soon: "Próximamente",
+                mockup_title: "¿Cómo te sientes hoy?",
+                mockup_subtitle: "Registra tu estado emocional",
+                feature1_title: "Rueda de Plutchik",
+                feature1_desc: "Clasifica tus emociones usando el modelo psicológico de la Rueda de Emociones de Plutchik, reconocido científicamente para entender las 8 emociones básicas.",
+                feature2_title: "Análisis con IA",
+                feature2_desc: "Inteligencia artificial que analiza tus entradas de diario y te ayuda a identificar patrones emocionales y tendencias en tu bienestar.",
+                feature3_title: "Estadísticas Visuales",
+                feature3_desc: "Visualiza tu progreso emocional con gráficos intuitivos. Descubre cómo evolucionan tus emociones a lo largo del tiempo.",
+                feature4_title: "Privacidad Total",
+                feature4_desc: "Tus datos son completamente privados. Tu diario emocional está protegido y solo tú tienes acceso a él.",
+                footer_privacy: "Política de Privacidad",
+                footer_terms: "Términos de Uso",
+                footer_contact: "Contacto",
+                footer_made: "Hecho con",
+                footer_by: "por"
+            },
+            en: {
+                loading_title: "Redirecting...",
+                loading_subtitle: "Taking you to the app store",
+                tagline: "Your intelligent emotional journal. Analyze your emotions with",
+                tagline_highlight: "AI based on Plutchik's Wheel",
+                badge_available: "Available on",
+                badge_download: "Download on",
+                badge_coming_soon: "Coming Soon",
+                mockup_title: "How do you feel today?",
+                mockup_subtitle: "Record your emotional state",
+                feature1_title: "Plutchik's Wheel",
+                feature1_desc: "Classify your emotions using Plutchik's Wheel of Emotions psychological model, scientifically recognized for understanding the 8 basic emotions.",
+                feature2_title: "AI Analysis",
+                feature2_desc: "Artificial intelligence that analyzes your journal entries and helps you identify emotional patterns and trends in your wellbeing.",
+                feature3_title: "Visual Statistics",
+                feature3_desc: "Visualize your emotional progress with intuitive charts. Discover how your emotions evolve over time.",
+                feature4_title: "Total Privacy",
+                feature4_desc: "Your data is completely private. Your emotional journal is protected and only you have access to it.",
+                footer_privacy: "Privacy Policy",
+                footer_terms: "Terms of Use",
+                footer_contact: "Contact",
+                footer_made: "Made with",
+                footer_by: "by"
+            }
+        };
+
+        let currentLang = localStorage.getItem('daymood-lang') || 'es';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('daymood-lang', lang);
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Update coming soon badge
+            const comingSoonBadge = document.querySelector('.badge-coming-soon');
+            if (comingSoonBadge) {
+                comingSoonBadge.setAttribute('data-coming-soon', translations[lang].badge_coming_soon);
+            }
+
+            // Update language toggle button
+            document.getElementById('current-lang-flag').textContent = lang === 'es' ? '🇪🇸' : '🇬🇧';
+            document.getElementById('current-lang-code').textContent = lang.toUpperCase();
+        }
+
+        // Language toggle
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            setLanguage(currentLang === 'es' ? 'en' : 'es');
+        });
+
+        /* ==========================================
+           Platform Detection & Redirect
+           ========================================== */
+        const STORE_URLS = {
+            android: 'https://play.google.com/store/apps/details?id=com.jaimegc.daymood',
+            ios: 'https://apps.apple.com/app/idXXXXXXXXX'
+        };
+
+        function detectPlatform() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            // Check for Android
+            if (/android/i.test(userAgent)) {
+                return 'android';
+            }
+
+            // Check for iOS
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return 'ios';
+            }
+
+            // Additional check using platform (backup)
+            if (navigator.platform) {
+                if (/Android/i.test(navigator.platform)) {
+                    return 'android';
+                }
+                if (/iPhone|iPad|iPod/i.test(navigator.platform)) {
+                    return 'ios';
+                }
+            }
+
+            return 'desktop';
+        }
+
+        function showLoadingAndRedirect(platform) {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+
+            // Show loading screen
+            loadingScreen.classList.remove('hidden');
+            mainContent.style.display = 'none';
+
+            // Update loading text based on language
+            setLanguage(currentLang);
+
+            // Redirect after delay
+            setTimeout(() => {
+                window.location.href = STORE_URLS[platform];
+            }, 1500);
+        }
+
+        /* ==========================================
+           Initialization
+           ========================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial language
+            setLanguage(currentLang);
+
+            // Detect platform and handle redirect
+            const platform = detectPlatform();
+
+            if (platform === 'android' || platform === 'ios') {
+                showLoadingAndRedirect(platform);
+            }
+            // For desktop, the landing page is already visible
+        });
+    </script>
+</body>
+</html>
