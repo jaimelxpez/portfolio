@@ -1,20 +1,20 @@
 ---
 title: "Privacy Policy"
-date: 2026-01-25
+date: 2026-02-07
 url: "/daymood/privacy-policy.html"
 summary: "How DayMood manages, protects, and uses your personal data."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Emotional Journal** *Last updated: January 25, 2026*
+**DayMood - Emotional Journal** *Last updated: February 7, 2026*
 
 ---
 
 ## 1. Data Controller Identity
 
 * **Data Controller:** Jaime Lopez Munoz
-* **Contact Email:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
+* **Contact Email:** [daymood@jaimelxpez.com](mailto:daymood@jaimelxpez.com)
 * **Website:** [jaimelxpez.com](https://jaimelxpez.com/)
 * **Purpose:** Development and maintenance of the DayMood application
 
@@ -27,8 +27,8 @@ DayMood collects the following types of data:
 ### 2.1 Identification Data (platform-specific)
 
 **Available authentication methods:**
-* **All platforms:** Google Sign-In or Email/Password
-* **iOS only:** Apple Sign-In
+* **Android:** Google Sign-In
+* **iOS:** Apple Sign-In, Google Sign-In, or Email/Password
 
 Data collected during authentication:
 * Full name
@@ -60,6 +60,14 @@ Data collected during authentication:
 * API call metadata: endpoint, HTTP method, status code, response times (Firebase Crashlytics and Performance)
 * Device and app integrity verification (Firebase App Check)
 
+### 2.5 Subscription and Payment Data
+* Subscription status (free or premium)
+* Subscription plan type (monthly, annual)
+* Purchase tokens (managed by Google Play)
+* Transaction dates and renewal periods
+
+> **Note on Payment Data:** DayMood does not directly process, store, or have access to your credit card numbers, bank account information, or any other payment method details. All payment processing is handled securely by Google Play. We only receive confirmation of your subscription status and transaction identifiers.
+
 > **Note on API Monitoring:** To ensure service quality, we record technical metadata of API calls (such as response times and error codes). **We never record the content of your diary entries** in these technical logs, preserving the privacy of your personal information.
 
 ## 3. Purpose of Processing
@@ -73,6 +81,8 @@ Your personal data will be processed for the following purposes:
 | Emotional analysis using artificial intelligence | Explicit consent (Art. 6.1.a and 9.2.a GDPR) |
 | App improvement and maintenance | Legitimate interest (Art. 6.1.f GDPR) |
 | Technical error detection and correction | Legitimate interest (Art. 6.1.f GDPR) |
+| Subscription management and payment processing | Contract performance (Art. 6.1.b GDPR) |
+| Displaying personalized advertising (free tier only) | Legitimate interest (Art. 6.1.f GDPR) |
 
 ## 4. Third Parties Processing Your Data
 
@@ -81,15 +91,17 @@ To provide the service, we share your data with the following service providers:
 | Provider | Service | Shared Data | Location |
 | :--- | :--- | :--- | :--- |
 | **Google Firebase** | Authentication and storage | Account data, diary entries, emotions | EU / USA |
-| **Google Identity** | Sign-in (all platforms) | Authentication credentials | EU / USA |
+| **Google Identity** | Sign-in (Android and iOS) | Authentication credentials | EU / USA |
 | **Apple Sign-In** | Sign-in (iOS only) | Authentication credentials | EU / USA |
 | **Google Gemini** | AI emotional analysis (primary provider) | Diary entry text | EU / USA |
-| **OpenAI** | AI emotional analysis (backup provider) | Diary entry text | USA |
+| **OpenAI** | AI emotional analysis (backup provider) and OCR cleanup (Android) | Diary entry text | USA |
 | **Google ML Kit** | Optical character recognition (Android only) | Images for text extraction | On-device |
 | **Apple Vision Framework** | Optical character recognition (iOS only) | Images for text extraction | On-device |
 | **Firebase Crashlytics** | Error reporting and API monitoring | Technical device data, API metadata (no content) | EU / USA |
 | **Firebase Performance** | Performance metrics | Response times, payload sizes | EU / USA |
 | **Firebase App Check** | Integrity verification (Play Integrity on Android, App Attest/DeviceCheck on iOS) | Device and app attestation | EU / USA |
+| **Google Play Billing** | Subscription and payment processing | Purchase tokens, subscription status, transaction IDs | EU / USA |
+| **Google AdMob** | Advertising (free tier only) | Advertising ID, device information | EU / USA |
 
 All these providers act as **data processors** and are contractually obligated to protect your data in accordance with the GDPR.
 
@@ -115,6 +127,8 @@ You can obtain more information about these safeguards by contacting us at the e
 | Performance metrics (Performance) | 90 days (Google policy) |
 | Data sent to Google Gemini | 30 days (Google policy) |
 | Data sent to OpenAI | 30 days (OpenAI API policy) |
+| Subscription and payment data | Duration of the subscription plus legal retention period (tax obligations) |
+| Advertising data (AdMob) | Until you subscribe to Premium or uninstall the app |
 
 ## 7. Your Rights
 
@@ -130,7 +144,7 @@ Under the GDPR, you have the following rights:
 ### How to Exercise Your Rights
 
 You can exercise any of these rights by sending an email to:
-**[hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)**
+**[daymood@jaimelxpez.com](mailto:daymood@jaimelxpez.com)**
 
 Include in your request:
 * Your full name
@@ -225,6 +239,6 @@ We recommend reviewing this policy periodically.
 
 For any questions related to this Privacy Policy or the processing of your data:
 
-* **Email:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
+* **Email:** [daymood@jaimelxpez.com](mailto:daymood@jaimelxpez.com)
 * **Website:** [jaimelxpez.com](https://jaimelxpez.com/)
 * **Data Controller:** Jaime Lopez Munoz

@@ -1,13 +1,13 @@
 ---
 title: "Terms and Conditions of Use"
-date: 2026-01-25
+date: 2026-02-07
 url: "/daymood/terms-of-use.html"
 summary: "Legal terms for using the DayMood application."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Emotional Journal** *Last updated: January 25, 2026*
+**DayMood - Emotional Journal** *Last updated: February 7, 2026*
 
 ---
 
@@ -30,29 +30,64 @@ DayMood is an emotional journal application that allows users to:
 
 The emotional analysis is based on the clinical model of Plutchik's Wheel of Emotions and uses artificial intelligence technology (Google Gemini as the primary provider and OpenAI GPT-4o as backup) to identify emotions, their intensity, and possible triggers.
 
-## 3. Usage Requirements
+## 3. Subscriptions and Payments
 
-### 3.1 Minimum Age
+### 3.1 Service Tiers
+DayMood offers two service tiers:
+* **Free Tier:** Basic access with limited daily emotion analyses and ads.
+* **DayMood Premium:** Full access to all features, unlimited analyses, no ads, and additional capabilities such as diary search and data export.
+
+### 3.2 Subscription Plans
+DayMood Premium is available as an auto-renewable subscription through the following plans:
+* **Monthly:** Billed monthly at the price displayed at the time of purchase.
+* **Annual:** Billed annually at the price displayed at the time of purchase.
+
+Both plans may include a free trial period. After the trial ends, you will be charged unless you cancel at least 24 hours before the trial expires.
+
+### 3.3 Billing and Renewal
+> **Auto-Renewal:** Subscriptions automatically renew unless canceled at least 24 hours before the end of the current billing period. Your Google Play account will be charged for renewal within 24 hours prior to the end of the current period at the same price.
+
+Subscription management:
+* Payment is processed through **Google Play**.
+* Prices may vary by region and are displayed in your local currency.
+* You can manage or cancel your subscription at any time through **Google Play Settings > Subscriptions**.
+* Cancellation takes effect at the end of the current billing period. You retain access to Premium features until that date.
+
+### 3.4 Refunds
+Refund requests are handled by Google Play in accordance with their refund policies. The Developer does not process refunds directly. You may request a refund through the Google Play Store or by contacting Google Play Support.
+
+### 3.5 Price Changes
+We reserve the right to modify subscription prices. Any price change will be communicated in advance and will apply from the next billing cycle. You will have the option to cancel before the new price takes effect.
+
+### 3.6 Free Trial
+If a free trial is offered:
+* It is available only once per Google account.
+* If you do not cancel before the trial ends, your subscription will begin and you will be charged.
+* Any unused portion of a free trial is forfeited when you purchase a subscription.
+
+## 4. Usage Requirements
+
+### 4.1 Minimum Age
 
 > **The Application is intended exclusively for users aged 16 and over.**
 >
 > By using DayMood, you represent and warrant that you are at least 16 years old. If you are under 16, you must not use this Application.
 
-### 3.2 User Account
+### 4.2 User Account
 
 To use DayMood you need:
-* **All platforms:** A valid Google account or Email/Password for sign-in
-* **iOS only:** Apple Sign-In is also available
+* **Android:** A valid Google account for sign-in
+* **iOS:** A valid Apple, Google, or Email/Password account for sign-in
 * A compatible device:
     * **Android:** Android 10 or higher (API 29+)
     * **iOS:** iOS 17.0 or higher
 * Internet connection to sync data and emotional analysis
 
-### 3.3 Accuracy of Information
+### 4.3 Accuracy of Information
 
 You agree to provide accurate information and to keep your account information up to date.
 
-### 3.4 Technical Requirements and Integrity Verification
+### 4.4 Technical Requirements and Integrity Verification
 
 To ensure service security, DayMood implements integrity verification measures:
 
@@ -64,7 +99,7 @@ To ensure service security, DayMood implements integrity verification measures:
 
 These measures protect both your data and the service infrastructure from unauthorized access.
 
-## 4. Permitted Use
+## 5. Permitted Use
 
 The Application must be used only for:
 * Personal emotional tracking and monitoring
@@ -73,7 +108,7 @@ The Application must be used only for:
 
 You agree to use the Application responsibly, legally, and in accordance with these Terms.
 
-## 5. Prohibited Use
+## 6. Prohibited Use
 
 The following is expressly prohibited:
 * Using the Application for illegal or unauthorized purposes
@@ -88,13 +123,13 @@ The following is expressly prohibited:
 
 Violation of these prohibitions may result in suspension or cancellation of your account.
 
-## 6. Intellectual Property
+## 7. Intellectual Property
 
-### 6.1 Application Ownership
+### 7.1 Application Ownership
 
 The Application, including its source code, design, graphics, logos, and other elements, is the exclusive property of the Developer and is protected by Spanish and international intellectual property laws.
 
-### 6.2 User Content
+### 7.2 User Content
 
 **You retain ownership of all content you enter into the Application** (diary entries, texts, etc.). By using the Application, you grant us a limited, non-exclusive, and revocable license to:
 
@@ -104,9 +139,9 @@ The Application, including its source code, design, graphics, logos, and other e
 
 This license terminates when you delete your content or your account.
 
-## 7. Limitation of Liability
+## 8. Limitation of Liability
 
-### 7.1 Mental Health Notice
+### 8.1 Mental Health Notice
 
 > **DayMood is NOT a substitute for professional psychological or medical advice, diagnosis, or treatment.**
 >
@@ -114,20 +149,20 @@ This license terminates when you delete your content or your account.
 >
 > **In case of emergency or mental health crisis, immediately contact emergency services (112 in Europe, 911 in the USA) or crisis helplines in your country.**
 
-### 7.2 General Limitation
+### 8.2 General Limitation
 
 To the maximum extent permitted by applicable law:
 * The Application is provided "as is" and "as available"
 * We do not guarantee that the Application will be error-free or uninterrupted
 * We do not guarantee the accuracy or precision of the emotional analysis
 * We shall not be liable for indirect, incidental, or consequential damages
-* Our total liability shall not exceed the amount paid for the service (if any)
+* Our total liability shall not exceed the amount paid for the service in the 12 months preceding the claim
 
-### 7.3 Service Availability
+### 8.3 Service Availability
 
 We do not guarantee continuous and uninterrupted availability of the Application. We may temporarily suspend the service for maintenance, updates, or circumstances beyond our control.
 
-## 8. Disclaimer of Warranties
+## 9. Disclaimer of Warranties
 
 Except as expressly stated in these Terms, the Developer makes no warranties, express or implied, including but not limited to:
 * Warranties of merchantability
@@ -135,7 +170,7 @@ Except as expressly stated in these Terms, the Developer makes no warranties, ex
 * Non-infringement of third-party rights
 * Results derived from the use of the Application
 
-## 9. Indemnification
+## 10. Indemnification
 
 You agree to indemnify and hold harmless the Developer from any claims, damages, losses, liabilities, and expenses (including attorneys' fees) arising from:
 * Your use of the Application
@@ -143,13 +178,15 @@ You agree to indemnify and hold harmless the Developer from any claims, damages,
 * Your violation of third-party rights
 * Content you enter into the Application
 
-## 10. Termination
+## 11. Termination
 
-### 10.1 By the User
+### 11.1 By the User
 
 You may stop using the Application at any time and delete your account from the "Profile" section > "Delete account". When you delete your account, all your data will be deleted from our servers.
 
-### 10.2 By the Developer
+**If you have an active Premium subscription, canceling your account does not automatically cancel your subscription. You must cancel your subscription through Google Play before deleting your account to avoid further charges.**
+
+### 11.2 By the Developer
 
 We reserve the right to suspend or terminate your access to the Application:
 * If you breach these Terms
@@ -157,11 +194,11 @@ We reserve the right to suspend or terminate your access to the Application:
 * By legal requirement
 * If we decide to discontinue the service (with reasonable notice)
 
-### 10.3 Effects of Termination
+### 11.3 Effects of Termination
 
 Upon termination, provisions that by their nature should survive (intellectual property, limitation of liability, indemnification, governing law) shall remain in effect.
 
-## 11. Supported Platforms
+## 12. Supported Platforms
 
 DayMood is available on the following platforms:
 * **Android:** Available on Google Play Store (requires Android 10 or higher)
@@ -169,7 +206,7 @@ DayMood is available on the following platforms:
 
 Both platforms share the same Firebase database, allowing users to access their data from any compatible device. These Terms of Use apply to all versions of the application, regardless of the platform used.
 
-## 12. Modifications
+## 13. Modifications
 
 We reserve the right to modify these Terms at any time. In case of substantial changes:
 * We will update the "last updated" date
@@ -178,7 +215,7 @@ We reserve the right to modify these Terms at any time. In case of substantial c
 
 If you do not agree with the new terms, you must stop using the Application.
 
-## 13. Governing Law and Jurisdiction
+## 14. Governing Law and Jurisdiction
 
 These Terms are governed by Spanish law.
 
@@ -186,24 +223,24 @@ For the resolution of any dispute arising from these Terms or the use of the App
 
 > **Alternative Dispute Resolution:** In accordance with Regulation (EU) 524/2013, you can access the European Commission's online dispute resolution platform at: [https://ec.europa.eu/consumers/odr](https://ec.europa.eu/consumers/odr)
 
-## 14. General Provisions
+## 15. General Provisions
 
-### 14.1 Entire Agreement
+### 15.1 Entire Agreement
 These Terms, together with the Privacy Policy, constitute the entire agreement between you and the Developer regarding the use of the Application.
 
-### 14.2 Severability
+### 15.2 Severability
 If any provision of these Terms is deemed invalid or unenforceable, the remaining provisions shall continue in full force and effect.
 
-### 14.3 Waiver
+### 15.3 Waiver
 Failure to exercise any right under these Terms shall not constitute a waiver of such right.
 
-### 14.4 Assignment
+### 15.4 Assignment
 You may not assign or transfer these Terms or your rights hereunder without our prior written consent.
 
-## 15. Contact
+## 16. Contact
 
 For any questions related to these Terms of Use:
 
-* **Email:** [hello@jaimelxpez.com](mailto:hello@jaimelxpez.com)
+* **Email:** [daymood@jaimelxpez.com](mailto:daymood@jaimelxpez.com)
 * **Website:** [jaimelxpez.com](https://jaimelxpez.com/)
 * **Developer:** Jaime Lopez Munoz
