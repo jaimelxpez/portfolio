@@ -7,7 +7,7 @@ hidemeta: true
 hidden: true
 ---
 
-**DayMood - Emotional Journal** *Last updated: February 20, 2026*
+**DayMood - Emotional Journal** *Last updated: March 8, 2026*
 
 ---
 
@@ -162,6 +162,8 @@ Under the GDPR, you have the following rights:
 
 ### How to Exercise Your Rights
 
+**In-App Data Export:** You can export all your personal data directly from the DayMood app by navigating to Profile > Account Settings > Download My Data. Your data will be exported in JSON format, a structured, commonly used, and machine-readable format as required by GDPR Article 20 (Right to Data Portability). You may also exercise your rights by contacting us via email.
+
 You can exercise any of these rights by sending an email to:
 **[daymood@jaimelxpez.com](mailto:daymood@jaimelxpez.com)**
 
@@ -247,7 +249,22 @@ This analysis:
 * The AI provider processes your text and returns the emotional analysis results.
 * Google Gemini may retain your text for up to 30 days in accordance with Google's terms of service.
 * OpenAI may retain your text for up to 30 days in accordance with OpenAI's API data usage policy.
-* DayMood does not use your data to train AI models. Refer to each provider's terms of service for their data usage practices.
+* DayMood does not use your data to train AI models. We use the Firebase AI SDK (Gemini) and OpenAI API endpoints that are explicitly excluded from model training per their respective API terms of service. Your diary entries are processed solely for generating your emotional analysis and are not used to improve, fine-tune, or train any AI/ML models by DayMood or its AI providers.
+
+### 11.2 AI Safety Measures
+
+DayMood implements strict safety rules in its AI system to protect users:
+
+* **No therapeutic roleplay:** The AI is explicitly configured to never provide therapeutic advice, diagnoses, treatment recommendations, or act as a counselor or mental health professional. Its sole function is to identify emotional patterns using Plutchik's model and return structured data.
+* **No encouragement of harmful behavior:** The AI is instructed to never validate, encourage, or provide guidance on self-harm, suicidal ideation, or harmful behaviors.
+* **Crisis detection and escalation:** If the AI detects references to self-harm, suicidal thoughts, or crisis situations in a diary entry, the app automatically displays mental health crisis resources with one-tap access to emergency services and helplines, including:
+  * 988 Suicide & Crisis Lifeline (call or text 988)
+  * Crisis Text Line (text HOME to 741741)
+  * International Association for Suicide Prevention (IASP) crisis center directory
+  * Local emergency services (112/911)
+* **Output restrictions:** The AI only outputs structured JSON with emotions, triggers, and mood classification. It does not generate free-text advice, coping strategies, or motivational messages.
+
+These crisis resources are also accessible at any time from the app's Profile screen under "Mental health resources."
 
 ## 12. Advertising
 
@@ -269,11 +286,24 @@ On Android devices, you can opt out of personalized advertising by going to **Se
 
 Google AdMob may receive device information and advertising identifiers (subject to your consent on iOS) to serve ads. Google processes this data in accordance with [Google's Privacy Policy](https://policies.google.com/privacy). DayMood does **not** share your diary entries, emotional analyses, or any health-related data with advertising providers.
 
-## 13. Apple Health and HealthKit
+## 13. Medical Disclaimer
+
+DayMood is a personal wellness journaling tool designed for emotional self-reflection. It is important to understand the following:
+
+* DayMood is **not a medical device** and has not been evaluated, cleared, or approved by any regulatory authority (including the FDA, EMA, or equivalent bodies).
+* DayMood does **not provide medical diagnoses**, clinical assessments, psychological evaluations, or treatment recommendations.
+* The AI emotional analysis is **not clinically validated** and is provided for self-reflection purposes only. Results should not be used for medical decisions.
+* DayMood is **not a substitute** for professional medical advice, psychological counseling, or psychiatric treatment.
+* DayMood does **not monitor** your diary entries for crisis situations in real-time. The crisis detection feature operates only at the time of AI analysis.
+* If you are experiencing a mental health crisis, suicidal thoughts, or emotional distress, please contact a qualified mental health professional or call emergency services immediately.
+
+By using DayMood, you acknowledge that the emotional analysis is for informational and self-awareness purposes only and should not be relied upon for any health-related decisions.
+
+## 14. Apple Health and HealthKit
 
 > **DayMood does NOT access, read, write, or integrate with Apple HealthKit or Apple Health in any way.** Although DayMood processes emotional and mood data, this data is managed entirely within DayMood's own infrastructure and is not shared with or stored in Apple's Health ecosystem.
 
-## 14. App Store Privacy Information (Nutrition Labels)
+## 15. App Store Privacy Information (Nutrition Labels)
 
 In compliance with Apple's App Store requirements, below is a summary of how DayMood's data practices correspond to the App Store Privacy "Nutrition Labels":
 
@@ -294,7 +324,7 @@ In compliance with Apple's App Store requirements, below is a summary of how Day
 
 > This summary is provided for transparency purposes. For the complete and authoritative description of our data practices, please refer to the full sections of this Privacy Policy.
 
-## 15. Supported Platforms
+## 16. Supported Platforms
 
 DayMood is available on the following platforms:
 
@@ -305,7 +335,7 @@ DayMood is available on the following platforms:
 
 This Privacy Policy applies to all versions of the application, regardless of the platform used. Both platforms share the same Firebase database and the same security and privacy guarantees.
 
-## 16. Changes to This Policy
+## 17. Changes to This Policy
 
 We reserve the right to modify this Privacy Policy. In case of significant changes:
 * We will update the "last updated" date
@@ -314,7 +344,7 @@ We reserve the right to modify this Privacy Policy. In case of significant chang
 
 We recommend reviewing this policy periodically.
 
-## 17. Contact
+## 18. Contact
 
 For any questions related to this Privacy Policy or the processing of your data:
 
