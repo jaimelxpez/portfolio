@@ -241,7 +241,7 @@ This analysis:
 > * DayMood **does NOT provide medical or psychological diagnoses**, and the AI analysis **does NOT constitute medical advice, psychological counseling, or any form of healthcare service**.
 > * The AI may produce inaccurate, incomplete, or inconsistent results. Emotional analysis is inherently subjective and the AI's output should not be relied upon as a definitive assessment of your emotional state.
 > * DayMood is **NOT a substitute for professional psychological or medical advice, diagnosis, or treatment**. If you experience mental health issues, depression, anxiety, suicidal thoughts, or other conditions, please consult a qualified mental health professional immediately.
-> * **In case of emergency or mental health crisis, immediately contact emergency services (112 in Europe, 911 in the USA) or crisis helplines in your country.**
+> * **In case of immediate danger, call your local emergency number (911 in US/Canada/Mexico, 999 in UK, 112 in EU, 000 in Australia).**
 
 ### 11.1 How AI Processes Your Data
 
@@ -264,7 +264,7 @@ DayMood implements strict safety rules in its AI system to protect users:
   * Local emergency services (112/911)
 * **Output restrictions:** The AI only outputs structured JSON with emotions, triggers, and mood classification. It does not generate free-text advice, coping strategies, or motivational messages.
 
-These crisis resources are also accessible at any time from the app's Profile screen under "Mental health resources."
+These crisis resources are also accessible at any time from the app's Profile screen under "Mental health resources." The app automatically detects your region and displays locally relevant crisis resources and emergency numbers.
 
 ## 12. Advertising
 
@@ -344,7 +344,40 @@ We reserve the right to modify this Privacy Policy. In case of significant chang
 
 We recommend reviewing this policy periodically.
 
-## 18. Contact
+## 18. Crisis Resources
+
+> DayMood is an emotional journaling tool, not a mental health service. It does not monitor your entries for crisis situations. If you or someone you know is in crisis, please contact one of these resources immediately. The app displays region-appropriate resources based on your device's locale settings.
+>
+> DayMood es una herramienta de diario emocional, no un servicio de salud mental. No monitorea tus entradas en busca de situaciones de crisis. Si tú o alguien que conoces está en crisis, por favor contacta uno de estos recursos inmediatamente. La app muestra recursos adaptados a tu región según la configuración de tu dispositivo.
+
+| País | Recurso | Contacto |
+| :--- | :--- | :--- |
+| 🇺🇸 United States | 988 Suicide & Crisis Lifeline | Call or text 988 |
+| 🇺🇸 United States | Crisis Text Line | Text HOME to 741741 |
+| 🇪🇸 España | Línea de Atención a la Conducta Suicida | 024 (24/7) |
+| 🇪🇸 España | Teléfono de la Esperanza | 717 003 717 (24/7) |
+| 🇬🇧 United Kingdom | Samaritans | 116 123 (24/7, free) |
+| 🇬🇧 United Kingdom | Shout Crisis Text Line | Text SHOUT to 85258 |
+| 🇨🇦 Canada | 988 Suicide Crisis Helpline | Call or text 988 |
+| 🇲🇽 México | SAPTEL | 55 5259 8121 (24/7) |
+| 🇲🇽 México | Línea de la Vida | 800 911 2000 (24/7) |
+| 🇦🇷 Argentina | Centro de Asistencia al Suicida | 135 (24/7, gratuito) |
+| 🇨🇴 Colombia | Línea 106 | 106 (24/7, gratuito) |
+| 🇨🇱 Chile | Salud Responde | 600 360 7777 (24/7) |
+| 🇵🇪 Perú | Línea 113 Salud | 113 opción 5 (24/7) |
+| 🇩🇪 Deutschland | Telefonseelsorge | 0800 111 0 111 (24/7, kostenlos) |
+| 🇫🇷 France | 3114 – Numéro national de prévention du suicide | 3114 (24/7) |
+| 🇮🇹 Italia | Telefono Amico | 02 2327 2327 (24/7) |
+| 🇵🇹 Portugal | SOS Voz Amiga | 213 544 545 (16h-24h) |
+| 🇧🇷 Brasil | CVV – Centro de Valorização da Vida | 188 (24/7) |
+| 🇦🇺 Australia | Lifeline Australia | 13 11 14 (24/7) |
+| 🇦🇺 Australia | Beyond Blue | 1300 22 4636 (24/7) |
+| 🇮🇳 India | iCALL | 9152987821 (Mon-Sat 9am-9pm) |
+| 🇯🇵 Japan | いのちの電話 (Inochi no Denwa) | 0120-783-556 (24/7) |
+| 🇰🇷 South Korea | 자살예방상담전화 | 1393 (24/7) |
+| 🌍 International | IASP | [iasp.info/resources/Crisis\_Centres](https://www.iasp.info/resources/Crisis_Centres/) |
+
+## 19. Contact
 
 For any questions related to this Privacy Policy or the processing of your data:
 
