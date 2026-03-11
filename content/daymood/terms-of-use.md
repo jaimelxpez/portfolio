@@ -1,13 +1,13 @@
 ---
 title: "Terms and Conditions of Use"
-date: 2026-02-07
+date: 2026-03-11
 url: "/daymood/terms-of-use.html"
 summary: "Legal terms for using the DayMood application."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Emotional Journal** *Last updated: February 7, 2026*
+**DayMood - Emotional Journal** *Last updated: March 11, 2026*
 
 ---
 
@@ -28,7 +28,7 @@ DayMood is an emotional journal application that allows users to:
 * View emotional patterns and wellness statistics
 * Manage and export their personal data
 
-The emotional analysis is based on the clinical model of Plutchik's Wheel of Emotions and uses artificial intelligence technology (Google Gemini as the primary provider and OpenAI GPT-4o as backup) to identify emotions, their intensity, and possible triggers.
+The emotional analysis is based on the advanced model of Plutchik's Wheel of Emotions and uses artificial intelligence technology (Google Gemini as the primary provider and OpenAI GPT-4o as backup) to identify emotions, their intensity, and key factors.
 
 ## 3. Subscriptions and Payments
 

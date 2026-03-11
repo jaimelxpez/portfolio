@@ -1,13 +1,13 @@
 ---
 title: "Privacy Policy"
-date: 2026-02-07
+date: 2026-03-11
 url: "/daymood/privacy-policy.html"
 summary: "How DayMood manages, protects, and uses your personal data."
 hidemeta: true
 hidden: true
 ---
 
-**DayMood - Emotional Journal** *Last updated: February 7, 2026*
+**DayMood - Emotional Journal** *Last updated: March 11, 2026*
 
 ---
 
@@ -47,9 +47,9 @@ Data collected during authentication:
 > * Emotional analysis of your diary entries
 > * Identified emotions (based on Plutchik's Wheel of Emotions)
 > * Emotional intensity (scale 1-10)
-> * Emotional triggers
+> * Emotional patterns
 > * Overall mood (positive, negative, mixed, neutral)
-> * Clinical context notes
+> * Personal context notes
 >
 > Processing of this data requires your **explicit consent**, which you provide by accepting this policy and using the application.
 
@@ -182,7 +182,7 @@ We implement the following security measures to protect your data:
 >
 > **Your privacy is our priority.** The sensitive content of your diary entries is protected with end-to-end encryption:
 > * **Algorithm:** AES-256-GCM with 256-bit keys
-> * **Encrypted fields:** The text of your entries (*rawEntry*) and the clinical context of each emotion
+> * **Encrypted fields:** The text of your entries (*rawEntry*) and the personal context of each emotion
 > * **Key control:** Your encryption key is derived from your account and stored securely on your device
 > * **Secure sync:** Your data travels encrypted to the cloud; not even we can read the content of your entries
 >
@@ -204,12 +204,12 @@ We implement the following security measures to protect your data:
 ## 11. Use of Artificial Intelligence
 
 DayMood uses artificial intelligence to analyze the emotional content of your diary entries:
-* **Primary provider:** Google Gemini 2.5 Pro, optimized for deep clinical analysis
+* **Primary provider:** Google Gemini 2.5 Pro, optimized for advanced textual analysis
 * **Backup provider:** OpenAI GPT-4o, for greater service availability
 
 This analysis:
-* Is based on Plutchik's Wheel of Emotions clinical model
-* Identifies emotions, their intensity, and possible triggers
+* Is based on Plutchik's Wheel of Emotions advanced model
+* Identifies emotions, their intensity, and key factors
 * Provides context for your emotional self-awareness
 * **Does NOT replace professional psychological advice**
 
