@@ -1,4 +1,4 @@
 ---
-title: "DayMood - Legal Documentation"
+title: "DayMood - Tu Diario Emocional Inteligente"
 hidemeta: true
 ---
