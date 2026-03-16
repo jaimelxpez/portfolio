@@ -10,3 +10,28 @@ if (document.querySelector('.mermaid')) {
   await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
 }
 </script>
+
+<script>
+// Collapsible TOC: wrap each top-level section that has children in <details>
+document.addEventListener('DOMContentLoaded', () => {
+  const tocInner = document.querySelector('.toc .inner');
+  if (!tocInner) return;
+
+  const topUl = tocInner.querySelector(':scope > ul');
+  if (!topUl) return;
+
+  topUl.querySelectorAll(':scope > li').forEach(li => {
+    const nestedUl = li.querySelector(':scope > ul');
+    const link = li.querySelector(':scope > a');
+    if (!nestedUl || !link) return;
+
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    summary.appendChild(link.cloneNode(true));
+    details.appendChild(summary);
+    details.appendChild(nestedUl);
+
+    li.replaceChildren(details);
+  });
+});
+</script>

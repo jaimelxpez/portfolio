@@ -9,7 +9,7 @@ cover:
     alt: "DayMood App Icon"
     relative: false
 ShowToc: true
-TocOpen: true
+TocOpen: false
 ---
 
 > A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik's psychological theory with dual-provider AI analysis, end-to-end encryption, and gamification — available on Android and iOS.
@@ -331,9 +331,10 @@ The `EmotionWheel` component uses a **pizza-slice (pie sector) style** for optim
 - Selection animation: slight scale (1.05x) + colored border + glow effect
 - Companion `EmotionWheelShowcase` for read-only analysis preview
 
-![EmotionWheel component — pizza-slice design with Plutchik colors](/images/emotion_wheel_edit.png)
-
-![Emotion analysis results — AI-detected emotions with intensity and context](/images/emotion_analysis_results.png)
+<div style="display: flex; gap: 1rem; justify-content: center; align-items: start; flex-wrap: wrap;">
+  <img src="/images/emotion_wheel_edit.png" alt="EmotionWheel component — pizza-slice design with Plutchik colors" style="max-width: 280px; border-radius: 12px;">
+  <img src="/images/emotion_analysis_results.png" alt="Emotion analysis results — AI-detected emotions with intensity and context" style="max-width: 280px; border-radius: 12px;">
+</div>
 
 ---
 
