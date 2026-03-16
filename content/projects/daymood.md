@@ -262,7 +262,7 @@ Every technical decision in DayMood is driven by a product insight. These are th
 | **Breathing animation during AI analysis** | AI analysis takes ~15 seconds; a spinner creates anxiety | A gentle pulsing animation that mimics a breathing exercise | Transforms wait time into a calming micro-interaction — designed to reduce perceived wait anxiety |
 | **User always has the last word** | AI is not infallible — wrong emotion detection erodes trust | After AI analysis, users can edit intensities, add/remove emotions, and change triggers before saving. AI can be fully disabled in settings | Builds trust: the AI is a suggestion engine, never an authority. Users stay in control of their own emotional narrative |
 | **CryptoGate screen** | Race condition: ViewModels could access uninitialized encryption keys | A blocking intermediate screen between login and home that waits until E2E encryption is fully ready | Prevents corrupted data display; clean UX > fast UX when privacy is at stake |
-| **Crisis detection as safety net** | AI might miss suicidal ideation or crisis language | Local 36-pattern keyword detector (EN/ES) that runs independently of AI | Not a medical tool — a responsible safety layer. Links to real crisis hotlines for 17+ countries |
+| **Crisis detection as safety net** | AI might miss suicidal ideation or crisis language | Local keyword detector with extensive crisis patterns (EN/ES) that runs independently of AI | Not a medical tool — a responsible safety layer. Links to real crisis hotlines for 17+ countries |
 | **Rewarded ads over hard paywall** | Aggressive monetization kills retention in wellness apps | Free users hit an analysis limit, then earn 1 bonus analysis by watching a rewarded ad | Respects the user: they choose to watch an ad, they're not interrupted. Conversion to premium happens naturally |
 | **Editable onboarding with "experience" flow** | Users drop off if they don't understand the value before signing up | A guided first experience where users write a mini-entry and see AI analysis *before* creating an account | Users experience the "wow moment" before any commitment — the product sells itself |
 
@@ -786,7 +786,7 @@ abstract class RepositoryModule {
 | Convention plugins (`build-logic`) | All 19 modules | DRY, consistent build config |
 | `@Serializable` routes | 20+ routes | Compile-time safe navigation |
 | Lambda-callback navigation | All feature modules | Zero inter-feature coupling |
-| `@Binds` abstract modules | All repository bindings | Zero-allocation DI |
+| `@Binds` abstract modules | All repository bindings | Declarative DI |
 
 > These aren't aspirational guidelines — they're enforced patterns applied consistently across 19 Gradle modules and 15+ feature screens. The result is a codebase where any screen can be understood in under a minute.
 
@@ -1427,7 +1427,7 @@ Firebase ID Tokens are JWTs that change every session (`iat`, `exp`, `auth_time`
 - **19 Gradle modules** (Android) + **30+ SPM targets** (iOS)
 - **E2E encryption** with AES-256-GCM: complete user privacy, cross-platform compatible
 - **4-layer privacy firewall**: defense-in-depth security architecture on both platforms
-- **Dual AI provider** with data-driven selection (10-entry A/B test documented)
+- **Dual AI provider** with data-driven selection (10-entry evaluation documented)
 - **13 gamification milestones** with points economy
 
 ### Architectural Milestones
