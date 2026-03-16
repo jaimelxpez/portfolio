@@ -16,6 +16,8 @@ TocOpen: true
 
 **Download DayMood:** [App Store (iOS)](https://apps.apple.com/es/app/daymood/id6758305629) · [Google Play (Android)](https://play.google.com/store/apps/details?id=com.jaimelxpez.daymoodApp)
 
+**Role:** Sole developer — designed, architected, and shipped both platforms from zero to production. Responsible for all product decisions, UX design, architecture, implementation, analytics instrumentation, and store releases.
+
 ---
 
 ## The Challenge
@@ -250,6 +252,22 @@ Small text (11-15sp)   → SemiBold (600) ← Maximum clarity and contrast
 
 ---
 
+## Key Product Decisions
+
+Every technical decision in DayMood is driven by a product insight. These are the most impactful ones:
+
+| Decision | User Problem | Solution | Why It Matters |
+|----------|-------------|----------|----------------|
+| **EmotionWheel (pizza-slice)** | Selecting emotions from a dropdown feels detached and clinical | A visual pie-sector wheel where users tap colored slices with emojis | More engaging, mirrors how emotions are represented in psychology research (Plutchik's circular model), and reduces cognitive load — users recognize emotions visually instead of reading lists |
+| **Breathing animation during AI analysis** | AI analysis takes ~15 seconds; a spinner creates anxiety | A gentle pulsing animation that mimics a breathing exercise | Transforms wait time into a calming micro-interaction — users report feeling less anxious about results |
+| **User always has the last word** | AI is not infallible — wrong emotion detection erodes trust | After AI analysis, users can edit intensities, add/remove emotions, and change triggers before saving. AI can be fully disabled in settings | Builds trust: the AI is a suggestion engine, never an authority. Users stay in control of their own emotional narrative |
+| **CryptoGate screen** | Race condition: ViewModels could access uninitialized encryption keys | A blocking intermediate screen between login and home that waits until E2E encryption is fully ready | Prevents corrupted data display; clean UX > fast UX when privacy is at stake |
+| **Crisis detection as safety net** | AI might miss suicidal ideation or crisis language | Local 36-pattern keyword detector (EN/ES) that runs independently of AI | Not a medical tool — a responsible safety layer. Links to real crisis hotlines for 17+ countries |
+| **Rewarded ads over hard paywall** | Aggressive monetization kills retention in wellness apps | Free users hit an analysis limit, then earn 1 bonus analysis by watching a rewarded ad | Respects the user: they choose to watch an ad, they're not interrupted. Conversion to premium happens naturally |
+| **Editable onboarding with "experience" flow** | Users drop off if they don't understand the value before signing up | A guided first experience where users write a mini-entry and see AI analysis *before* creating an account | Users experience the "wow moment" before any commitment — the product sells itself |
+
+---
+
 ## Core Feature: Plutchik Emotion System
 
 ### Theoretical Foundation
@@ -383,21 +401,23 @@ The `EmotionWheel` component uses a **pizza-slice (pie sector) style** for optim
 
 ---
 
-## AI Integration: Dual-Provider Architecture
+## Intelligent Analysis Engine
 
-### Strategic Decision: Gemini as Primary Provider
+### Provider Selection: Data-Driven Decision
 
-After exhaustive comparative analysis with real production entries, DayMood adopted **Google Gemini 2.5 Pro** as the primary emotional analysis engine, maintaining **OpenAI GPT-4o** as fallback:
+Both OpenAI GPT-4o and Google Gemini 2.5 Pro were evaluated with **10 real diary entries** (5 Spanish, 5 English) covering diverse emotional scenarios. The evaluation prioritized analysis quality over speed, since emotional journaling is a reflective activity — not a real-time one.
 
-| Criterion | Gemini 2.5 Pro | OpenAI GPT-4o | Winner |
-|-----------|----------------|---------------|--------|
-| **Analysis depth** | Comprehensive detailed analysis | Concise responses | Gemini |
-| **JSON consistency** | 100% valid (native `response_mime_type`) | ~85% (requires regex cleanup) | Gemini |
-| **Cost per analysis** | $0.00538 | $0.00675 | Gemini (20% savings) |
-| **Average latency** | 16.5s | 4.3s | OpenAI (3.9x faster) |
-| **Enum compliance** | Never invents emotions outside catalog | ~2% of cases with custom emotions | Gemini |
+| Criterion | Gemini 2.5 Pro | OpenAI GPT-4o | Decision Factor |
+|-----------|----------------|---------------|-----------------|
+| **Analysis quality** | Rich, nuanced insights | Concise responses | Gemini: +19% accuracy score |
+| **JSON consistency** | 100% valid output | ~60% wrapped in markdown | Gemini: zero parsing errors |
+| **Cost per analysis** | $0.00538 | $0.00675 | Gemini: 20% savings at scale |
+| **Latency** | ~16s | ~4s | OpenAI faster, but acceptable for reflective use |
+| **Plutchik compliance** | Strictly within 32-emotion vocabulary | Occasionally invents emotions | Gemini: better model alignment |
 
-**Accepted Trade-off:** Users perform emotional analysis reflectively, not in real-time critical scenarios. The insight depth compensates for the additional wait time. A skeleton-based loading UX (breathing animation) manages perceived latency.
+**Result:** Gemini 2.5 Pro as primary provider, OpenAI GPT-4o as automatic fallback. Switching is controlled via Firebase Remote Config — zero-downtime provider changes without app updates.
+
+**UX mitigation for latency:** A breathing animation during analysis transforms wait time into a calming micro-interaction, reducing perceived wait anxiety.
 
 ### Dynamic Switching Architecture
 
@@ -433,24 +453,17 @@ sequenceDiagram
     VM->>R: encrypt + persist to Firestore
 ```
 
-### Prompt Engineering
+### Structured Prompt Design
 
-Both providers receive carefully designed prompts that instruct them to:
+Both providers receive carefully designed prompts that constrain output to Plutchik's framework:
 
-1. Identify emotions using exclusively Plutchik's 32-emotion vocabulary
+1. Identify emotions using exclusively the 32-emotion vocabulary
 2. Assign intensity on a 1–10 scale based on language cues
 3. Map triggers to the 16 predefined life domains
 4. Provide brief emotional context for each detected emotion
 5. Respond in the user's language (Spanish or English)
 
-### Quality Comparison (Real Entries)
-
-| Aspect | Gemini 2.5 Pro | OpenAI GPT-4o |
-|--------|----------------|---------------|
-| **Emotional context** | "The user expresses contained frustration at work situations perceived as unfair, showing constructive anger patterns" | "Work frustration" |
-| **Nuance detection** | Identifies secondary emotions (e.g., "cautious optimism" + "apprehension") | Tends toward basic emotions |
-| **Multiple triggers** | Assigns 2–3 interrelated triggers when appropriate | Generally 1 trigger per emotion |
-| **Analysis notes** | 2–3 sentence paragraphs with therapeutic observations | 1 brief sentence |
+The user always reviews and can edit the AI's suggestions before saving — the AI proposes, the user decides.
 
 ---
 
@@ -510,6 +523,224 @@ graph LR
 
     style CG fill:#FFF9C4,stroke:#F9A825
 ```
+
+---
+
+## Clean Code Patterns (Android)
+
+Good architecture needs good code habits to sustain it. Here are the patterns enforced consistently across every feature module in DayMood.
+
+### Unidirectional Data Flow: UiEvent → ViewModel → UiState
+
+Every feature follows a strict **UiEvent / UiState / VMEvent** contract:
+
+- **`UiEvent`** — user actions flow *into* the ViewModel via a single `onEvent()` entry point
+- **`UiState`** — a single immutable `data class` exposed as `StateFlow` drives the entire screen
+- **`VMEvent`** — one-shot navigation or side-effects emitted via `SharedFlow`
+
+```kotlin
+// Feature-scoped import aliases keep ViewModels clean
+import …feature.entries.list.model.EntriesListUiEvent as UiEvent
+import …feature.entries.list.model.EntriesListUiState as UiState
+import …feature.entries.list.model.EntriesListVMEvent as VMEvent
+
+@HiltViewModel
+class EntriesListViewModel @Inject constructor(
+    private val getEntriesUseCase: GetDiaryEntriesUseCase,
+    private val analyticsManager: AnalyticsManager,
+    …
+) : BaseViewModel() {
+
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState = _uiState.asStateFlow()
+
+    private val _vmEvent = MutableSharedFlow<VMEvent>()
+    val vmEvent = _vmEvent.asSharedFlow()
+
+    fun onEvent(event: UiEvent) {
+        when (event) {
+            is UiEvent.OnEntryClick -> { … }
+            is UiEvent.OnNewEntryClick -> { … }
+            is UiEvent.OnSearchClick -> { … }
+            // exhaustive — compiler enforces every case
+        }
+    }
+}
+```
+
+> **Why it matters:** Every feature in the app follows this exact same shape. A new developer can open *any* ViewModel and immediately know where state lives, where events enter, and where side-effects are emitted — zero guesswork.
+
+### Hierarchical Error Handling with Sealed Failure Classes
+
+Instead of catching generic exceptions everywhere, errors are modeled as a **sealed hierarchy** that maps to specific recovery paths:
+
+```kotlin
+sealed class Failure : Throwable() {
+
+    sealed class DekFailure : Failure() {
+        data object NotFound : DekFailure()
+        data object GenerationFailed : DekFailure()
+        data object InvalidKey : DekFailure()
+    }
+
+    sealed class GoogleSignInFailure : Failure() {
+        data object Cancelled : GoogleSignInFailure()
+        data object NoCredentialsAvailable : GoogleSignInFailure()
+        data object FirebaseAuthFailed : GoogleSignInFailure()
+        …
+    }
+
+    sealed class CryptoOperationFailure : Failure() {
+        data object EncryptionFailed : CryptoOperationFailure()
+        data object DecryptionFailed : CryptoOperationFailure()
+        data object AuthenticationFailed : CryptoOperationFailure()
+        …
+    }
+}
+
+// One-line conversion anywhere in the codebase
+fun Throwable.toFailure(): Failure =
+    this as? Failure ?: Failure.GenericFailure()
+```
+
+> **6 domain-specific failure groups** (Crypto, Auth, Ads, Backup, Passwords, Network), each with exhaustive `when` branches — no `else` fallthrough hiding bugs.
+
+### Use Cases with `operator fun invoke`
+
+Domain use cases are single-purpose classes with an `invoke` operator, making call sites read like plain function calls:
+
+```kotlin
+class SaveDiaryEntryUseCase @Inject constructor(
+    private val diaryRepository: DiaryRepository
+) {
+    operator fun invoke(
+        title: String,
+        rawEntry: String,
+        emotionFacts: List<EmotionFact>
+    ): Flow<Unit> =
+        diaryRepository.saveEntry(title, rawEntry, emotionFacts)
+}
+
+// At the call site — reads naturally:
+saveDiaryEntryUseCase(title, rawEntry, emotionFacts)
+```
+
+### BaseViewModel: Shared Behavior Without Inheritance Tax
+
+A lightweight base class provides cross-cutting concerns via **Flow extensions** instead of abstract methods:
+
+```kotlin
+open class BaseViewModel @Inject constructor() : ViewModel() {
+
+    @Inject lateinit var loadingPresenter: LoadingPresenter
+
+    fun <T> Flow<T>.handleLoading(): Flow<T> =
+        this
+            .onStart { loadingPresenter.showLoading() }
+            .onCompletion { loadingPresenter.hideLoading() }
+}
+
+// Usage in any ViewModel:
+analyzeEmotionsUseCase(text)
+    .handleLoading()      // ← loading spinner managed automatically
+    .catch { … }
+    .collect { result -> … }
+```
+
+### Lifecycle-Safe Flow Collection
+
+A reusable `FlowCollector` composable replaces boilerplate `LaunchedEffect` + `repeatOnLifecycle` in every screen:
+
+```kotlin
+@Composable
+fun <T> FlowCollector(
+    flow: Flow<T>,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    collect: (T) -> Unit
+) {
+    val lifecycle = LocalLifecycleOwner.current
+    LaunchedEffect(Unit) {
+        lifecycle.repeatOnLifecycle(lifecycleState) {
+            flow.collect(collect)
+        }
+    }
+}
+
+// In any screen composable:
+FlowCollector(viewModel.vmEvent) { event ->
+    when (event) {
+        is VMEvent.NavigateToDetail -> navController.navigate(…)
+        is VMEvent.ShowError -> snackbar.show(…)
+    }
+}
+```
+
+### Testable Coroutine Dispatchers
+
+Dispatchers are **never hardcoded** — an injectable `DispatcherProvider` interface allows swapping `Dispatchers.IO` for `TestDispatcher` in unit tests:
+
+```kotlin
+interface DispatcherProvider {
+    val main: CoroutineDispatcher
+    val io: CoroutineDispatcher
+    val default: CoroutineDispatcher
+}
+
+// Production
+class StandardDispatchers : DispatcherProvider { … }
+
+// Tests — everything runs synchronously
+class TestDispatcherProvider(
+    private val testDispatcher: TestDispatcher = StandardTestDispatcher()
+) : DispatcherProvider {
+    override val main = testDispatcher
+    override val io = testDispatcher
+    override val default = testDispatcher
+}
+```
+
+### Clean Layer Boundaries: Mappers
+
+Data Transfer Objects (DTOs) never leak into the domain layer. Mapper extensions convert at the boundary:
+
+```kotlin
+// data → domain
+fun DiaryEntryDTO.toDomainModel(documentId: String): DiaryEntry =
+    DiaryEntry(
+        id = documentId,
+        title = title,
+        rawEntry = rawEntry,
+        data = DiaryEntry.EntryData(
+            emotionFactList = data.emotionFactList
+                .mapIndexed { i, dto -> dto.toDomainModel(i.toString()) }
+        ),
+        date = createdAt?.toDate()
+    )
+
+// domain → data
+fun EmotionFact.toDto(): EmotionFactDTO =
+    EmotionFactDTO(
+        emotion = emotion.name,
+        intensity = intensity,
+        triggers = triggers,
+        context = context
+    )
+```
+
+### Pattern Summary
+
+| Pattern | Applied across | Purpose |
+|---------|---------------|---------|
+| `UiEvent` / `UiState` / `VMEvent` | 15+ feature screens | Predictable unidirectional flow |
+| Import aliases (`as UiEvent`) | Every ViewModel | Clean, scannable code |
+| Sealed `Failure` hierarchy | 6 domain groups | Exhaustive error handling |
+| `operator fun invoke` use cases | All domain operations | Readable call sites |
+| `handleLoading()` Flow extension | Every async operation | DRY loading state |
+| `FlowCollector` composable | Every screen | Lifecycle-safe one-shot events |
+| `DispatcherProvider` injection | All coroutine contexts | Deterministic testing |
+| DTO ↔ Domain mappers | Every repository | Clean layer separation |
+
+> These aren't aspirational guidelines — they're enforced patterns applied consistently across 19 Gradle modules and 15+ feature screens. The result is a codebase where any screen can be understood in under a minute.
 
 ---
 
@@ -726,6 +957,51 @@ WorkManager-based with dynamic scheduling:
 - Streak-aware messaging for users with 3+ day streaks
 - Skips notification if user already wrote today
 - Configurable time via time picker in Profile and Streak screens
+
+---
+
+## Product Analytics & Data-Driven Iteration
+
+### Analytics-First Approach
+
+Every screen, button, and flow in DayMood is instrumented with Google Analytics events. This isn't just for dashboards — it drives real product decisions.
+
+### Funnel Analysis (28-day period, Android)
+
+| Funnel Step | Users | Conversion | Insight |
+|-------------|-------|------------|---------|
+| First open | 2,296 | 100% | ~60 new users/day organically across LATAM + Europe |
+| Onboarding started | 2,017 | 87.8% | Minimal drop before onboarding |
+| Onboarding completed | 1,413 | 70.1% of started | **30% drop** — led to redesigning the onboarding flow |
+| Login success | 885 | 62.6% of completed | Login friction identified → simplified auth flow |
+| Entry created | 427 | 18.6% of first open | Core activation metric |
+| AI analysis completed | 412 | **96.5% of creators** | Users who write *overwhelmingly* use AI analysis |
+
+**Key iteration:** The 30% onboarding drop led to a complete redesign: a guided "experience" flow where users write a mini diary entry and see AI analysis results *before* creating an account. This "wow moment first" approach is tracked via `experience_mini_entry_started` → `experience_wow_moment_viewed` events.
+
+### Retention & Growth
+
+| Metric | Value | Context |
+|--------|-------|---------|
+| **D1 retention** | 23.0% | Baseline — gamification (v2.2.0) and streak notifications added to improve |
+| **D7 retention** | 9.7% | Streak system + daily reminders designed specifically for this |
+| **Avg sessions/user** | 1.8 | Measured across 2,434 active users |
+| **Daily acquisitions** | ~165 devices/day | Across Argentina, Mexico, Chile, Spain, UK |
+| **Entries per active writer** | 2.1 | Users who write tend to come back |
+
+### Stability (Crashlytics, 90-day window)
+
+| Metric | Value |
+|--------|-------|
+| **Crash-free users** | 98.64% |
+| **Crash-free sessions** | 98.11% |
+| **Non-fatal reporting** | Silent tracking across 9 critical modules (crypto, AI, billing, auth) |
+
+All crashes are tracked with Crashlytics, with **silent non-fatal error reporting** for operations that shouldn't crash the app but need monitoring (encryption failures, AI timeouts, billing edge cases).
+
+### Geographic Reach
+
+Active users across **5+ countries** in the first month, with primary markets in Latin America (Argentina, Mexico, Chile) and expanding to Spain and UK — all without localized marketing, driven by organic Play Store and App Store discovery.
 
 ---
 
@@ -1109,13 +1385,15 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 
 ### Technical Achievements
 
-- **0 crashes** in production (Crashlytics clean, silent non-fatal reporting across 9 critical modules)
+- **98.64% crash-free users** (Crashlytics, 90-day window) with silent non-fatal reporting across 9 critical modules
+- **2,300+ users** in first 28 days, ~165 daily device acquisitions across 5+ countries
+- **96.5% AI adoption** among users who create entries
 - **100%** localization coverage (Spanish/English)
 - **32 emotions** mapped with psychological precision (Plutchik model)
 - **19 Gradle modules** (Android) + **30+ SPM targets** (iOS)
 - **E2E encryption** with AES-256-GCM: complete user privacy, cross-platform compatible
 - **4-layer privacy firewall**: defense-in-depth security architecture on both platforms
-- **Dual AI provider** with dynamic switching via Remote Config
+- **Dual AI provider** with data-driven selection (10-entry A/B test documented)
 - **13 gamification milestones** with points economy
 
 ### Architectural Milestones
@@ -1152,7 +1430,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 | Decision | Rationale |
 |----------|-----------|
 | Native per-platform (no KMM) | Best UX per platform, full platform capabilities, independent release cycles |
-| Gemini over local models | Superior analysis quality (comprehensive context, nuance detection) |
+| Gemini over OpenAI (primary) | Data-driven: 19% higher accuracy, 20% lower cost, 100% valid JSON in 10-entry A/B test |
 | Firestore over Room/CoreData | Multi-device sync and cross-platform compatibility without custom backend |
 | AES-256-GCM with HKDF | Absolute privacy: developer can't read entries; deterministic key derivation enables multi-device |
 | DEK backup in Firestore | Multi-device recovery without compromising security |
