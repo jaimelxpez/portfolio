@@ -12,7 +12,9 @@ ShowToc: true
 TocOpen: true
 ---
 
-> A cross-platform native application that transforms emotional journaling into an intelligent clinical experience, combining Plutchik's psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.
+> A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik's psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.
+
+**Download DayMood:** [App Store (iOS)](https://apps.apple.com/es/app/daymood/id6758305629) · [Google Play (Android)](https://play.google.com/store/apps/details?id=com.jaimelxpez.daymoodApp)
 
 ---
 
@@ -22,7 +24,7 @@ TocOpen: true
 
 Emotional journaling has demonstrated significant mental health benefits, but most existing applications present critical limitations:
 
-1. **Subjectivity without structure**: Users describe emotions freely without a clinical framework that enables longitudinal analysis.
+1. **Subjectivity without structure**: Users describe emotions freely without a scientifically-grounded framework that enables longitudinal analysis.
 2. **Lack of actionable insights**: Apps record data but don't offer patterns or causal connections.
 3. **High entry barrier**: Writing about emotions requires emotional vocabulary that many users don't possess.
 4. **Disconnect from triggers**: The relationship between life events and emotional responses isn't identified.
@@ -30,7 +32,7 @@ Emotional journaling has demonstrated significant mental health benefits, but mo
 
 ### The Vision
 
-Create an application that acts as a **pocket clinical assistant**: the user writes freely about their day, and AI automatically identifies underlying emotions with clinical precision, revealing patterns that the user themselves doesn't consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.
+Create an application that acts as a **pocket wellness companion**: the user writes freely about their day, and AI automatically identifies underlying emotions with psychological precision, revealing patterns that the user themselves doesn't consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.
 
 ### High-Level Architecture
 
@@ -146,21 +148,6 @@ graph TB
     style DATA fill:#FBE9E7,stroke:#D84315
 ```
 
-### Modularization Evolution
-
-| Phase | Date | Scope | Result |
-|-------|------|-------|--------|
-| **Phase 1** | Dec 2025 | Domain models migration to `:core:model` | Pure domain layer, no Android dependencies |
-| **Phase 2** | Jan 2026 | Repositories & infrastructure to `:core:data` and `:core:network` | Complete data layer separation |
-| **Phase 2.5** | Jan 2026 | AI services and Remote Config migration | Infrastructure ready for dual-provider |
-| **Phase 3** | Jan 2026 | Final integration + feature module activation | **19 independent modules working** |
-
-**Quantifiable Impact:**
-- **19 Gradle modules** vs 1 original monolith
-- **~2,000 legacy code lines removed** (duplicate code cleanup)
-- **Incremental compilation**: Only modified modules recompile
-- **Zero breaking changes**: All migration without affecting existing functionality
-
 ### Key Applied Principles
 
 | Principle | DayMood Implementation |
@@ -195,7 +182,7 @@ graph TB
 |----------|------------|-------|
 | **Authentication** | Firebase Auth | Google Sign-In, Email/Password |
 | **Database** | Cloud Firestore | Entry persistence (E2E encrypted) |
-| **AI Analysis (Primary)** | Google Gemini 2.5 Pro (Firebase AI SDK) | Clinical emotion analysis |
+| **AI Analysis (Primary)** | Google Gemini 2.5 Pro (Firebase AI SDK) | Emotion analysis based on Plutchik model |
 | **AI Analysis (Fallback)** | OpenAI API (GPT-4o) | Fallback provider + OCR cleanup |
 | **AI Switching** | Firebase Remote Config | Dynamic provider switching |
 | **OCR** | ML Kit Text Recognition | Physical diary digitization |
@@ -238,11 +225,11 @@ DayMood adopts a **minimalist and warm aesthetic** inspired by wellness and natu
 
 ### Typography: Dual-Font System
 
-**Design Decision (January 2026):** Migration from Montserrat to **Manrope** as the primary sans-serif font, optimized for WCAG 2.1 AA compliance.
+**Manrope** was chosen as the primary sans-serif font for its WCAG 2.1 AA compliance, superior legibility at small sizes, and significantly reduced bundle weight (75% lighter than alternatives like Montserrat: 162KB vs 672KB).
 
 | Font | Usage | Characteristics |
 |------|-------|-----------------|
-| **Manrope** (Sans-Serif) | UI, body text, labels | Modern geometric with rounded terminals. Superior legibility at small sizes. 75% lighter than Montserrat (162KB vs 672KB). |
+| **Manrope** (Sans-Serif) | UI, body text, labels | Modern geometric with rounded terminals. Superior legibility at small sizes. WCAG 2.1 AA compliant. |
 | **Lora** (Serif) | Display, greetings, editorial content | Elegant editorial character for emotional moments and highlighted titles. |
 
 **Weight Hierarchy:**
@@ -267,36 +254,85 @@ Small text (11-15sp)   → SemiBold (600) ← Maximum clarity and contrast
 
 ### Theoretical Foundation
 
-DayMood implements **Plutchik's Wheel of Emotions**, a clinical psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.
+DayMood implements **Plutchik's Wheel of Emotions**, a well-established psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '13px'}}}%%
 graph TD
-    subgraph Wheel["Plutchik's Wheel — 32 Emotions"]
-        direction TB
-        J["Joy<br/>Ecstasy · Joy · Serenity"]
-        T["Trust<br/>Admiration · Trust · Acceptance"]
-        F["Fear<br/>Terror · Fear · Apprehension"]
-        S["Surprise<br/>Amazement · Surprise · Distraction"]
-        SA["Sadness<br/>Grief · Sadness · Pensiveness"]
-        D["Disgust<br/>Loathing · Disgust · Boredom"]
-        AN["Anger<br/>Rage · Anger · Annoyance"]
-        AT["Anticipation<br/>Vigilance · Anticipation · Interest"]
+    subgraph Outer["Intense Emotions (Outer Ring)"]
+        E1["🌟 Ecstasy"]
+        E2["🤩 Admiration"]
+        E3["😨 Terror"]
+        E4["😲 Amazement"]
+        E5["😭 Grief"]
+        E6["🤮 Loathing"]
+        E7["🤬 Rage"]
+        E8["👁️ Vigilance"]
     end
 
-    subgraph Secondary["Secondary Emotions (Root Combinations)"]
-        L["Love = Joy + Trust"]
-        O["Optimism = Joy + Anticipation"]
-        SB["Submission = Trust + Fear"]
-        AG["Aggressiveness = Anger + Anticipation"]
+    subgraph Middle["Primary Emotions (Middle Ring)"]
+        M1["😊 Joy"]
+        M2["🤝 Trust"]
+        M3["😰 Fear"]
+        M4["😮 Surprise"]
+        M5["😢 Sadness"]
+        M6["😒 Disgust"]
+        M7["😠 Anger"]
+        M8["🔮 Anticipation"]
     end
 
-    J --- L
-    T --- L
-    J --- O
-    AT --- O
+    subgraph Inner["Mild Emotions (Inner Ring)"]
+        I1["😌 Serenity"]
+        I2["🙂 Acceptance"]
+        I3["😟 Apprehension"]
+        I4["🫨 Distraction"]
+        I5["😔 Pensiveness"]
+        I6["😑 Boredom"]
+        I7["😤 Annoyance"]
+        I8["🤔 Interest"]
+    end
 
-    style Wheel fill:#FFF9E6,stroke:#D2B28F
-    style Secondary fill:#F0F8FF,stroke:#ADD6EA
+    subgraph Secondary["Secondary Emotions (Adjacent Combinations)"]
+        S1["❤️ Love = Joy + Trust"]
+        S2["🙇 Submission = Trust + Fear"]
+        S3["😶 Awe = Fear + Surprise"]
+        S4["🥺 Disapproval = Surprise + Sadness"]
+        S5["💔 Remorse = Sadness + Disgust"]
+        S6["🫣 Contempt = Disgust + Anger"]
+        S7["💪 Aggressiveness = Anger + Anticipation"]
+        S8["🌈 Optimism = Anticipation + Joy"]
+    end
+
+    E1 --- M1 --- I1
+    E2 --- M2 --- I2
+    E3 --- M3 --- I3
+    E4 --- M4 --- I4
+    E5 --- M5 --- I5
+    E6 --- M6 --- I6
+    E7 --- M7 --- I7
+    E8 --- M8 --- I8
+
+    M1 --- S1
+    M2 --- S1
+    M2 --- S2
+    M3 --- S2
+    M3 --- S3
+    M4 --- S3
+    M4 --- S4
+    M5 --- S4
+    M5 --- S5
+    M6 --- S5
+    M6 --- S6
+    M7 --- S6
+    M7 --- S7
+    M8 --- S7
+    M8 --- S8
+    M1 --- S8
+
+    style Outer fill:#FFF0F0,stroke:#E57373
+    style Middle fill:#FFF9E6,stroke:#D2B28F
+    style Inner fill:#F0F8FF,stroke:#ADD6EA
+    style Secondary fill:#F0FFF0,stroke:#81C784
 ```
 
 ### 8 Emotion Roots
@@ -316,9 +352,9 @@ graph TD
 
 The emoji selection is based on **Paul Ekman's foundational research** on universal emotions and peer-reviewed studies on emoji emotion recognition:
 
-- **PMC10175112**: "Emotion Recognition of Faces and Emoji" — recognition accuracy analysis
-- **PMC10045925**: "Emojis Are Comprehended Better than Facial Expressions"
-- **PMC9231464**: "The Multidimensional Lexicon of Emojis" — includes Plutchik's 8 emotions mapping
+- [**PMC10175112**](https://pmc.ncbi.nlm.nih.gov/articles/PMC10175112/): "Emotion Recognition of Faces and Emoji" — recognition accuracy analysis
+- [**PMC10045925**](https://pmc.ncbi.nlm.nih.gov/articles/PMC10045925/): "Emojis Are Comprehended Better than Facial Expressions"
+- [**PMC9231464**](https://pmc.ncbi.nlm.nih.gov/articles/PMC9231464/): "The Multidimensional Lexicon of Emojis" — includes Plutchik's 8 emotions mapping
 
 ### 16 Life Triggers
 
@@ -343,6 +379,8 @@ The `EmotionWheel` component uses a **pizza-slice (pie sector) style** for optim
 - Selection animation: slight scale (1.05x) + colored border + glow effect
 - Companion `EmotionWheelShowcase` for read-only analysis preview
 
+> **Screenshot placeholder** — The EmotionWheel screenshot will be added here before deployment. If you'd like to see the live component, check the [Play Store listing](https://play.google.com/store/apps/details?id=com.jaime.daymood).
+
 ---
 
 ## AI Integration: Dual-Provider Architecture
@@ -353,7 +391,7 @@ After exhaustive comparative analysis with real production entries, DayMood adop
 
 | Criterion | Gemini 2.5 Pro | OpenAI GPT-4o | Winner |
 |-----------|----------------|---------------|--------|
-| **Clinical depth** | Comprehensive detailed analysis | Concise responses | Gemini |
+| **Analysis depth** | Comprehensive detailed analysis | Concise responses | Gemini |
 | **JSON consistency** | 100% valid (native `response_mime_type`) | ~85% (requires regex cleanup) | Gemini |
 | **Cost per analysis** | $0.00538 | $0.00675 | Gemini (20% savings) |
 | **Average latency** | 16.5s | 4.3s | OpenAI (3.9x faster) |
@@ -395,24 +433,24 @@ sequenceDiagram
     VM->>R: encrypt + persist to Firestore
 ```
 
-### Clinical Prompt Engineering
+### Prompt Engineering
 
 Both providers receive carefully designed prompts that instruct them to:
 
 1. Identify emotions using exclusively Plutchik's 32-emotion vocabulary
 2. Assign intensity on a 1–10 scale based on language cues
 3. Map triggers to the 16 predefined life domains
-4. Provide brief clinical context for each detected emotion
+4. Provide brief emotional context for each detected emotion
 5. Respond in the user's language (Spanish or English)
 
 ### Quality Comparison (Real Entries)
 
 | Aspect | Gemini 2.5 Pro | OpenAI GPT-4o |
 |--------|----------------|---------------|
-| **Clinical context** | "The user expresses contained frustration at work situations perceived as unfair, showing constructive anger patterns" | "Work frustration" |
+| **Emotional context** | "The user expresses contained frustration at work situations perceived as unfair, showing constructive anger patterns" | "Work frustration" |
 | **Nuance detection** | Identifies secondary emotions (e.g., "cautious optimism" + "apprehension") | Tends toward basic emotions |
 | **Multiple triggers** | Assigns 2–3 interrelated triggers when appropriate | Generally 1 trigger per emotion |
-| **Clinical notes** | 2–3 sentence paragraphs with therapeutic observations | 1 brief sentence |
+| **Analysis notes** | 2–3 sentence paragraphs with therapeutic observations | 1 brief sentence |
 
 ---
 
@@ -532,7 +570,7 @@ graph TD
 | Field | Reason |
 |-------|--------|
 | `rawEntry` | Diary content (sensitive text) |
-| `emotionFactList[].context` | Clinical context of each emotion |
+| `emotionFactList[].context` | Emotional context of each emotion |
 
 **Fields in Cleartext (for analytics):**
 
@@ -604,7 +642,7 @@ AiPerformanceEvent(
 
 ### Premium Subscription
 
-DayMood uses **Google Play Billing 7.x** (not RevenueCat) with a dedicated `:core:subscription` module:
+DayMood uses **Google Play Billing 7.x** with a dedicated `:core:subscription` module:
 
 | Plan | Price | Savings | Trial |
 |------|-------|---------|-------|
@@ -703,7 +741,7 @@ DayMood includes a **local keyword-based crisis content detector** as a safety n
 - Automatic scanning after AI analysis and when saving without analysis
 - Manual access via dedicated card in Profile screen
 
-### Medical Device Disclaimer
+### Wellness Disclaimer
 
 Non-dismissible bottom sheet with consent checkbox shown before first AI consent:
 - Explains AI limitations and when to seek professional help
@@ -766,7 +804,7 @@ Each card includes animated horizontal bars with emotional distribution, evidenc
 
 ### PDF Export
 
-Multi-page therapeutic report with emotion distribution pie chart, trigger correlations, evidence timelines, and pattern analysis — designed to be shared with therapists.
+Multi-page wellness report with emotion distribution pie chart, trigger correlations, evidence timelines, and pattern analysis — designed to be shared with therapists.
 
 ---
 
@@ -1045,7 +1083,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 | Trigger evidence timeline | ✅ | ✅ | Same UX pattern |
 | PDF export | ✅ | ✅ | Platform-native rendering |
 | Crisis detection | ✅ | ✅ | Same keyword patterns |
-| Medical disclaimer | ✅ | ✅ | Same content, platform UI |
+| Wellness disclaimer | ✅ | ✅ | Same content, platform UI |
 | Privacy firewall | ✅ (4 layers) | ✅ (4 layers) | Same architecture |
 | App Check | ✅ (Play Integrity) | ✅ (App Attest) | Platform-native attestation |
 | GDPR data export | ✅ | ✅ | JSON via share intent |
@@ -1065,7 +1103,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 | **2.0.0** | Feb 8, 2026 | Premium subscription + Search |
 | **2.1.0** | Feb 28, 2026 | Optional AI + Rich text + Ads |
 | **2.2.0** | Mar 9, 2026 | Streak & gamification |
-| **2.3.2** | Mar 16, 2026 | Crisis detection + Medical disclaimer + GDPR |
+| **2.3.2** | Mar 16, 2026 | Crisis detection + Wellness disclaimer + GDPR |
 | **iOS 1.0.0** | Feb 2026 | iOS App Store release |
 | **iOS 1.2.0** | Mar 2026 | Feature parity alignment |
 
@@ -1073,7 +1111,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 
 - **0 crashes** in production (Crashlytics clean, silent non-fatal reporting across 9 critical modules)
 - **100%** localization coverage (Spanish/English)
-- **32 emotions** mapped with clinical precision (Plutchik model)
+- **32 emotions** mapped with psychological precision (Plutchik model)
 - **19 Gradle modules** (Android) + **30+ SPM targets** (iOS)
 - **E2E encryption** with AES-256-GCM: complete user privacy, cross-platform compatible
 - **4-layer privacy firewall**: defense-in-depth security architecture on both platforms
@@ -1114,7 +1152,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 | Decision | Rationale |
 |----------|-----------|
 | Native per-platform (no KMM) | Best UX per platform, full platform capabilities, independent release cycles |
-| Gemini over local models | Superior clinical analysis quality (comprehensive context, nuance detection) |
+| Gemini over local models | Superior analysis quality (comprehensive context, nuance detection) |
 | Firestore over Room/CoreData | Multi-device sync and cross-platform compatibility without custom backend |
 | AES-256-GCM with HKDF | Absolute privacy: developer can't read entries; deterministic key derivation enables multi-device |
 | DEK backup in Firestore | Multi-device recovery without compromising security |
@@ -1122,25 +1160,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 | CryptoGate screen | Eliminates race conditions; clean separation between auth and crypto initialization |
 | Factory pattern for AI | Zero-downtime provider switching via Remote Config |
 | 4-layer privacy firewall | Defense-in-depth: no single point of failure for PII protection |
-| Play Billing / StoreKit 2 | Direct integration without third-party abstraction layer (RevenueCat explored and reverted) |
-
----
-
-## Future Roadmap
-
-- [x] PDF/CSV data export for therapists
-- [x] Smart notifications based on emotional patterns
-- [x] iOS App Store release
-- [x] Premium subscription with cross-platform feature gating
-- [x] Streak & gamification system
-- [x] Crisis detection and mental health resources
-- [x] GDPR data portability (JSON export)
-- [ ] Offline mode with deferred sync
-- [ ] Apple Health / Google Fit integration
-- [ ] Daily emotional status widget
-- [ ] KMP migration for shared business logic
-- [ ] Wearable companion (Wear OS / watchOS)
-- [ ] Therapist collaboration portal
+| Play Billing / StoreKit 2 | Direct integration without third-party abstraction layer |
 
 ---
 

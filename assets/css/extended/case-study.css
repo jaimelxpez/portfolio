@@ -33,12 +33,17 @@
     padding: 0.15rem 0.4rem;
 }
 
-/* ── Case Study: Mermaid Diagrams ── */
+/* ── Case Study: Mermaid Diagrams (white card container) ── */
 .mermaid {
     text-align: center;
     margin: 2rem auto;
     overflow-x: auto;
     max-width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
 }
 
 .mermaid svg {
@@ -93,4 +98,83 @@
 .toc {
     border-radius: 8px;
     margin-bottom: 2rem;
+}
+
+/* ── Cover image: smaller on case study pages ── */
+.post-single .entry-cover {
+    max-width: 280px;
+    margin: 0 auto 2rem;
+}
+
+.post-single .entry-cover img {
+    border-radius: 24px;
+}
+
+/* ── Home page: project card with icon right + text left ── */
+.post-entry {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    grid-template-rows: auto auto auto;
+    gap: 0 1.5rem;
+    align-items: center;
+}
+
+.post-entry .entry-cover {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    margin: 0;
+    justify-self: end;
+}
+
+.post-entry .entry-cover img {
+    border-radius: 20px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.post-entry .entry-header {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.post-entry .entry-content {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.post-entry .entry-footer {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+@media (max-width: 600px) {
+    .post-entry {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .post-entry .entry-cover {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+        margin-bottom: 1rem;
+    }
+
+    .post-entry .entry-cover img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .post-entry .entry-header {
+        grid-row: 2;
+    }
+
+    .post-entry .entry-content {
+        grid-row: 3;
+    }
+
+    .post-entry .entry-footer {
+        grid-row: 4;
+    }
 }
