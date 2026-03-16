@@ -133,11 +133,15 @@
 }
 
 .toc .inner details summary::before {
-    content: '▸';
-    font-size: 0.95rem;
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid var(--secondary);
     transition: transform 0.2s ease;
     flex-shrink: 0;
-    color: var(--secondary);
 }
 
 .toc .inner details[open] > summary::before {
