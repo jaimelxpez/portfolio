@@ -160,8 +160,8 @@
   "keywords": [
     "Kotlin", "Swift", "Jetpack Compose", "SwiftUI", "Navigation 3", "Google Gemini", "OpenAI", "Clean Architecture", "Firebase", "E2E Encryption", "Material 3", "StoreKit 2", "Google Play Billing", "Gamification"
   ],
-  "articleBody": " A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik’s psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.\nDownload DayMood: App Store (iOS) · Google Play (Android)\nThe Challenge The Real Problem Emotional journaling has demonstrated significant mental health benefits, but most existing applications present critical limitations:\nSubjectivity without structure: Users describe emotions freely without a scientifically-grounded framework that enables longitudinal analysis. Lack of actionable insights: Apps record data but don’t offer patterns or causal connections. High entry barrier: Writing about emotions requires emotional vocabulary that many users don’t possess. Disconnect from triggers: The relationship between life events and emotional responses isn’t identified. Privacy concerns: Users hesitate to write honestly when diary content could be read by developers or leaked through logs. The Vision Create an application that acts as a pocket wellness companion: the user writes freely about their day, and AI automatically identifies underlying emotions with psychological precision, revealing patterns that the user themselves doesn’t consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.\nHigh-Level Architecture graph TB subgraph Client[\"Client Layer\"] A[\"Android AppKotlin / Jetpack Compose\"] I[\"iOS AppSwift / SwiftUI\"] end subgraph AI[\"AI Analysis Layer\"] G[\"Google Gemini 2.5 Pro(Primary)\"] O[\"OpenAI GPT-4o(Fallback + OCR)\"] end subgraph Backend[\"Firebase Backend\"] FA[\"Firebase Auth\"] FS[\"Cloud Firestore\"] RC[\"Remote Config\"] CR[\"Crashlytics\"] AC[\"App Check\"] end A --\u003e|\"AES-256-GCMEncrypted\"| FS I --\u003e|\"AES-256-GCMEncrypted\"| FS A --\u003e G A --\u003e O I --\u003e G I --\u003e O A --\u003e FA I --\u003e FA RC --\u003e|\"ai_model_provider\"| A RC --\u003e|\"ai_model_provider\"| I AC --\u003e|\"Play Integrity /App Attest\"| FS Part I — Android (Primary Platform) Architecture Multi-Module Clean Architecture DayMood Android implements Clean Architecture rigorously with 19 independent Gradle modules, ensuring separation of responsibilities, testability, and scalability.\ngraph TD subgraph App[\"App Module\"] APP[\":appDI, Navigation Host, MainActivity\"] end subgraph Features[\"Feature Modules\"] FS[\":feature:splash\"] FL[\":feature:login\"] FE[\":feature:entries\"] FSU[\":feature:summary\"] FP[\":feature:profile\"] FAS[\":feature:accountSettings\"] FSB[\":feature:subscription\"] FST[\":feature:streak\"] end subgraph Core[\"Core Modules\"] CC[\":core:common\"] CN[\":core:navigation\"] CM[\":core:model\"] CD[\":core:domain\"] CDA[\":core:data\"] CNE[\":core:network\"] CCR[\":core:crypto\"] CDS[\":core:designsystem\"] CA[\":core:analytics\"] CAL[\":core:analysisLimit\"] CAD[\":core:ads\"] CSB[\":core:subscription\"] CST[\":core:streak\"] end APP --\u003e Features Features --\u003e CD Features --\u003e CM Features --\u003e CDS Features --\u003e CA CD --\u003e CM CDA --\u003e CD CDA --\u003e CNE CDA --\u003e CCR CSB --\u003e CD CST --\u003e CD style App fill:#E8F5E9,stroke:#2E7D32 style Features fill:#E3F2FD,stroke:#1565C0 style Core fill:#FFF3E0,stroke:#E65100 Layer Flow graph TB UI[\"UI LayerComposables → observe StateFlow → trigger UiEventLocation: :feature:* modules\"] VM[\"ViewModel LayerBaseViewModel → single UiState → emits VMEventLocation: :feature:* modules\"] DOM[\"Domain LayerPure Kotlin only. UseCases + Repository InterfacesLocation: :core:domain + :core:modelNO Android imports | NO Firebase/AI SDKs\"] DATA[\"Data LayerRepositories + DataSources + DTOsLocation: :core:data + :core:networkMaps DTOs → Domain Models immediately\"] UI --\u003e|\"depends on\"| VM VM --\u003e|\"depends on\"| DOM DOM --\u003e|\"depends on\"| DATA style UI fill:#E3F2FD,stroke:#1565C0 style VM fill:#E8F5E9,stroke:#2E7D32 style DOM fill:#FFF9C4,stroke:#F9A825 style DATA fill:#FBE9E7,stroke:#D84315 Key Applied Principles Principle DayMood Implementation Single Source of Truth Each feature has a single immutable UiState Unidirectional Data Flow UI → Event → ViewModel → UseCase → Repository → UI Dependency Inversion Domain layer doesn’t know Android, Firebase, or AI SDKs DTO Isolation API models never reach the UI Tech Stack Core Technologies Category Technology Version Language Kotlin 2.3.0 UI Framework Jetpack Compose BOM 2026.01.00 Design System Material 3 1.4 DI Hilt 2.57.1 Async Kotlin Coroutines + Flow — Navigation Navigation 3 alpha Networking Retrofit + OkHttp 2.11.0 / 4.12.0 Image Loading Coil 3 3.3.0 Rich Text compose-rich-editor 1.0.0-rc13 Markdown multiplatform-markdown-renderer-m3 0.39.2 Backend \u0026 AI Category Technology Usage Authentication Firebase Auth Google Sign-In, Email/Password Database Cloud Firestore Entry persistence (E2E encrypted) AI Analysis (Primary) Google Gemini 2.5 Pro (Firebase AI SDK) Emotion analysis based on Plutchik model AI Analysis (Fallback) OpenAI API (GPT-4o) Fallback provider + OCR cleanup AI Switching Firebase Remote Config Dynamic provider switching OCR ML Kit Text Recognition Physical diary digitization Camera CameraX Capture for OCR Crash Reporting Firebase Crashlytics Error monitoring + silent non-fatal reporting E2E Encryption Jetpack Security + HKDF-SHA256 AES-256-GCM sensitive data protection App Check Firebase App Check + Play Integrity Backend protection against abuse Subscriptions Google Play Billing 7.x Premium paywall and subscription management Ads Google Mobile Ads Interstitial, app open, and rewarded ads Notifications WorkManager Daily reminders, weekly summaries In-App Review Google Play In-App Review API Review prompt after first entry Build System Tool Version Android Gradle Plugin 8.13.2 Gradle 8.13 Min SDK 29 (Android 10) Target/Compile SDK 36 Design System: “Organic Wellness” Visual Philosophy DayMood adopts a minimalist and warm aesthetic inspired by wellness and nature, deliberately moving away from the cold colors typical of productivity apps. The design system is shared across both platforms, adapted to each platform’s conventions.\nColor Palette Token Light Mode Dark Mode Usage background #F9F7F4 (Cream) #121212 Screen backgrounds white #FFFDF9 (Warm White) #1E1E1E Card surfaces sand #D2B28F #E5C9A8 Buttons, accents primary #ADD6EA (Soft Blue) #ADD6EA Primary elements tertiary #8B4513 (Sienna) #A0522D Highlights coral #FF7F7F #FF9999 Errors, emergency Typography: Dual-Font System Manrope was chosen as the primary sans-serif font for its WCAG 2.1 AA compliance, superior legibility at small sizes, and significantly reduced bundle weight (75% lighter than alternatives like Montserrat: 162KB vs 672KB).\nFont Usage Characteristics Manrope (Sans-Serif) UI, body text, labels Modern geometric with rounded terminals. Superior legibility at small sizes. WCAG 2.1 AA compliant. Lora (Serif) Display, greetings, editorial content Elegant editorial character for emotional moments and highlighted titles. Weight Hierarchy:\nLarge titles (20-34sp) → Normal (400) ← Elegance without excessive weight ↓ Body text (16-17sp) → Medium (500) ← Comfortable extended reading ↓ Small text (11-15sp) → SemiBold (600) ← Maximum clarity and contrast Shapes Cards: RoundedCornerShape(24.dp) — Very rounded corners for organic feel Buttons: RoundedCornerShape(16.dp) — Soft and accessible Chips: RoundedCornerShape(12.dp) — Compact but friendly Core Feature: Plutchik Emotion System Theoretical Foundation DayMood implements Plutchik’s Wheel of Emotions, a well-established psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.\n%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '13px'}}}%% graph TD subgraph Outer[\"Intense Emotions (Outer Ring)\"] E1[\"🌟 Ecstasy\"] E2[\"🤩 Admiration\"] E3[\"😨 Terror\"] E4[\"😲 Amazement\"] E5[\"😭 Grief\"] E6[\"🤮 Loathing\"] E7[\"🤬 Rage\"] E8[\"👁️ Vigilance\"] end subgraph Middle[\"Primary Emotions (Middle Ring)\"] M1[\"😊 Joy\"] M2[\"🤝 Trust\"] M3[\"😰 Fear\"] M4[\"😮 Surprise\"] M5[\"😢 Sadness\"] M6[\"😒 Disgust\"] M7[\"😠 Anger\"] M8[\"🔮 Anticipation\"] end subgraph Inner[\"Mild Emotions (Inner Ring)\"] I1[\"😌 Serenity\"] I2[\"🙂 Acceptance\"] I3[\"😟 Apprehension\"] I4[\"🫨 Distraction\"] I5[\"😔 Pensiveness\"] I6[\"😑 Boredom\"] I7[\"😤 Annoyance\"] I8[\"🤔 Interest\"] end subgraph Secondary[\"Secondary Emotions (Adjacent Combinations)\"] S1[\"❤️ Love = Joy + Trust\"] S2[\"🙇 Submission = Trust + Fear\"] S3[\"😶 Awe = Fear + Surprise\"] S4[\"🥺 Disapproval = Surprise + Sadness\"] S5[\"💔 Remorse = Sadness + Disgust\"] S6[\"🫣 Contempt = Disgust + Anger\"] S7[\"💪 Aggressiveness = Anger + Anticipation\"] S8[\"🌈 Optimism = Anticipation + Joy\"] end E1 --- M1 --- I1 E2 --- M2 --- I2 E3 --- M3 --- I3 E4 --- M4 --- I4 E5 --- M5 --- I5 E6 --- M6 --- I6 E7 --- M7 --- I7 E8 --- M8 --- I8 M1 --- S1 M2 --- S1 M2 --- S2 M3 --- S2 M3 --- S3 M4 --- S3 M4 --- S4 M5 --- S4 M5 --- S5 M6 --- S5 M6 --- S6 M7 --- S6 M7 --- S7 M8 --- S7 M8 --- S8 M1 --- S8 style Outer fill:#FFF0F0,stroke:#E57373 style Middle fill:#FFF9E6,stroke:#D2B28F style Inner fill:#F0F8FF,stroke:#ADD6EA style Secondary fill:#F0FFF0,stroke:#81C784 8 Emotion Roots Root Pastel Color Dark Color Emotions (Basic, Intense, Mild) Joy #F9E79F #C9A227 Joy, Ecstasy, Serenity Trust #82E0AA #27AE60 Trust, Admiration, Acceptance Fear #76B84E #4A7C23 Fear, Terror, Apprehension Surprise #BB8FCE #8E44AD Surprise, Amazement, Distraction Sadness #85C1E9 #2E86AB Sadness, Grief, Pensiveness Disgust #D7BDE2 #9B59B6 Disgust, Loathing, Boredom Anger #F1948A #C0392B Anger, Rage, Annoyance Anticipation #F8B88B #D35400 Anticipation, Vigilance, Interest Emoji Selection: Research-Based Approach The emoji selection is based on Paul Ekman’s foundational research on universal emotions and peer-reviewed studies on emoji emotion recognition:\nPMC10175112: “Emotion Recognition of Faces and Emoji” — recognition accuracy analysis PMC10045925: “Emojis Are Comprehended Better than Facial Expressions” PMC9231464: “The Multidimensional Lexicon of Emojis” — includes Plutchik’s 8 emotions mapping 16 Life Triggers The system maps emotions to life domains that act as triggers:\nDomain Example Insight Family relationships “Your family continues to be a source of joy” Work/Career “Work has been your main source of anxiety” Mental health “Your mental wellbeing shows positive patterns” Romantic partner “Your relationship brings both joy and anxiety” Finances/Economy “Finances are influencing your worry” Achievements/Goals “Achieving goals produces consistent satisfaction” EmotionWheel: Pizza-Slice Visual Design The EmotionWheel component uses a pizza-slice (pie sector) style for optimal visual hierarchy and touch interaction:\n8 filled pie sectors (one per root emotion) with 2-degree gap between slices Inner radius cutout creates donut shape Each slice displays its emoji centered on the arc Selection animation: slight scale (1.05x) + colored border + glow effect Companion EmotionWheelShowcase for read-only analysis preview Screenshot placeholder — The EmotionWheel screenshot will be added here before deployment. If you’d like to see the live component, check the Play Store listing.\nAI Integration: Dual-Provider Architecture Strategic Decision: Gemini as Primary Provider After exhaustive comparative analysis with real production entries, DayMood adopted Google Gemini 2.5 Pro as the primary emotional analysis engine, maintaining OpenAI GPT-4o as fallback:\nCriterion Gemini 2.5 Pro OpenAI GPT-4o Winner Analysis depth Comprehensive detailed analysis Concise responses Gemini JSON consistency 100% valid (native response_mime_type) ~85% (requires regex cleanup) Gemini Cost per analysis $0.00538 $0.00675 Gemini (20% savings) Average latency 16.5s 4.3s OpenAI (3.9x faster) Enum compliance Never invents emotions outside catalog ~2% of cases with custom emotions Gemini Accepted Trade-off: Users perform emotional analysis reflectively, not in real-time critical scenarios. The insight depth compensates for the additional wait time. A skeleton-based loading UX (breathing animation) manages perceived latency.\nDynamic Switching Architecture sequenceDiagram participant U as User participant VM as ViewModel participant R as Repository participant F as Factory participant RC as Remote Config participant G as Gemini 2.5 Pro participant O as OpenAI GPT-4o U-\u003e\u003eVM: Write diary entry + tap \"Analyze\" VM-\u003e\u003eR: analyzeEntry(title, rawEntry) R-\u003e\u003eF: getService() F-\u003e\u003eRC: getAiModelProvider() RC--\u003e\u003eF: \"GEMINI\" or \"OPENAI\" alt Provider = GEMINI F--\u003e\u003eR: GeminiAnalysisService R-\u003e\u003eG: analyze(prompt, entry) G--\u003e\u003eR: JSON response else Provider = OPENAI F--\u003e\u003eR: OpenAiAnalysisService R-\u003e\u003eO: analyze(prompt, entry) O--\u003e\u003eR: JSON response end R--\u003e\u003eVM: EmotionAnalysisResult VM--\u003e\u003eU: Display emotions for review U-\u003e\u003eVM: Edit intensities/triggers + Save VM-\u003e\u003eR: encrypt + persist to Firestore Prompt Engineering Both providers receive carefully designed prompts that instruct them to:\nIdentify emotions using exclusively Plutchik’s 32-emotion vocabulary Assign intensity on a 1–10 scale based on language cues Map triggers to the 16 predefined life domains Provide brief emotional context for each detected emotion Respond in the user’s language (Spanish or English) Quality Comparison (Real Entries) Aspect Gemini 2.5 Pro OpenAI GPT-4o Emotional context “The user expresses contained frustration at work situations perceived as unfair, showing constructive anger patterns” “Work frustration” Nuance detection Identifies secondary emotions (e.g., “cautious optimism” + “apprehension”) Tends toward basic emotions Multiple triggers Assigns 2–3 interrelated triggers when appropriate Generally 1 trigger per emotion Analysis notes 2–3 sentence paragraphs with therapeutic observations 1 brief sentence Navigation Architecture Navigation 3: Scene-Based Composition DayMood Android uses Navigation 3, Google’s next-generation navigation library featuring a declarative scene-based approach with direct backstack manipulation.\ngraph LR subgraph Nav3[\"Navigation 3 Architecture\"] AN[\"AppNavigatorSnapshotStateList\"] AND[\"AppNavDisplayNavDisplay + entryProvider\"] R[\"Routes.kt@Serializable sealed types\"] end AN --\u003e|\"backStack state\"| AND R --\u003e|\"type-safe routes\"| AN AND --\u003e|\"when(route) { ... }\"| Screens subgraph Screens[\"Feature Screens\"] S1[\"EntriesList\"] S2[\"EntryNew\"] S3[\"EntryDetail\"] S4[\"Summary\"] S5[\"Streak\"] S6[\"Profile\"] S7[\"Subscription\"] S8[\"CryptoGate\"] end style Nav3 fill:#E8F5E9,stroke:#2E7D32 style Screens fill:#E3F2FD,stroke:#1565C0 Key Principles:\nSnapshotStateList as single source of truth — navigation is list manipulation NavDisplay renders current route via when(route) { ... } lambda Type-safe routes using Kotlin Serialization (@Serializable data classes/objects) ViewModels emit VMEvents, UI invokes navigation callbacks No NavController abstraction — direct, testable backstack manipulation Custom Transitions:\nForward: slides from right with parallax effect on old screen + fade Back: slides from left while current exits right Predictive back gesture matching for Android 14+ CryptoGate Screen: An intermediate screen between authentication and home that blocks navigation until E2E encryption is fully initialized (15-second timeout). This eliminates race conditions where ViewModels accessed uninitialized DEKs.\ngraph LR Login[\"Login / SignUp\"] --\u003e|\"clearAndNavigateTo\"| CG[\"CryptoGate\"] CG --\u003e|\"Crypto ready\"| Home[\"EntriesList\"] CG --\u003e|\"Timeout / Error\"| Error[\"Error UIRetry / Logout\"] style CG fill:#FFF9C4,stroke:#F9A825 Security Implementation Security Overview Area Implementation API Keys BuildConfig via Gradle secrets plugin Session Storage EncryptedSharedPreferences (AES-256-SIV + AES-256-GCM) Input Validation InputValidator sanitizes before API calls E2E Encryption AES-256-GCM for diary entries (DEK/KEK dual-key system) Key Management DEK in Keystore, KEK derived from Firebase ID Token via HKDF App Check Firebase App Check with Play Integrity (release) / Debug provider (debug) Privacy Firewall 4-layer defense-in-depth: content redaction, SDK guards, analytics filtering, secure logging Crisis Detection 36-pattern keyword detector (EN/ES) as AI safety net End-to-End Encryption Architecture DayMood implements end-to-end encryption that ensures not even the developer can read user diary content. The same encryption protocol is used on both Android and iOS, enabling cross-device data access.\ngraph TD IDT[\"Firebase ID Token (JWT)\"] HKDF[\"HKDF-SHA256Extract stable claims:sub | aud | provider\"] KEK[\"KEK (Key Encryption Key)256-bit, derived, never stored\"] DEK[\"DEK (Data Encryption Key)256-bit, SecureRandom\"] ESP[\"EncryptedSharedPreferences(local storage)\"] FS[\"Firestore Backup(encrypted DEK)\"] AES[\"AES-256-GCM12-byte IV + 128-bit Auth Tag\"] RE[\"rawEntry(encrypted)\"] EC[\"emotionFact[].context(encrypted)\"] IDT --\u003e HKDF HKDF --\u003e KEK KEK --\u003e|\"encrypt/decrypt DEK\"| FS KEK --\u003e|\"encrypt/decrypt DEK\"| DEK DEK --\u003e ESP DEK --\u003e AES AES --\u003e RE AES --\u003e EC style KEK fill:#FFCDD2,stroke:#C62828 style DEK fill:#C8E6C9,stroke:#2E7D32 style AES fill:#E3F2FD,stroke:#1565C0 Dual-Key System:\nKey Purpose Storage Derivation KEK (Key Encryption Key) Encrypts/decrypts the DEK for cloud backup Never stored — derived on demand HKDF-SHA256 from stable JWT claims (sub, aud, sign_in_provider) DEK (Data Encryption Key) Encrypts/decrypts diary entry content EncryptedSharedPreferences (hardware-backed Keystore) SecureRandom (generated once per user) Encrypted Fields:\nField Reason rawEntry Diary content (sensitive text) emotionFactList[].context Emotional context of each emotion Fields in Cleartext (for analytics):\nField Reason title Entry identification emotionFactList[].emotion Emotional distribution charts emotionFactList[].intensity Intensity metrics createdAt, updatedAt Temporal ordering Multi-device Recovery: The encrypted DEK is backed up to Firestore, allowing recovery on new devices with the same account.\nFail-Safe Privacy Firewall (Defense-in-Depth) DayMood implements a 4-layer defense-in-depth privacy firewall that makes it physically impossible for diary entries to leak through logging or monitoring — regardless of Firebase Console configuration, debug settings, or developer errors.\ngraph TD Entry[\"User Diary Entry(Sensitive PII)\"] L1[\"Layer 1: SanitizingLoggingInterceptorHTTP/Retrofit content redactionDetects AI endpoints, redacts JSON fieldsFail-safe: if parsing fails, redact entire body\"] L2[\"Layer 2: Gemini SecurityException HandlerWraps Firebase AI SDK callsCatches security policy violationsFails fast on telemetry/logging breach\"] L3[\"Layer 3: Analytics Content FilterRuntime validation before event loggingRejects strings \u003e 100 charsBlocks diary-like keywords\"] L4[\"Layer 4: SecureLogger UtilityAll logging passes through sanitizerRedacts tokens, API keys, emailsDebug-only (disabled in production)\"] Entry --\u003e L1 L1 --\u003e L2 L2 --\u003e L3 L3 --\u003e L4 L4 --\u003e Safe[\"Safe OutputNo PII leakage possible\"] style Entry fill:#FFCDD2,stroke:#C62828 style Safe fill:#C8E6C9,stroke:#2E7D32 style L1 fill:#E3F2FD,stroke:#1565C0 style L2 fill:#E3F2FD,stroke:#1565C0 style L3 fill:#E3F2FD,stroke:#1565C0 style L4 fill:#E3F2FD,stroke:#1565C0 Security Guarantees:\nDiary entries in Logcat → Impossible (Layer 1 redacts) AI responses in HTTP logs → Impossible (Layer 1 redacts) PII in Firebase Analytics → Blocked (Layer 3 filters) Tokens/API keys in logs → Sanitized (Layer 4) Debug logging exposing content → Redacted (Layers 1 + 4) Privacy-Safe AI Telemetry AI performance metrics (latency, token counts, error rates) are tracked without logging sensitive content, using type-safe event classes with primitive-only fields:\nAiPerformanceEvent( provider = AiModelProvider.GEMINI, latencyMs = 16500L, inputTokens = 150, outputTokens = 250, totalTokens = 400, isSuccess = true, errorCode = null ) Subscription \u0026 Monetization Premium Subscription DayMood uses Google Play Billing 7.x with a dedicated :core:subscription module:\nPlan Price Savings Trial Monthly €3.00/month — 7-day free trial Annual €19.99/year 44% vs monthly 7-day free trial Trial Eligibility Detection: Google Play’s SDK handles eligibility server-side: when a user has already redeemed a free trial, Google excludes the trial offer from subscriptionOfferDetails. The BillingMapper detects the presence of a zero-cost pricing phase to determine eligibility, ensuring the UI never shows trial messaging to ineligible users.\nPremium Features Feature Free Premium Daily AI analyses 5/day Unlimited Entry search — Full-text search Summary periods Week only Today, week, month, year, custom Ads Interstitial + App Open None Weekly summary notification Yes Yes Ad Strategy Ad Type Trigger Cooldown Notes Interstitial After saving entry 90 seconds Grace period: 24h OR 3 entries App Open Foreground resume 4 hours ProcessLifecycleOwner detection Rewarded At analysis limit 1/day max Non-dismissible modal, earns 1 bonus analysis In-App Review Triggered after the user creates their first diary entry (capitalizing on the “aha moment” of first AI analysis). Maximum once per 30 days, skipped during ad display.\nGamification \u0026 Retention Streak \u0026 Emotional Journey (v2.2.0) A full gamification system designed to improve D7 retention through positive reinforcement:\ngraph LR subgraph Streak[\"Streak System\"] SC[\"Streak CounterCurrent + Best\"] WC[\"Weekly CalendarPlutchik colors per day\"] end subgraph Milestones[\"13 Hybrid Milestones\"] SM[\"8 Streak-Based1 → 3 → 7 → 14 →30 → 50 → 100 days\"] EM[\"5 EmotionalEmotion Explorer (5)Emotion Palette (10)Emotion Master (20+)Trigger Aware (3)Trigger Expert (5+)\"] end subgraph Points[\"Points Economy\"] PE[\"Earn pointsfrom milestones\"] PR[\"Redeem100 pts = 1 analysis\"] end SC --\u003e SM SM --\u003e PE EM --\u003e PE PE --\u003e PR style Streak fill:#FFF3E0,stroke:#E65100 style Milestones fill:#E8F5E9,stroke:#2E7D32 style Points fill:#E3F2FD,stroke:#1565C0 Key Features:\nStreak counter with fire emoji, best streak tracking 13 hybrid milestones: 8 streak-based (1 to 100 days) + 5 emotional diversity Points system: earn from milestones, redeem 100 points for 1 extra analysis Multi-quantity redemption with atomic Firestore transactions Weekly emotion calendar showing Plutchik root colors per day Personal insights (top trigger, dominant emotion, motivational) Notification warning cards with loss-aversion copy tied to streak length Sequential milestone progression (one active at a time) Daily Reminder Notifications WorkManager-based with dynamic scheduling:\n8 message variants + 3 title variants rotated by day Streak-aware messaging for users with 3+ day streaks Skips notification if user already wrote today Configurable time via time picker in Profile and Streak screens Safety \u0026 Compliance Crisis Detection \u0026 Resources DayMood includes a local keyword-based crisis content detector as a safety net when AI misses crisis indicators:\n36 crisis patterns in English and Spanish (e.g., “I want to die”, “no quiero vivir”) Region-aware crisis resources with emergency contacts and hotlines for 17+ countries IASP international fallback for unrecognized regions Automatic scanning after AI analysis and when saving without analysis Manual access via dedicated card in Profile screen Wellness Disclaimer Non-dismissible bottom sheet with consent checkbox shown before first AI consent:\nExplains AI limitations and when to seek professional help Material 3 Checkbox with mandatory acceptance Bilingual (Spanish/English) One-time display per user, persisted in AIConsentPreferences GDPR Compliance Data export: Export all diary entries as JSON via Android share intent Account deletion: Full account and data deletion from Account Settings Data minimization: Privacy firewall ensures no PII leaks to analytics Insights \u0026 Analytics Engine Trigger Insights: Causal Connections with Transparency The differentiating feature: DayMood visualizes how life triggers cause specific emotions, with complete transparency about the evidence supporting each correlation.\ngraph TD Entries[\"Diary Entries(decrypted)\"] Group[\"Group EmotionFactsby TriggerDomain\"] Filter[\"Filter triggerswith 2+ occurrences\"] Correlate[\"CalculateEmotionCorrelationper root\"] Evidence[\"Build evidencetimeline (max 3)\"] Narrative[\"DetermineNarrativeType\"] Cards[\"TriggerInsightCardswith evidence timeline\"] Entries --\u003e Group Group --\u003e Filter Filter --\u003e Correlate Correlate --\u003e Evidence Evidence --\u003e Narrative Narrative --\u003e Cards style Entries fill:#E3F2FD,stroke:#1565C0 style Cards fill:#E8F5E9,stroke:#2E7D32 Narrative Types:\n“Your work has been your main source of anxiety” (Primary Source) “Your family continues to be a source of joy” (Positive Source) “Finances are influencing your worry and hope” (Mixed Influence) Each card includes animated horizontal bars with emotional distribution, evidence timeline below each bar (max 3 contexts), and a “see X more” link that opens a bottom sheet with all contexts.\nSummary Metrics Metric Calculation totalEntries Entry count in the period averageMood Weighted average of emotional intensity moodDistribution Frequency and percentage per emotion topEmotions Top 5 most frequent emotions emotionTrends Intensity evolution (day/week/month/year) triggerInsights Top 4 triggers with evidence correlation PDF Export Multi-page wellness report with emotion distribution pie chart, trigger correlations, evidence timelines, and pattern analysis — designed to be shared with therapists.\nInternationalization (i18n) Full Bilingual Support Language File Role Spanish res/values/strings.xml Default English res/values-en/strings.xml Alternative Enum localization via extension functions (emotion.localizedName(), trigger.localizedName()) Bilingual AI prompts via PromptProvider.kt (auto-detects language) Per-app language configured via locales_config.xml + LanguagePreferences.kt Plural strings using Android resources for correct singular/plural forms Part II — iOS (Native Companion) iOS Architecture DayMood iOS is a native SwiftUI implementation with Clean Architecture, mirroring the Android app’s modular structure using Swift Package Manager.\nCurrent Version: 1.2.0 (Build 26031501) | Min iOS: 17.0 | Swift: 6.0\nModule Structure (Swift Package Manager) graph TD subgraph App[\"App Target\"] DA[\"DayMoodApp.swift\"] CV[\"ContentView.swift\"] end subgraph Features[\"Feature Modules\"] direction TB FSp[\"FeatureSplash\"] FOn[\"FeatureOnboarding\"] FCG[\"FeatureCryptoGate\"] FLo[\"FeatureLogin\"] FEn[\"FeatureEntries(List, Detail, New, Edit,EmotionEdit, Search, OCR)\"] FSm[\"FeatureSummary\"] FSt[\"FeatureStreak\"] FPr[\"FeatureProfile\"] FSu[\"FeatureSubscription\"] end subgraph Core[\"Core Modules\"] direction TB CrM[\"CoreModel\"] CrD[\"CoreDomain\"] CrN[\"CoreNetwork\"] DL[\"DataLayer\"] CrC[\"CoreCrypto\"] CrS[\"CoreSecurity\"] CrSe[\"CoreSession\"] CrDS[\"CoreDesignSystem\"] CrA[\"CoreAnalytics\"] CrSub[\"CoreSubscription\"] CrStr[\"CoreStreak\"] CrDI[\"CoreDI\"] end App --\u003e Features Features --\u003e Core style App fill:#E8F5E9,stroke:#2E7D32 style Features fill:#E3F2FD,stroke:#1565C0 style Core fill:#FFF3E0,stroke:#E65100 ViewModel Pattern iOS uses Swift’s @Observable macro with @MainActor for thread-safe state management:\n@Observable @MainActor final class EntryNewViewModel { var uiState = EntryNewUIState() var isLoading = false private let repository: DiaryRepository func analyzeEntry() async { isLoading = true defer { isLoading = false } uiState.result = try? await repository.analyze(uiState.entry) } } iOS Tech Stack Category Android iOS Language Kotlin 2.3.0 Swift 6.0 UI Jetpack Compose SwiftUI Package Manager Gradle (19 modules) SPM (30+ targets) DI Hilt Manual DI / Factory Pattern Async Coroutines + Flow async/await + AsyncSequence Navigation Navigation 3 NavigationStack + AppRouter Crypto javax.crypto + Jetpack Security CryptoKit + Keychain OCR ML Kit Apple Vision Framework Auth Google Sign-In Google + Apple Sign-In Subscriptions Google Play Billing 7.x StoreKit 2 App Check Play Integrity App Attest Secure Storage EncryptedSharedPreferences Keychain Services iOS Navigation iOS uses a SwiftUI NavigationStack with a custom @Observable AppRouter:\n@MainActor @Observable final class AppRouter { var path: [AppRoute] = [] var selectedTab: TabBarItem = .entries var presentedSheet: AppRoute? var presentedFullScreenCover: AppRoute? func navigate(to route: AppRoute) { path.append(route) } func pop() { path.removeLast() } func switchTab(to tab: TabBarItem) { ... } } Tab Bar (4 items): Entries, Summary, Streak, Profile\niOS-Specific Features Feature iOS Android Equivalent Apple Sign-In Native (required by App Store) N/A Vision OCR Apple Vision Framework ML Kit Secure Enclave Hardware-backed key storage Android Keystore App Attest App integrity verification Play Integrity StoreKit 2 Subscription management Google Play Billing Trial eligibility isEligibleForIntroductoryOffer Offer-based detection Privacy manifest PrivacyInfo.xcprivacy Play Data Safety section Cross-Platform Strategy Design Philosophy DayMood follows a native-per-platform approach: no cross-platform framework (KMM, Flutter, React Native). Each platform uses its native language and UI toolkit, sharing only the backend (Firebase) and cryptographic protocols.\nRationale:\nBest UX per platform, following each platform’s design guidelines Full access to platform capabilities (Keychain, Keystore, Vision, ML Kit) Independent release cycles No cross-platform framework limitations or abstractions Shared Firestore Schema Both platforms read and write to the same Firestore collections with identical field names and enum storage conventions:\ngraph TD subgraph Firestore[\"Cloud Firestore\"] Users[\"users/{userId}\"] Entries[\"entries/{entryId}Shared Fields:title (plain)rawEntry (encrypted)createdAt, updatedAtdata.emotionFactList[]:emotion (enum rawValue)intensity (1-10)triggers (enum rawValues)context (encrypted)\"] Crypto[\"crypto/keyBackupencryptedDek (Base64)version: 1\"] Streak[\"metadata/streakcurrentStreakbestStreaktotalPointscompletedMilestones\"] Sub[\"subscription/currentstatusplanIdexpiresAt\"] end Users --\u003e Entries Users --\u003e Crypto Users --\u003e Streak Users --\u003e Sub A[\"Android App\"] --\u003e|\"Read/Write\"| Users I[\"iOS App\"] --\u003e|\"Read/Write\"| Users style Firestore fill:#FFF9E6,stroke:#D2B28F Enum Storage Rule: Both platforms store .rawValue strings (e.g., \"JOY\", \"WORK_CAREER\"), never display names or localized strings. This ensures cross-platform compatibility.\nStreak Parity: Both platforms use identical milestone keys (STREAK_7, EMOTION_EXPLORER, etc.) and the same points system, ensuring a user’s progress is visible on both devices.\nCross-Platform E2E Encryption The encryption protocol is designed for cross-device and cross-platform compatibility: a user who creates entries on Android can read them on iOS and vice versa.\ngraph TD subgraph Android[\"Android Encryption\"] AID[\"Firebase ID Token\"] AHKDF[\"HKDF-SHA256(javax.crypto)\"] AKEK[\"KEK (256-bit)\"] ADEK[\"DEK (256-bit)EncryptedSharedPrefs\"] AAES[\"AES-256-GCM(javax.crypto.Cipher)\"] end subgraph Shared[\"Shared Infrastructure\"] FS[\"Firestoreencrypted DEK backupencrypted entries\"] end subgraph iOS[\"iOS Encryption\"] IID[\"Firebase ID Token\"] IHKDF[\"HKDF-SHA256(CryptoKit)\"] IKEK[\"KEK (256-bit)\"] IDEK[\"DEK (256-bit)Keychain\"] IAES[\"AES-256-GCM(CryptoKit)\"] end AID --\u003e AHKDF --\u003e AKEK AKEK --\u003e|\"encrypt DEK\"| FS ADEK --\u003e AAES --\u003e|\"encrypt entries\"| FS IID --\u003e IHKDF --\u003e IKEK IKEK --\u003e|\"decrypt DEK\"| FS FS --\u003e|\"decrypt entries\"| IAES IDEK --\u003e IAES style Android fill:#E8F5E9,stroke:#2E7D32 style iOS fill:#E3F2FD,stroke:#1565C0 style Shared fill:#FFF9E6,stroke:#D2B28F Cross-Platform Compatibility Details Concern Solution Key derivation Both use HKDF-SHA256 with identical salt (\"daymood-e2e-v1\") and info (\"encryption-key-backup\") Stable JWT claims Both extract sub, aud, sign_in_provider from Firebase ID Token Cipher format Both produce Base64(IV[12] || Ciphertext || AuthTag[16]) Empty field handling Both skip encryption for empty strings KEK versioning iOS V2 excludes sign_in_provider for provider-independent restoration; fallback tries all known providers Fallback parsing iOS includes manual nonce/ciphertext/tag extraction if CryptoKit standard parsing fails (handles Android-serialized data) Key Derivation from JWT (Deterministic KEK) Firebase ID Tokens are JWTs that change every session (iat, exp, auth_time). To ensure the same KEK is derived regardless of when the user logs in, both platforms extract only the stable claims:\nsub (subject): Firebase UID — always the same aud (audience): Firebase project ID — always the same firebase.sign_in_provider: Authentication method — stable per provider These claims are concatenated (\"sub|aud|provider\") and passed through HKDF-SHA256 to produce a deterministic 256-bit KEK.\nFeature Parity Matrix Feature Android iOS Notes Plutchik 32 emotions ✅ ✅ Identical enum values EmotionWheel (pizza slice) ✅ ✅ Same visual design Gemini 2.5 Pro (primary AI) ✅ ✅ Firebase AI SDK on both OpenAI GPT-4o (fallback) ✅ ✅ Retrofit / URLSession Remote Config AI switching ✅ ✅ Same config keys E2E Encryption ✅ ✅ Cross-platform compatible CryptoGate screen ✅ ✅ Blocks until crypto ready Google Sign-In ✅ ✅ Credential Manager / GoogleSignIn-iOS Apple Sign-In — ✅ iOS-only (App Store requirement) Email/Password auth ✅ ✅ Firebase Auth OCR text recognition ✅ (ML Kit) ✅ (Vision) Platform-native Rich text / Markdown ✅ ✅ compose-rich-editor / native Premium subscription ✅ (Play Billing) ✅ (StoreKit 2) Platform-native billing Streak \u0026 gamification ✅ ✅ Shared Firestore milestones Points redemption ✅ ✅ Atomic Firestore transactions Daily reminders ✅ (WorkManager) ✅ (UNNotification) Platform-native scheduling Summary \u0026 insights ✅ ✅ Same calculation algorithm Trigger evidence timeline ✅ ✅ Same UX pattern PDF export ✅ ✅ Platform-native rendering Crisis detection ✅ ✅ Same keyword patterns Wellness disclaimer ✅ ✅ Same content, platform UI Privacy firewall ✅ (4 layers) ✅ (4 layers) Same architecture App Check ✅ (Play Integrity) ✅ (App Attest) Platform-native attestation GDPR data export ✅ ✅ JSON via share intent Bilingual (ES/EN) ✅ ✅ Per-app language support Rewarded ads ✅ ✅ Google Mobile Ads In-app review ✅ ✅ Play Review / SKStoreReview Results \u0026 Impact Production Timeline Version Date Key Milestone 1.0.0 Jan 2026 Production release (Android) 2.0.0 Feb 8, 2026 Premium subscription + Search 2.1.0 Feb 28, 2026 Optional AI + Rich text + Ads 2.2.0 Mar 9, 2026 Streak \u0026 gamification 2.3.2 Mar 16, 2026 Crisis detection + Wellness disclaimer + GDPR iOS 1.0.0 Feb 2026 iOS App Store release iOS 1.2.0 Mar 2026 Feature parity alignment Technical Achievements 0 crashes in production (Crashlytics clean, silent non-fatal reporting across 9 critical modules) 100% localization coverage (Spanish/English) 32 emotions mapped with psychological precision (Plutchik model) 19 Gradle modules (Android) + 30+ SPM targets (iOS) E2E encryption with AES-256-GCM: complete user privacy, cross-platform compatible 4-layer privacy firewall: defense-in-depth security architecture on both platforms Dual AI provider with dynamic switching via Remote Config 13 gamification milestones with points economy Architectural Milestones Multi-module Clean Architecture on both platforms with strict layer separation Dual AI provider system with Factory pattern + Remote Config for zero-downtime switching Navigation 3 (Android) and NavigationStack + AppRouter (iOS) — modern, type-safe navigation Cross-platform E2E encryption with deterministic key derivation from JWT stable claims CryptoGate screen pattern adopted on both platforms to eliminate crypto initialization race conditions Gradle Configuration Cache compatibility for build optimization Learnings \u0026 Challenges Technical Challenges Overcome Cross-platform encryption compatibility: Ensuring AES-256-GCM ciphertext serialization format is identical between Android’s javax.crypto and iOS’s CryptoKit. Solved with explicit Base64(IV || Ciphertext || AuthTag) format and fallback parsing on iOS.\nDeterministic KEK from rotating JWTs: Firebase ID Tokens change every session. Solved by extracting only stable JWT claims (sub, aud, sign_in_provider) for HKDF derivation, ensuring the same KEK is produced regardless of when the user logs in.\nKEK versioning across auth providers: iOS V1 included sign_in_provider, causing issues when users switched between Google and Apple sign-in. V2 excludes provider for provider-independent restoration, with fallback tries for legacy keys.\nAI analysis consistency: Designing prompts that produce structured output consistent with Plutchik’s model across two different AI providers with different response characteristics.\nCrypto initialization race condition: ViewModels accessing uninitialized DEK on cold start. Solved with the CryptoGate pattern — a blocking intermediate screen adopted on both platforms.\nPrivacy firewall at scale: Building a 4-layer defense-in-depth system that prevents PII leakage through logs, analytics, and monitoring, while still allowing useful telemetry (latency, token counts, error rates).\nTrial eligibility across platforms: Google Play Billing uses offer-based detection (presence of zero-cost pricing phase), while StoreKit 2 uses isEligibleForIntroductoryOffer. Both needed unified UI behavior.\nKey Architectural Decisions Decision Rationale Native per-platform (no KMM) Best UX per platform, full platform capabilities, independent release cycles Gemini over local models Superior analysis quality (comprehensive context, nuance detection) Firestore over Room/CoreData Multi-device sync and cross-platform compatibility without custom backend AES-256-GCM with HKDF Absolute privacy: developer can’t read entries; deterministic key derivation enables multi-device DEK backup in Firestore Multi-device recovery without compromising security Navigation 3 (Android) Future-proof: official successor to Compose Navigation; direct backstack manipulation CryptoGate screen Eliminates race conditions; clean separation between auth and crypto initialization Factory pattern for AI Zero-downtime provider switching via Remote Config 4-layer privacy firewall Defense-in-depth: no single point of failure for PII protection Play Billing / StoreKit 2 Direct integration without third-party abstraction layer Developed by Jaime Lopez — Senior Mobile Developer\nStack: Kotlin 2.3.0 | Swift 6.0 | Jetpack Compose | SwiftUI | Navigation 3 | Material 3 | Google Gemini 2.5 Pro | OpenAI GPT-4o | Firebase | AES-256-GCM | HKDF-SHA256 | Google Play Billing | StoreKit 2\nLast updated: March 16, 2026 — Android v2.3.2 | iOS v1.2.0\n",
-  "wordCount" : "4919",
+  "articleBody": " A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik’s psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.\nDownload DayMood: App Store (iOS) · Google Play (Android)\nRole: Sole developer — designed, architected, and shipped both platforms from zero to production. Responsible for all product decisions, UX design, architecture, implementation, analytics instrumentation, and store releases.\nThe Challenge The Real Problem Emotional journaling has demonstrated significant mental health benefits, but most existing applications present critical limitations:\nSubjectivity without structure: Users describe emotions freely without a scientifically-grounded framework that enables longitudinal analysis. Lack of actionable insights: Apps record data but don’t offer patterns or causal connections. High entry barrier: Writing about emotions requires emotional vocabulary that many users don’t possess. Disconnect from triggers: The relationship between life events and emotional responses isn’t identified. Privacy concerns: Users hesitate to write honestly when diary content could be read by developers or leaked through logs. The Vision Create an application that acts as a pocket wellness companion: the user writes freely about their day, and AI automatically identifies underlying emotions with psychological precision, revealing patterns that the user themselves doesn’t consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.\nHigh-Level Architecture graph TB subgraph Client[\"Client Layer\"] A[\"Android AppKotlin / Jetpack Compose\"] I[\"iOS AppSwift / SwiftUI\"] end subgraph AI[\"AI Analysis Layer\"] G[\"Google Gemini 2.5 Pro(Primary)\"] O[\"OpenAI GPT-4o(Fallback + OCR)\"] end subgraph Backend[\"Firebase Backend\"] FA[\"Firebase Auth\"] FS[\"Cloud Firestore\"] RC[\"Remote Config\"] CR[\"Crashlytics\"] AC[\"App Check\"] end A --\u003e|\"AES-256-GCMEncrypted\"| FS I --\u003e|\"AES-256-GCMEncrypted\"| FS A --\u003e G A --\u003e O I --\u003e G I --\u003e O A --\u003e FA I --\u003e FA RC --\u003e|\"ai_model_provider\"| A RC --\u003e|\"ai_model_provider\"| I AC --\u003e|\"Play Integrity /App Attest\"| FS Part I — Android (Primary Platform) Architecture Multi-Module Clean Architecture DayMood Android implements Clean Architecture rigorously with 19 independent Gradle modules, ensuring separation of responsibilities, testability, and scalability.\ngraph TD subgraph App[\"App Module\"] APP[\":appDI, Navigation Host, MainActivity\"] end subgraph Features[\"Feature Modules\"] FS[\":feature:splash\"] FL[\":feature:login\"] FE[\":feature:entries\"] FSU[\":feature:summary\"] FP[\":feature:profile\"] FAS[\":feature:accountSettings\"] FSB[\":feature:subscription\"] FST[\":feature:streak\"] end subgraph Core[\"Core Modules\"] CC[\":core:common\"] CN[\":core:navigation\"] CM[\":core:model\"] CD[\":core:domain\"] CDA[\":core:data\"] CNE[\":core:network\"] CCR[\":core:crypto\"] CDS[\":core:designsystem\"] CA[\":core:analytics\"] CAL[\":core:analysisLimit\"] CAD[\":core:ads\"] CSB[\":core:subscription\"] CST[\":core:streak\"] end APP --\u003e Features Features --\u003e CD Features --\u003e CM Features --\u003e CDS Features --\u003e CA CD --\u003e CM CDA --\u003e CD CDA --\u003e CNE CDA --\u003e CCR CSB --\u003e CD CST --\u003e CD style App fill:#E8F5E9,stroke:#2E7D32 style Features fill:#E3F2FD,stroke:#1565C0 style Core fill:#FFF3E0,stroke:#E65100 Layer Flow graph TB UI[\"UI LayerComposables → observe StateFlow → trigger UiEventLocation: :feature:* modules\"] VM[\"ViewModel LayerBaseViewModel → single UiState → emits VMEventLocation: :feature:* modules\"] DOM[\"Domain LayerPure Kotlin only. UseCases + Repository InterfacesLocation: :core:domain + :core:modelNO Android imports | NO Firebase/AI SDKs\"] DATA[\"Data LayerRepositories + DataSources + DTOsLocation: :core:data + :core:networkMaps DTOs → Domain Models immediately\"] UI --\u003e|\"depends on\"| VM VM --\u003e|\"depends on\"| DOM DOM --\u003e|\"depends on\"| DATA style UI fill:#E3F2FD,stroke:#1565C0 style VM fill:#E8F5E9,stroke:#2E7D32 style DOM fill:#FFF9C4,stroke:#F9A825 style DATA fill:#FBE9E7,stroke:#D84315 Key Applied Principles Principle DayMood Implementation Single Source of Truth Each feature has a single immutable UiState Unidirectional Data Flow UI → Event → ViewModel → UseCase → Repository → UI Dependency Inversion Domain layer doesn’t know Android, Firebase, or AI SDKs DTO Isolation API models never reach the UI Tech Stack Core Technologies Category Technology Version Language Kotlin 2.3.0 UI Framework Jetpack Compose BOM 2026.01.00 Design System Material 3 1.4 DI Hilt 2.57.1 Async Kotlin Coroutines + Flow — Navigation Navigation 3 alpha Networking Retrofit + OkHttp 2.11.0 / 4.12.0 Image Loading Coil 3 3.3.0 Rich Text compose-rich-editor 1.0.0-rc13 Markdown multiplatform-markdown-renderer-m3 0.39.2 Backend \u0026 AI Category Technology Usage Authentication Firebase Auth Google Sign-In, Email/Password Database Cloud Firestore Entry persistence (E2E encrypted) AI Analysis (Primary) Google Gemini 2.5 Pro (Firebase AI SDK) Emotion analysis based on Plutchik model AI Analysis (Fallback) OpenAI API (GPT-4o) Fallback provider + OCR cleanup AI Switching Firebase Remote Config Dynamic provider switching OCR ML Kit Text Recognition Physical diary digitization Camera CameraX Capture for OCR Crash Reporting Firebase Crashlytics Error monitoring + silent non-fatal reporting E2E Encryption Jetpack Security + HKDF-SHA256 AES-256-GCM sensitive data protection App Check Firebase App Check + Play Integrity Backend protection against abuse Subscriptions Google Play Billing 7.x Premium paywall and subscription management Ads Google Mobile Ads Interstitial, app open, and rewarded ads Notifications WorkManager Daily reminders, weekly summaries In-App Review Google Play In-App Review API Review prompt after first entry Build System Tool Version Android Gradle Plugin 8.13.2 Gradle 8.13 Min SDK 29 (Android 10) Target/Compile SDK 36 Design System: “Organic Wellness” Visual Philosophy DayMood adopts a minimalist and warm aesthetic inspired by wellness and nature, deliberately moving away from the cold colors typical of productivity apps. The design system is shared across both platforms, adapted to each platform’s conventions.\nColor Palette Token Light Mode Dark Mode Usage background #F9F7F4 (Cream) #121212 Screen backgrounds white #FFFDF9 (Warm White) #1E1E1E Card surfaces sand #D2B28F #E5C9A8 Buttons, accents primary #ADD6EA (Soft Blue) #ADD6EA Primary elements tertiary #8B4513 (Sienna) #A0522D Highlights coral #FF7F7F #FF9999 Errors, emergency Typography: Dual-Font System Manrope was chosen as the primary sans-serif font for its WCAG 2.1 AA compliance, superior legibility at small sizes, and significantly reduced bundle weight (75% lighter than alternatives like Montserrat: 162KB vs 672KB).\nFont Usage Characteristics Manrope (Sans-Serif) UI, body text, labels Modern geometric with rounded terminals. Superior legibility at small sizes. WCAG 2.1 AA compliant. Lora (Serif) Display, greetings, editorial content Elegant editorial character for emotional moments and highlighted titles. Weight Hierarchy:\nLarge titles (20-34sp) → Normal (400) ← Elegance without excessive weight ↓ Body text (16-17sp) → Medium (500) ← Comfortable extended reading ↓ Small text (11-15sp) → SemiBold (600) ← Maximum clarity and contrast Shapes Cards: RoundedCornerShape(24.dp) — Very rounded corners for organic feel Buttons: RoundedCornerShape(16.dp) — Soft and accessible Chips: RoundedCornerShape(12.dp) — Compact but friendly Key Product Decisions Every technical decision in DayMood is driven by a product insight. These are the most impactful ones:\nDecision User Problem Solution Why It Matters EmotionWheel (pizza-slice) Selecting emotions from a dropdown feels detached and clinical A visual pie-sector wheel where users tap colored slices with emojis More engaging, mirrors how emotions are represented in psychology research (Plutchik’s circular model), and reduces cognitive load — users recognize emotions visually instead of reading lists Breathing animation during AI analysis AI analysis takes ~15 seconds; a spinner creates anxiety A gentle pulsing animation that mimics a breathing exercise Transforms wait time into a calming micro-interaction — users report feeling less anxious about results User always has the last word AI is not infallible — wrong emotion detection erodes trust After AI analysis, users can edit intensities, add/remove emotions, and change triggers before saving. AI can be fully disabled in settings Builds trust: the AI is a suggestion engine, never an authority. Users stay in control of their own emotional narrative CryptoGate screen Race condition: ViewModels could access uninitialized encryption keys A blocking intermediate screen between login and home that waits until E2E encryption is fully ready Prevents corrupted data display; clean UX \u003e fast UX when privacy is at stake Crisis detection as safety net AI might miss suicidal ideation or crisis language Local 36-pattern keyword detector (EN/ES) that runs independently of AI Not a medical tool — a responsible safety layer. Links to real crisis hotlines for 17+ countries Rewarded ads over hard paywall Aggressive monetization kills retention in wellness apps Free users hit an analysis limit, then earn 1 bonus analysis by watching a rewarded ad Respects the user: they choose to watch an ad, they’re not interrupted. Conversion to premium happens naturally Editable onboarding with “experience” flow Users drop off if they don’t understand the value before signing up A guided first experience where users write a mini-entry and see AI analysis before creating an account Users experience the “wow moment” before any commitment — the product sells itself Core Feature: Plutchik Emotion System Theoretical Foundation DayMood implements Plutchik’s Wheel of Emotions, a well-established psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.\n%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '13px'}}}%% graph TD subgraph Outer[\"Intense Emotions (Outer Ring)\"] E1[\"🌟 Ecstasy\"] E2[\"🤩 Admiration\"] E3[\"😨 Terror\"] E4[\"😲 Amazement\"] E5[\"😭 Grief\"] E6[\"🤮 Loathing\"] E7[\"🤬 Rage\"] E8[\"👁️ Vigilance\"] end subgraph Middle[\"Primary Emotions (Middle Ring)\"] M1[\"😊 Joy\"] M2[\"🤝 Trust\"] M3[\"😰 Fear\"] M4[\"😮 Surprise\"] M5[\"😢 Sadness\"] M6[\"😒 Disgust\"] M7[\"😠 Anger\"] M8[\"🔮 Anticipation\"] end subgraph Inner[\"Mild Emotions (Inner Ring)\"] I1[\"😌 Serenity\"] I2[\"🙂 Acceptance\"] I3[\"😟 Apprehension\"] I4[\"🫨 Distraction\"] I5[\"😔 Pensiveness\"] I6[\"😑 Boredom\"] I7[\"😤 Annoyance\"] I8[\"🤔 Interest\"] end subgraph Secondary[\"Secondary Emotions (Adjacent Combinations)\"] S1[\"❤️ Love = Joy + Trust\"] S2[\"🙇 Submission = Trust + Fear\"] S3[\"😶 Awe = Fear + Surprise\"] S4[\"🥺 Disapproval = Surprise + Sadness\"] S5[\"💔 Remorse = Sadness + Disgust\"] S6[\"🫣 Contempt = Disgust + Anger\"] S7[\"💪 Aggressiveness = Anger + Anticipation\"] S8[\"🌈 Optimism = Anticipation + Joy\"] end E1 --- M1 --- I1 E2 --- M2 --- I2 E3 --- M3 --- I3 E4 --- M4 --- I4 E5 --- M5 --- I5 E6 --- M6 --- I6 E7 --- M7 --- I7 E8 --- M8 --- I8 M1 --- S1 M2 --- S1 M2 --- S2 M3 --- S2 M3 --- S3 M4 --- S3 M4 --- S4 M5 --- S4 M5 --- S5 M6 --- S5 M6 --- S6 M7 --- S6 M7 --- S7 M8 --- S7 M8 --- S8 M1 --- S8 style Outer fill:#FFF0F0,stroke:#E57373 style Middle fill:#FFF9E6,stroke:#D2B28F style Inner fill:#F0F8FF,stroke:#ADD6EA style Secondary fill:#F0FFF0,stroke:#81C784 8 Emotion Roots Root Pastel Color Dark Color Emotions (Basic, Intense, Mild) Joy #F9E79F #C9A227 Joy, Ecstasy, Serenity Trust #82E0AA #27AE60 Trust, Admiration, Acceptance Fear #76B84E #4A7C23 Fear, Terror, Apprehension Surprise #BB8FCE #8E44AD Surprise, Amazement, Distraction Sadness #85C1E9 #2E86AB Sadness, Grief, Pensiveness Disgust #D7BDE2 #9B59B6 Disgust, Loathing, Boredom Anger #F1948A #C0392B Anger, Rage, Annoyance Anticipation #F8B88B #D35400 Anticipation, Vigilance, Interest Emoji Selection: Research-Based Approach The emoji selection is based on Paul Ekman’s foundational research on universal emotions and peer-reviewed studies on emoji emotion recognition:\nPMC10175112: “Emotion Recognition of Faces and Emoji” — recognition accuracy analysis PMC10045925: “Emojis Are Comprehended Better than Facial Expressions” PMC9231464: “The Multidimensional Lexicon of Emojis” — includes Plutchik’s 8 emotions mapping 16 Life Triggers The system maps emotions to life domains that act as triggers:\nDomain Example Insight Family relationships “Your family continues to be a source of joy” Work/Career “Work has been your main source of anxiety” Mental health “Your mental wellbeing shows positive patterns” Romantic partner “Your relationship brings both joy and anxiety” Finances/Economy “Finances are influencing your worry” Achievements/Goals “Achieving goals produces consistent satisfaction” EmotionWheel: Pizza-Slice Visual Design The EmotionWheel component uses a pizza-slice (pie sector) style for optimal visual hierarchy and touch interaction:\n8 filled pie sectors (one per root emotion) with 2-degree gap between slices Inner radius cutout creates donut shape Each slice displays its emoji centered on the arc Selection animation: slight scale (1.05x) + colored border + glow effect Companion EmotionWheelShowcase for read-only analysis preview Screenshot placeholder — The EmotionWheel screenshot will be added here before deployment. If you’d like to see the live component, check the Play Store listing.\nIntelligent Analysis Engine Provider Selection: Data-Driven Decision Both OpenAI GPT-4o and Google Gemini 2.5 Pro were evaluated with 10 real diary entries (5 Spanish, 5 English) covering diverse emotional scenarios. The evaluation prioritized analysis quality over speed, since emotional journaling is a reflective activity — not a real-time one.\nCriterion Gemini 2.5 Pro OpenAI GPT-4o Decision Factor Analysis quality Rich, nuanced insights Concise responses Gemini: +19% accuracy score JSON consistency 100% valid output ~60% wrapped in markdown Gemini: zero parsing errors Cost per analysis $0.00538 $0.00675 Gemini: 20% savings at scale Latency ~16s ~4s OpenAI faster, but acceptable for reflective use Plutchik compliance Strictly within 32-emotion vocabulary Occasionally invents emotions Gemini: better model alignment Result: Gemini 2.5 Pro as primary provider, OpenAI GPT-4o as automatic fallback. Switching is controlled via Firebase Remote Config — zero-downtime provider changes without app updates.\nUX mitigation for latency: A breathing animation during analysis transforms wait time into a calming micro-interaction, reducing perceived wait anxiety.\nDynamic Switching Architecture sequenceDiagram participant U as User participant VM as ViewModel participant R as Repository participant F as Factory participant RC as Remote Config participant G as Gemini 2.5 Pro participant O as OpenAI GPT-4o U-\u003e\u003eVM: Write diary entry + tap \"Analyze\" VM-\u003e\u003eR: analyzeEntry(title, rawEntry) R-\u003e\u003eF: getService() F-\u003e\u003eRC: getAiModelProvider() RC--\u003e\u003eF: \"GEMINI\" or \"OPENAI\" alt Provider = GEMINI F--\u003e\u003eR: GeminiAnalysisService R-\u003e\u003eG: analyze(prompt, entry) G--\u003e\u003eR: JSON response else Provider = OPENAI F--\u003e\u003eR: OpenAiAnalysisService R-\u003e\u003eO: analyze(prompt, entry) O--\u003e\u003eR: JSON response end R--\u003e\u003eVM: EmotionAnalysisResult VM--\u003e\u003eU: Display emotions for review U-\u003e\u003eVM: Edit intensities/triggers + Save VM-\u003e\u003eR: encrypt + persist to Firestore Structured Prompt Design Both providers receive carefully designed prompts that constrain output to Plutchik’s framework:\nIdentify emotions using exclusively the 32-emotion vocabulary Assign intensity on a 1–10 scale based on language cues Map triggers to the 16 predefined life domains Provide brief emotional context for each detected emotion Respond in the user’s language (Spanish or English) The user always reviews and can edit the AI’s suggestions before saving — the AI proposes, the user decides.\nNavigation Architecture Navigation 3: Scene-Based Composition DayMood Android uses Navigation 3, Google’s next-generation navigation library featuring a declarative scene-based approach with direct backstack manipulation.\ngraph LR subgraph Nav3[\"Navigation 3 Architecture\"] AN[\"AppNavigatorSnapshotStateList\"] AND[\"AppNavDisplayNavDisplay + entryProvider\"] R[\"Routes.kt@Serializable sealed types\"] end AN --\u003e|\"backStack state\"| AND R --\u003e|\"type-safe routes\"| AN AND --\u003e|\"when(route) { ... }\"| Screens subgraph Screens[\"Feature Screens\"] S1[\"EntriesList\"] S2[\"EntryNew\"] S3[\"EntryDetail\"] S4[\"Summary\"] S5[\"Streak\"] S6[\"Profile\"] S7[\"Subscription\"] S8[\"CryptoGate\"] end style Nav3 fill:#E8F5E9,stroke:#2E7D32 style Screens fill:#E3F2FD,stroke:#1565C0 Key Principles:\nSnapshotStateList as single source of truth — navigation is list manipulation NavDisplay renders current route via when(route) { ... } lambda Type-safe routes using Kotlin Serialization (@Serializable data classes/objects) ViewModels emit VMEvents, UI invokes navigation callbacks No NavController abstraction — direct, testable backstack manipulation Custom Transitions:\nForward: slides from right with parallax effect on old screen + fade Back: slides from left while current exits right Predictive back gesture matching for Android 14+ CryptoGate Screen: An intermediate screen between authentication and home that blocks navigation until E2E encryption is fully initialized (15-second timeout). This eliminates race conditions where ViewModels accessed uninitialized DEKs.\ngraph LR Login[\"Login / SignUp\"] --\u003e|\"clearAndNavigateTo\"| CG[\"CryptoGate\"] CG --\u003e|\"Crypto ready\"| Home[\"EntriesList\"] CG --\u003e|\"Timeout / Error\"| Error[\"Error UIRetry / Logout\"] style CG fill:#FFF9C4,stroke:#F9A825 Clean Code Patterns (Android) Good architecture needs good code habits to sustain it. Here are the patterns enforced consistently across every feature module in DayMood.\nUnidirectional Data Flow: UiEvent → ViewModel → UiState Every feature follows a strict UiEvent / UiState / VMEvent contract:\nUiEvent — user actions flow into the ViewModel via a single onEvent() entry point UiState — a single immutable data class exposed as StateFlow drives the entire screen VMEvent — one-shot navigation or side-effects emitted via SharedFlow // Feature-scoped import aliases keep ViewModels clean import …feature.entries.list.model.EntriesListUiEvent as UiEvent import …feature.entries.list.model.EntriesListUiState as UiState import …feature.entries.list.model.EntriesListVMEvent as VMEvent @HiltViewModel class EntriesListViewModel @Inject constructor( private val getEntriesUseCase: GetDiaryEntriesUseCase, private val analyticsManager: AnalyticsManager, … ) : BaseViewModel() { private val _uiState = MutableStateFlow(UiState()) val uiState = _uiState.asStateFlow() private val _vmEvent = MutableSharedFlow() val vmEvent = _vmEvent.asSharedFlow() fun onEvent(event: UiEvent) { when (event) { is UiEvent.OnEntryClick -\u003e { … } is UiEvent.OnNewEntryClick -\u003e { … } is UiEvent.OnSearchClick -\u003e { … } // exhaustive — compiler enforces every case } } } Why it matters: Every feature in the app follows this exact same shape. A new developer can open any ViewModel and immediately know where state lives, where events enter, and where side-effects are emitted — zero guesswork.\nHierarchical Error Handling with Sealed Failure Classes Instead of catching generic exceptions everywhere, errors are modeled as a sealed hierarchy that maps to specific recovery paths:\nsealed class Failure : Throwable() { sealed class DekFailure : Failure() { data object NotFound : DekFailure() data object GenerationFailed : DekFailure() data object InvalidKey : DekFailure() } sealed class GoogleSignInFailure : Failure() { data object Cancelled : GoogleSignInFailure() data object NoCredentialsAvailable : GoogleSignInFailure() data object FirebaseAuthFailed : GoogleSignInFailure() … } sealed class CryptoOperationFailure : Failure() { data object EncryptionFailed : CryptoOperationFailure() data object DecryptionFailed : CryptoOperationFailure() data object AuthenticationFailed : CryptoOperationFailure() … } } // One-line conversion anywhere in the codebase fun Throwable.toFailure(): Failure = this as? Failure ?: Failure.GenericFailure() 6 domain-specific failure groups (Crypto, Auth, Ads, Backup, Passwords, Network), each with exhaustive when branches — no else fallthrough hiding bugs.\nUse Cases with operator fun invoke Domain use cases are single-purpose classes with an invoke operator, making call sites read like plain function calls:\nclass SaveDiaryEntryUseCase @Inject constructor( private val diaryRepository: DiaryRepository ) { operator fun invoke( title: String, rawEntry: String, emotionFacts: List ): Flow = diaryRepository.saveEntry(title, rawEntry, emotionFacts) } // At the call site — reads naturally: saveDiaryEntryUseCase(title, rawEntry, emotionFacts) BaseViewModel: Shared Behavior Without Inheritance Tax A lightweight base class provides cross-cutting concerns via Flow extensions instead of abstract methods:\nopen class BaseViewModel @Inject constructor() : ViewModel() { @Inject lateinit var loadingPresenter: LoadingPresenter fun \u003cT\u003e Flow.handleLoading(): Flow = this .onStart { loadingPresenter.showLoading() } .onCompletion { loadingPresenter.hideLoading() } } // Usage in any ViewModel: analyzeEmotionsUseCase(text) .handleLoading() // ← loading spinner managed automatically .catch { … } .collect { result -\u003e … } Lifecycle-Safe Flow Collection A reusable FlowCollector composable replaces boilerplate LaunchedEffect + repeatOnLifecycle in every screen:\n@Composable fun \u003cT\u003e FlowCollector( flow: Flow, lifecycleState: Lifecycle.State = Lifecycle.State.STARTED, collect: (T) -\u003e Unit ) { val lifecycle = LocalLifecycleOwner.current LaunchedEffect(Unit) { lifecycle.repeatOnLifecycle(lifecycleState) { flow.collect(collect) } } } // In any screen composable: FlowCollector(viewModel.vmEvent) { event -\u003e when (event) { is VMEvent.NavigateToDetail -\u003e navController.navigate(…) is VMEvent.ShowError -\u003e snackbar.show(…) } } Testable Coroutine Dispatchers Dispatchers are never hardcoded — an injectable DispatcherProvider interface allows swapping Dispatchers.IO for TestDispatcher in unit tests:\ninterface DispatcherProvider { val main: CoroutineDispatcher val io: CoroutineDispatcher val default: CoroutineDispatcher } // Production class StandardDispatchers : DispatcherProvider { … } // Tests — everything runs synchronously class TestDispatcherProvider( private val testDispatcher: TestDispatcher = StandardTestDispatcher() ) : DispatcherProvider { override val main = testDispatcher override val io = testDispatcher override val default = testDispatcher } Clean Layer Boundaries: Mappers Data Transfer Objects (DTOs) never leak into the domain layer. Mapper extensions convert at the boundary:\n// data → domain fun DiaryEntryDTO.toDomainModel(documentId: String): DiaryEntry = DiaryEntry( id = documentId, title = title, rawEntry = rawEntry, data = DiaryEntry.EntryData( emotionFactList = data.emotionFactList .mapIndexed { i, dto -\u003e dto.toDomainModel(i.toString()) } ), date = createdAt?.toDate() ) // domain → data fun EmotionFact.toDto(): EmotionFactDTO = EmotionFactDTO( emotion = emotion.name, intensity = intensity, triggers = triggers, context = context ) Convention Plugins: DRY Build Configuration Instead of duplicating Gradle configuration across 19 modules, a build-logic module defines custom convention plugins that enforce consistency:\n// build-logic/convention/AndroidFeatureConventionPlugin.kt class AndroidFeatureConventionPlugin : Plugin { override fun apply(target: Project) { with(target) { with(pluginManager) { apply(\"daymood.android.library\") apply(\"daymood.android.library.compose\") apply(\"daymood.hilt\") } dependencies { add(\"implementation\", project(\":core:designsystem\")) add(\"implementation\", project(\":core:ui\")) add(\"implementation\", project(\":core:model\")) add(\"implementation\", project(\":core:domain\")) add(\"implementation\", project(\":core:common\")) add(\"implementation\", project(\":core:analytics\")) add(\"implementation\", project(\":core:navigation\")) add(\"testImplementation\", project(\":core:testing\")) } } } } // Any feature module's build.gradle.kts — one line: plugins { alias(libs.plugins.daymood.android.feature) } Why it matters: Adding a new feature module takes 30 seconds. The plugin guarantees it gets Compose, Hilt, design system, analytics, and test dependencies — no copy-paste, no drift between modules.\nType-Safe Navigation with @Serializable Routes Navigation routes are @Serializable data classes with compile-time checked parameters — no string-based route matching:\n@Serializable data class AnalysisPreview( val userName: String, val miniEntryText: String, val isDemo: Boolean = false ) : Route @Serializable data class EntryNewEmotionList( val title: String, val rawEntry: String, val emotionFactList: List, val entryId: String? = null ) : Route // Navigate with compiler-checked parameters: navigator.navigateTo( AnalysisPreview(userName = \"Jaime\", miniEntryText = text) ) Decoupled Feature Navigation Each feature module exposes a NavGraphBuilder extension with lambda callbacks instead of receiving a NavController — features never depend on each other:\n// feature/entries — knows nothing about other features fun NavGraphBuilder.entryNewScreen( onNavigateToBreathingAnalysis: (title: String, rawEntry: String) -\u003e Unit, onNavigateToEmotionsList: (List) -\u003e Unit, onNavigateBack: () -\u003e Unit ) { composable { backStackEntry -\u003e EntryNewRoute( diaryEntryToEdit = backStackEntry.toRoute().diaryEntry, onNavigateToBreathingAnalysis = onNavigateToBreathingAnalysis, onNavigateBack = onNavigateBack ) } } // Wired together only in :app module's NavHost Why it matters: Feature modules can be compiled, tested, and previewed in complete isolation. The :app module is the only place that knows how features connect — making refactoring and reordering flows trivial.\nHilt Modules: @Binds for Zero-Allocation DI Repository bindings use abstract @Binds instead of @Provides — Hilt generates no factory class, keeping the method count low:\n@Module @InstallIn(SingletonComponent::class) abstract class RepositoryModule { @Binds @Singleton abstract fun bindDiaryRepository( impl: DiaryRepositoryImpl ): DiaryRepository @Binds @Singleton abstract fun bindEmotionAnalysisRepository( impl: EmotionAnalysisRepositoryImpl ): EmotionAnalysisRepository } Pattern Summary Pattern Applied across Purpose UiEvent / UiState / VMEvent 15+ feature screens Predictable unidirectional flow Import aliases (as UiEvent) Every ViewModel Clean, scannable code Sealed Failure hierarchy 6 domain groups Exhaustive error handling operator fun invoke use cases All domain operations Readable call sites handleLoading() Flow extension Every async operation DRY loading state FlowCollector composable Every screen Lifecycle-safe one-shot events DispatcherProvider injection All coroutine contexts Deterministic testing DTO ↔ Domain mappers Every repository Clean layer separation Convention plugins (build-logic) All 19 modules DRY, consistent build config @Serializable routes 20+ routes Compile-time safe navigation Lambda-callback navigation All feature modules Zero inter-feature coupling @Binds abstract modules All repository bindings Zero-allocation DI These aren’t aspirational guidelines — they’re enforced patterns applied consistently across 19 Gradle modules and 15+ feature screens. The result is a codebase where any screen can be understood in under a minute.\nSecurity Implementation Security Overview Area Implementation API Keys BuildConfig via Gradle secrets plugin Session Storage EncryptedSharedPreferences (AES-256-SIV + AES-256-GCM) Input Validation InputValidator sanitizes before API calls E2E Encryption AES-256-GCM for diary entries (DEK/KEK dual-key system) Key Management DEK in Keystore, KEK derived from Firebase ID Token via HKDF App Check Firebase App Check with Play Integrity (release) / Debug provider (debug) Privacy Firewall 4-layer defense-in-depth: content redaction, SDK guards, analytics filtering, secure logging Crisis Detection 36-pattern keyword detector (EN/ES) as AI safety net End-to-End Encryption Architecture DayMood implements end-to-end encryption that ensures not even the developer can read user diary content. The same encryption protocol is used on both Android and iOS, enabling cross-device data access.\ngraph TD IDT[\"Firebase ID Token (JWT)\"] HKDF[\"HKDF-SHA256Extract stable claims:sub | aud | provider\"] KEK[\"KEK (Key Encryption Key)256-bit, derived, never stored\"] DEK[\"DEK (Data Encryption Key)256-bit, SecureRandom\"] ESP[\"EncryptedSharedPreferences(local storage)\"] FS[\"Firestore Backup(encrypted DEK)\"] AES[\"AES-256-GCM12-byte IV + 128-bit Auth Tag\"] RE[\"rawEntry(encrypted)\"] EC[\"emotionFact[].context(encrypted)\"] IDT --\u003e HKDF HKDF --\u003e KEK KEK --\u003e|\"encrypt/decrypt DEK\"| FS KEK --\u003e|\"encrypt/decrypt DEK\"| DEK DEK --\u003e ESP DEK --\u003e AES AES --\u003e RE AES --\u003e EC style KEK fill:#FFCDD2,stroke:#C62828 style DEK fill:#C8E6C9,stroke:#2E7D32 style AES fill:#E3F2FD,stroke:#1565C0 Dual-Key System:\nKey Purpose Storage Derivation KEK (Key Encryption Key) Encrypts/decrypts the DEK for cloud backup Never stored — derived on demand HKDF-SHA256 from stable JWT claims (sub, aud, sign_in_provider) DEK (Data Encryption Key) Encrypts/decrypts diary entry content EncryptedSharedPreferences (hardware-backed Keystore) SecureRandom (generated once per user) Encrypted Fields:\nField Reason rawEntry Diary content (sensitive text) emotionFactList[].context Emotional context of each emotion Fields in Cleartext (for analytics):\nField Reason title Entry identification emotionFactList[].emotion Emotional distribution charts emotionFactList[].intensity Intensity metrics createdAt, updatedAt Temporal ordering Multi-device Recovery: The encrypted DEK is backed up to Firestore, allowing recovery on new devices with the same account.\nFail-Safe Privacy Firewall (Defense-in-Depth) DayMood implements a 4-layer defense-in-depth privacy firewall that makes it physically impossible for diary entries to leak through logging or monitoring — regardless of Firebase Console configuration, debug settings, or developer errors.\ngraph TD Entry[\"User Diary Entry(Sensitive PII)\"] L1[\"Layer 1: SanitizingLoggingInterceptorHTTP/Retrofit content redactionDetects AI endpoints, redacts JSON fieldsFail-safe: if parsing fails, redact entire body\"] L2[\"Layer 2: Gemini SecurityException HandlerWraps Firebase AI SDK callsCatches security policy violationsFails fast on telemetry/logging breach\"] L3[\"Layer 3: Analytics Content FilterRuntime validation before event loggingRejects strings \u003e 100 charsBlocks diary-like keywords\"] L4[\"Layer 4: SecureLogger UtilityAll logging passes through sanitizerRedacts tokens, API keys, emailsDebug-only (disabled in production)\"] Entry --\u003e L1 L1 --\u003e L2 L2 --\u003e L3 L3 --\u003e L4 L4 --\u003e Safe[\"Safe OutputNo PII leakage possible\"] style Entry fill:#FFCDD2,stroke:#C62828 style Safe fill:#C8E6C9,stroke:#2E7D32 style L1 fill:#E3F2FD,stroke:#1565C0 style L2 fill:#E3F2FD,stroke:#1565C0 style L3 fill:#E3F2FD,stroke:#1565C0 style L4 fill:#E3F2FD,stroke:#1565C0 Security Guarantees:\nDiary entries in Logcat → Impossible (Layer 1 redacts) AI responses in HTTP logs → Impossible (Layer 1 redacts) PII in Firebase Analytics → Blocked (Layer 3 filters) Tokens/API keys in logs → Sanitized (Layer 4) Debug logging exposing content → Redacted (Layers 1 + 4) Privacy-Safe AI Telemetry AI performance metrics (latency, token counts, error rates) are tracked without logging sensitive content, using type-safe event classes with primitive-only fields:\nAiPerformanceEvent( provider = AiModelProvider.GEMINI, latencyMs = 16500L, inputTokens = 150, outputTokens = 250, totalTokens = 400, isSuccess = true, errorCode = null ) Subscription \u0026 Monetization Premium Subscription DayMood uses Google Play Billing 7.x with a dedicated :core:subscription module:\nPlan Price Savings Trial Monthly €3.00/month — 7-day free trial Annual €19.99/year 44% vs monthly 7-day free trial Trial Eligibility Detection: Google Play’s SDK handles eligibility server-side: when a user has already redeemed a free trial, Google excludes the trial offer from subscriptionOfferDetails. The BillingMapper detects the presence of a zero-cost pricing phase to determine eligibility, ensuring the UI never shows trial messaging to ineligible users.\nPremium Features Feature Free Premium Daily AI analyses 5/day Unlimited Entry search — Full-text search Summary periods Week only Today, week, month, year, custom Ads Interstitial + App Open None Weekly summary notification Yes Yes Ad Strategy Ad Type Trigger Cooldown Notes Interstitial After saving entry 90 seconds Grace period: 24h OR 3 entries App Open Foreground resume 4 hours ProcessLifecycleOwner detection Rewarded At analysis limit 1/day max Non-dismissible modal, earns 1 bonus analysis In-App Review Triggered after the user creates their first diary entry (capitalizing on the “aha moment” of first AI analysis). Maximum once per 30 days, skipped during ad display.\nGamification \u0026 Retention Streak \u0026 Emotional Journey (v2.2.0) A full gamification system designed to improve D7 retention through positive reinforcement:\ngraph LR subgraph Streak[\"Streak System\"] SC[\"Streak CounterCurrent + Best\"] WC[\"Weekly CalendarPlutchik colors per day\"] end subgraph Milestones[\"13 Hybrid Milestones\"] SM[\"8 Streak-Based1 → 3 → 7 → 14 →30 → 50 → 100 days\"] EM[\"5 EmotionalEmotion Explorer (5)Emotion Palette (10)Emotion Master (20+)Trigger Aware (3)Trigger Expert (5+)\"] end subgraph Points[\"Points Economy\"] PE[\"Earn pointsfrom milestones\"] PR[\"Redeem100 pts = 1 analysis\"] end SC --\u003e SM SM --\u003e PE EM --\u003e PE PE --\u003e PR style Streak fill:#FFF3E0,stroke:#E65100 style Milestones fill:#E8F5E9,stroke:#2E7D32 style Points fill:#E3F2FD,stroke:#1565C0 Key Features:\nStreak counter with fire emoji, best streak tracking 13 hybrid milestones: 8 streak-based (1 to 100 days) + 5 emotional diversity Points system: earn from milestones, redeem 100 points for 1 extra analysis Multi-quantity redemption with atomic Firestore transactions Weekly emotion calendar showing Plutchik root colors per day Personal insights (top trigger, dominant emotion, motivational) Notification warning cards with loss-aversion copy tied to streak length Sequential milestone progression (one active at a time) Daily Reminder Notifications WorkManager-based with dynamic scheduling:\n8 message variants + 3 title variants rotated by day Streak-aware messaging for users with 3+ day streaks Skips notification if user already wrote today Configurable time via time picker in Profile and Streak screens Product Analytics \u0026 Data-Driven Iteration Analytics-First Approach Every screen, button, and flow in DayMood is instrumented with Google Analytics events. This isn’t just for dashboards — it drives real product decisions.\nFunnel Analysis (28-day period, Android) Funnel Step Users Conversion Insight First open 2,296 100% ~60 new users/day organically across LATAM + Europe Onboarding started 2,017 87.8% Minimal drop before onboarding Onboarding completed 1,413 70.1% of started 30% drop — led to redesigning the onboarding flow Login success 885 62.6% of completed Login friction identified → simplified auth flow Entry created 427 18.6% of first open Core activation metric AI analysis completed 412 96.5% of creators Users who write overwhelmingly use AI analysis Key iteration: The 30% onboarding drop led to a complete redesign: a guided “experience” flow where users write a mini diary entry and see AI analysis results before creating an account. This “wow moment first” approach is tracked via experience_mini_entry_started → experience_wow_moment_viewed events.\nRetention \u0026 Growth Metric Value Context D1 retention 23.0% Baseline — gamification (v2.2.0) and streak notifications added to improve D7 retention 9.7% Streak system + daily reminders designed specifically for this Avg sessions/user 1.8 Measured across 2,434 active users Daily acquisitions ~165 devices/day Across Argentina, Mexico, Chile, Spain, UK Entries per active writer 2.1 Users who write tend to come back Stability (Crashlytics, 90-day window) Metric Value Crash-free users 98.64% Crash-free sessions 98.11% Non-fatal reporting Silent tracking across 9 critical modules (crypto, AI, billing, auth) All crashes are tracked with Crashlytics, with silent non-fatal error reporting for operations that shouldn’t crash the app but need monitoring (encryption failures, AI timeouts, billing edge cases).\nGeographic Reach Active users across 5+ countries in the first month, with primary markets in Latin America (Argentina, Mexico, Chile) and expanding to Spain and UK — all without localized marketing, driven by organic Play Store and App Store discovery.\nSafety \u0026 Compliance Crisis Detection \u0026 Resources DayMood includes a local keyword-based crisis content detector as a safety net when AI misses crisis indicators:\n36 crisis patterns in English and Spanish (e.g., “I want to die”, “no quiero vivir”) Region-aware crisis resources with emergency contacts and hotlines for 17+ countries IASP international fallback for unrecognized regions Automatic scanning after AI analysis and when saving without analysis Manual access via dedicated card in Profile screen Wellness Disclaimer Non-dismissible bottom sheet with consent checkbox shown before first AI consent:\nExplains AI limitations and when to seek professional help Material 3 Checkbox with mandatory acceptance Bilingual (Spanish/English) One-time display per user, persisted in AIConsentPreferences GDPR Compliance Data export: Export all diary entries as JSON via Android share intent Account deletion: Full account and data deletion from Account Settings Data minimization: Privacy firewall ensures no PII leaks to analytics Insights \u0026 Analytics Engine Trigger Insights: Causal Connections with Transparency The differentiating feature: DayMood visualizes how life triggers cause specific emotions, with complete transparency about the evidence supporting each correlation.\ngraph TD Entries[\"Diary Entries(decrypted)\"] Group[\"Group EmotionFactsby TriggerDomain\"] Filter[\"Filter triggerswith 2+ occurrences\"] Correlate[\"CalculateEmotionCorrelationper root\"] Evidence[\"Build evidencetimeline (max 3)\"] Narrative[\"DetermineNarrativeType\"] Cards[\"TriggerInsightCardswith evidence timeline\"] Entries --\u003e Group Group --\u003e Filter Filter --\u003e Correlate Correlate --\u003e Evidence Evidence --\u003e Narrative Narrative --\u003e Cards style Entries fill:#E3F2FD,stroke:#1565C0 style Cards fill:#E8F5E9,stroke:#2E7D32 Narrative Types:\n“Your work has been your main source of anxiety” (Primary Source) “Your family continues to be a source of joy” (Positive Source) “Finances are influencing your worry and hope” (Mixed Influence) Each card includes animated horizontal bars with emotional distribution, evidence timeline below each bar (max 3 contexts), and a “see X more” link that opens a bottom sheet with all contexts.\nSummary Metrics Metric Calculation totalEntries Entry count in the period averageMood Weighted average of emotional intensity moodDistribution Frequency and percentage per emotion topEmotions Top 5 most frequent emotions emotionTrends Intensity evolution (day/week/month/year) triggerInsights Top 4 triggers with evidence correlation PDF Export Multi-page wellness report with emotion distribution pie chart, trigger correlations, evidence timelines, and pattern analysis — designed to be shared with therapists.\nInternationalization (i18n) Full Bilingual Support Language File Role Spanish res/values/strings.xml Default English res/values-en/strings.xml Alternative Enum localization via extension functions (emotion.localizedName(), trigger.localizedName()) Bilingual AI prompts via PromptProvider.kt (auto-detects language) Per-app language configured via locales_config.xml + LanguagePreferences.kt Plural strings using Android resources for correct singular/plural forms Part II — iOS (Native Companion) iOS Architecture DayMood iOS is a native SwiftUI implementation with Clean Architecture, mirroring the Android app’s modular structure using Swift Package Manager.\nCurrent Version: 1.2.0 (Build 26031501) | Min iOS: 17.0 | Swift: 6.0\nModule Structure (Swift Package Manager) graph TD subgraph App[\"App Target\"] DA[\"DayMoodApp.swift\"] CV[\"ContentView.swift\"] end subgraph Features[\"Feature Modules\"] direction TB FSp[\"FeatureSplash\"] FOn[\"FeatureOnboarding\"] FCG[\"FeatureCryptoGate\"] FLo[\"FeatureLogin\"] FEn[\"FeatureEntries(List, Detail, New, Edit,EmotionEdit, Search, OCR)\"] FSm[\"FeatureSummary\"] FSt[\"FeatureStreak\"] FPr[\"FeatureProfile\"] FSu[\"FeatureSubscription\"] end subgraph Core[\"Core Modules\"] direction TB CrM[\"CoreModel\"] CrD[\"CoreDomain\"] CrN[\"CoreNetwork\"] DL[\"DataLayer\"] CrC[\"CoreCrypto\"] CrS[\"CoreSecurity\"] CrSe[\"CoreSession\"] CrDS[\"CoreDesignSystem\"] CrA[\"CoreAnalytics\"] CrSub[\"CoreSubscription\"] CrStr[\"CoreStreak\"] CrDI[\"CoreDI\"] end App --\u003e Features Features --\u003e Core style App fill:#E8F5E9,stroke:#2E7D32 style Features fill:#E3F2FD,stroke:#1565C0 style Core fill:#FFF3E0,stroke:#E65100 ViewModel Pattern iOS uses Swift’s @Observable macro with @MainActor for thread-safe state management:\n@Observable @MainActor final class EntryNewViewModel { var uiState = EntryNewUIState() var isLoading = false private let repository: DiaryRepository func analyzeEntry() async { isLoading = true defer { isLoading = false } uiState.result = try? await repository.analyze(uiState.entry) } } iOS Tech Stack Category Android iOS Language Kotlin 2.3.0 Swift 6.0 UI Jetpack Compose SwiftUI Package Manager Gradle (19 modules) SPM (30+ targets) DI Hilt Manual DI / Factory Pattern Async Coroutines + Flow async/await + AsyncSequence Navigation Navigation 3 NavigationStack + AppRouter Crypto javax.crypto + Jetpack Security CryptoKit + Keychain OCR ML Kit Apple Vision Framework Auth Google Sign-In Google + Apple Sign-In Subscriptions Google Play Billing 7.x StoreKit 2 App Check Play Integrity App Attest Secure Storage EncryptedSharedPreferences Keychain Services iOS Navigation iOS uses a SwiftUI NavigationStack with a custom @Observable AppRouter:\n@MainActor @Observable final class AppRouter { var path: [AppRoute] = [] var selectedTab: TabBarItem = .entries var presentedSheet: AppRoute? var presentedFullScreenCover: AppRoute? func navigate(to route: AppRoute) { path.append(route) } func pop() { path.removeLast() } func switchTab(to tab: TabBarItem) { ... } } Tab Bar (4 items): Entries, Summary, Streak, Profile\niOS-Specific Features Feature iOS Android Equivalent Apple Sign-In Native (required by App Store) N/A Vision OCR Apple Vision Framework ML Kit Secure Enclave Hardware-backed key storage Android Keystore App Attest App integrity verification Play Integrity StoreKit 2 Subscription management Google Play Billing Trial eligibility isEligibleForIntroductoryOffer Offer-based detection Privacy manifest PrivacyInfo.xcprivacy Play Data Safety section Cross-Platform Strategy Design Philosophy DayMood follows a native-per-platform approach: no cross-platform framework (KMM, Flutter, React Native). Each platform uses its native language and UI toolkit, sharing only the backend (Firebase) and cryptographic protocols.\nRationale:\nBest UX per platform, following each platform’s design guidelines Full access to platform capabilities (Keychain, Keystore, Vision, ML Kit) Independent release cycles No cross-platform framework limitations or abstractions Shared Firestore Schema Both platforms read and write to the same Firestore collections with identical field names and enum storage conventions:\ngraph TD subgraph Firestore[\"Cloud Firestore\"] Users[\"users/{userId}\"] Entries[\"entries/{entryId}Shared Fields:title (plain)rawEntry (encrypted)createdAt, updatedAtdata.emotionFactList[]:emotion (enum rawValue)intensity (1-10)triggers (enum rawValues)context (encrypted)\"] Crypto[\"crypto/keyBackupencryptedDek (Base64)version: 1\"] Streak[\"metadata/streakcurrentStreakbestStreaktotalPointscompletedMilestones\"] Sub[\"subscription/currentstatusplanIdexpiresAt\"] end Users --\u003e Entries Users --\u003e Crypto Users --\u003e Streak Users --\u003e Sub A[\"Android App\"] --\u003e|\"Read/Write\"| Users I[\"iOS App\"] --\u003e|\"Read/Write\"| Users style Firestore fill:#FFF9E6,stroke:#D2B28F Enum Storage Rule: Both platforms store .rawValue strings (e.g., \"JOY\", \"WORK_CAREER\"), never display names or localized strings. This ensures cross-platform compatibility.\nStreak Parity: Both platforms use identical milestone keys (STREAK_7, EMOTION_EXPLORER, etc.) and the same points system, ensuring a user’s progress is visible on both devices.\nCross-Platform E2E Encryption The encryption protocol is designed for cross-device and cross-platform compatibility: a user who creates entries on Android can read them on iOS and vice versa.\ngraph TD subgraph Android[\"Android Encryption\"] AID[\"Firebase ID Token\"] AHKDF[\"HKDF-SHA256(javax.crypto)\"] AKEK[\"KEK (256-bit)\"] ADEK[\"DEK (256-bit)EncryptedSharedPrefs\"] AAES[\"AES-256-GCM(javax.crypto.Cipher)\"] end subgraph Shared[\"Shared Infrastructure\"] FS[\"Firestoreencrypted DEK backupencrypted entries\"] end subgraph iOS[\"iOS Encryption\"] IID[\"Firebase ID Token\"] IHKDF[\"HKDF-SHA256(CryptoKit)\"] IKEK[\"KEK (256-bit)\"] IDEK[\"DEK (256-bit)Keychain\"] IAES[\"AES-256-GCM(CryptoKit)\"] end AID --\u003e AHKDF --\u003e AKEK AKEK --\u003e|\"encrypt DEK\"| FS ADEK --\u003e AAES --\u003e|\"encrypt entries\"| FS IID --\u003e IHKDF --\u003e IKEK IKEK --\u003e|\"decrypt DEK\"| FS FS --\u003e|\"decrypt entries\"| IAES IDEK --\u003e IAES style Android fill:#E8F5E9,stroke:#2E7D32 style iOS fill:#E3F2FD,stroke:#1565C0 style Shared fill:#FFF9E6,stroke:#D2B28F Cross-Platform Compatibility Details Concern Solution Key derivation Both use HKDF-SHA256 with identical salt (\"daymood-e2e-v1\") and info (\"encryption-key-backup\") Stable JWT claims Both extract sub, aud, sign_in_provider from Firebase ID Token Cipher format Both produce Base64(IV[12] || Ciphertext || AuthTag[16]) Empty field handling Both skip encryption for empty strings KEK versioning iOS V2 excludes sign_in_provider for provider-independent restoration; fallback tries all known providers Fallback parsing iOS includes manual nonce/ciphertext/tag extraction if CryptoKit standard parsing fails (handles Android-serialized data) Key Derivation from JWT (Deterministic KEK) Firebase ID Tokens are JWTs that change every session (iat, exp, auth_time). To ensure the same KEK is derived regardless of when the user logs in, both platforms extract only the stable claims:\nsub (subject): Firebase UID — always the same aud (audience): Firebase project ID — always the same firebase.sign_in_provider: Authentication method — stable per provider These claims are concatenated (\"sub|aud|provider\") and passed through HKDF-SHA256 to produce a deterministic 256-bit KEK.\nFeature Parity Matrix Feature Android iOS Notes Plutchik 32 emotions ✅ ✅ Identical enum values EmotionWheel (pizza slice) ✅ ✅ Same visual design Gemini 2.5 Pro (primary AI) ✅ ✅ Firebase AI SDK on both OpenAI GPT-4o (fallback) ✅ ✅ Retrofit / URLSession Remote Config AI switching ✅ ✅ Same config keys E2E Encryption ✅ ✅ Cross-platform compatible CryptoGate screen ✅ ✅ Blocks until crypto ready Google Sign-In ✅ ✅ Credential Manager / GoogleSignIn-iOS Apple Sign-In — ✅ iOS-only (App Store requirement) Email/Password auth ✅ ✅ Firebase Auth OCR text recognition ✅ (ML Kit) ✅ (Vision) Platform-native Rich text / Markdown ✅ ✅ compose-rich-editor / native Premium subscription ✅ (Play Billing) ✅ (StoreKit 2) Platform-native billing Streak \u0026 gamification ✅ ✅ Shared Firestore milestones Points redemption ✅ ✅ Atomic Firestore transactions Daily reminders ✅ (WorkManager) ✅ (UNNotification) Platform-native scheduling Summary \u0026 insights ✅ ✅ Same calculation algorithm Trigger evidence timeline ✅ ✅ Same UX pattern PDF export ✅ ✅ Platform-native rendering Crisis detection ✅ ✅ Same keyword patterns Wellness disclaimer ✅ ✅ Same content, platform UI Privacy firewall ✅ (4 layers) ✅ (4 layers) Same architecture App Check ✅ (Play Integrity) ✅ (App Attest) Platform-native attestation GDPR data export ✅ ✅ JSON via share intent Bilingual (ES/EN) ✅ ✅ Per-app language support Rewarded ads ✅ ✅ Google Mobile Ads In-app review ✅ ✅ Play Review / SKStoreReview Results \u0026 Impact Production Timeline Version Date Key Milestone 1.0.0 Jan 2026 Production release (Android) 2.0.0 Feb 8, 2026 Premium subscription + Search 2.1.0 Feb 28, 2026 Optional AI + Rich text + Ads 2.2.0 Mar 9, 2026 Streak \u0026 gamification 2.3.2 Mar 16, 2026 Crisis detection + Wellness disclaimer + GDPR iOS 1.0.0 Feb 2026 iOS App Store release iOS 1.2.0 Mar 2026 Feature parity alignment Technical Achievements 98.64% crash-free users (Crashlytics, 90-day window) with silent non-fatal reporting across 9 critical modules 2,300+ users in first 28 days, ~165 daily device acquisitions across 5+ countries 96.5% AI adoption among users who create entries 100% localization coverage (Spanish/English) 32 emotions mapped with psychological precision (Plutchik model) 19 Gradle modules (Android) + 30+ SPM targets (iOS) E2E encryption with AES-256-GCM: complete user privacy, cross-platform compatible 4-layer privacy firewall: defense-in-depth security architecture on both platforms Dual AI provider with data-driven selection (10-entry A/B test documented) 13 gamification milestones with points economy Architectural Milestones Multi-module Clean Architecture on both platforms with strict layer separation Dual AI provider system with Factory pattern + Remote Config for zero-downtime switching Navigation 3 (Android) and NavigationStack + AppRouter (iOS) — modern, type-safe navigation Cross-platform E2E encryption with deterministic key derivation from JWT stable claims CryptoGate screen pattern adopted on both platforms to eliminate crypto initialization race conditions Gradle Configuration Cache compatibility for build optimization Learnings \u0026 Challenges Technical Challenges Overcome Cross-platform encryption compatibility: Ensuring AES-256-GCM ciphertext serialization format is identical between Android’s javax.crypto and iOS’s CryptoKit. Solved with explicit Base64(IV || Ciphertext || AuthTag) format and fallback parsing on iOS.\nDeterministic KEK from rotating JWTs: Firebase ID Tokens change every session. Solved by extracting only stable JWT claims (sub, aud, sign_in_provider) for HKDF derivation, ensuring the same KEK is produced regardless of when the user logs in.\nKEK versioning across auth providers: iOS V1 included sign_in_provider, causing issues when users switched between Google and Apple sign-in. V2 excludes provider for provider-independent restoration, with fallback tries for legacy keys.\nAI analysis consistency: Designing prompts that produce structured output consistent with Plutchik’s model across two different AI providers with different response characteristics.\nCrypto initialization race condition: ViewModels accessing uninitialized DEK on cold start. Solved with the CryptoGate pattern — a blocking intermediate screen adopted on both platforms.\nPrivacy firewall at scale: Building a 4-layer defense-in-depth system that prevents PII leakage through logs, analytics, and monitoring, while still allowing useful telemetry (latency, token counts, error rates).\nTrial eligibility across platforms: Google Play Billing uses offer-based detection (presence of zero-cost pricing phase), while StoreKit 2 uses isEligibleForIntroductoryOffer. Both needed unified UI behavior.\nKey Architectural Decisions Decision Rationale Native per-platform (no KMM) Best UX per platform, full platform capabilities, independent release cycles Gemini over OpenAI (primary) Data-driven: 19% higher accuracy, 20% lower cost, 100% valid JSON in 10-entry A/B test Firestore over Room/CoreData Multi-device sync and cross-platform compatibility without custom backend AES-256-GCM with HKDF Absolute privacy: developer can’t read entries; deterministic key derivation enables multi-device DEK backup in Firestore Multi-device recovery without compromising security Navigation 3 (Android) Future-proof: official successor to Compose Navigation; direct backstack manipulation CryptoGate screen Eliminates race conditions; clean separation between auth and crypto initialization Factory pattern for AI Zero-downtime provider switching via Remote Config 4-layer privacy firewall Defense-in-depth: no single point of failure for PII protection Play Billing / StoreKit 2 Direct integration without third-party abstraction layer Developed by Jaime Lopez — Senior Mobile Developer\nStack: Kotlin 2.3.0 | Swift 6.0 | Jetpack Compose | SwiftUI | Navigation 3 | Material 3 | Google Gemini 2.5 Pro | OpenAI GPT-4o | Firebase | AES-256-GCM | HKDF-SHA256 | Google Play Billing | StoreKit 2\nLast updated: March 16, 2026 — Android v2.3.2 | iOS v1.2.0\n",
+  "wordCount" : "6805",
   "inLanguage": "en",
   "image":"http://localhost:1313/images/daymood-icon.png","datePublished": "2026-03-16T00:00:00Z",
   "dateModified": "2026-03-16T00:00:00Z",
@@ -240,7 +240,7 @@
     <h1 class="post-title entry-hint-parent">
       DayMood: AI-Powered Emotional Journal
     </h1>
-    <div class="post-meta"><span title='2026-03-16 00:00:00 +0000 UTC'>March 16, 2026</span>&nbsp;·&nbsp;<span>24 min</span>&nbsp;·&nbsp;<span>Jaime López</span>
+    <div class="post-meta"><span title='2026-03-16 00:00:00 +0000 UTC'>March 16, 2026</span>&nbsp;·&nbsp;<span>32 min</span>&nbsp;·&nbsp;<span>Jaime López</span>
 
 </div>
   </header> 
@@ -301,6 +301,8 @@
                     <a href="#shapes" aria-label="Shapes">Shapes</a></li></ul>
                 </li>
                 <li>
+                    <a href="#key-product-decisions" aria-label="Key Product Decisions">Key Product Decisions</a></li>
+                <li>
                     <a href="#core-feature-plutchik-emotion-system" aria-label="Core Feature: Plutchik Emotion System">Core Feature: Plutchik Emotion System</a><ul>
                         
                 <li>
@@ -315,22 +317,48 @@
                     <a href="#emotionwheel-pizza-slice-visual-design" aria-label="EmotionWheel: Pizza-Slice Visual Design">EmotionWheel: Pizza-Slice Visual Design</a></li></ul>
                 </li>
                 <li>
-                    <a href="#ai-integration-dual-provider-architecture" aria-label="AI Integration: Dual-Provider Architecture">AI Integration: Dual-Provider Architecture</a><ul>
+                    <a href="#intelligent-analysis-engine" aria-label="Intelligent Analysis Engine">Intelligent Analysis Engine</a><ul>
                         
                 <li>
-                    <a href="#strategic-decision-gemini-as-primary-provider" aria-label="Strategic Decision: Gemini as Primary Provider">Strategic Decision: Gemini as Primary Provider</a></li>
+                    <a href="#provider-selection-data-driven-decision" aria-label="Provider Selection: Data-Driven Decision">Provider Selection: Data-Driven Decision</a></li>
                 <li>
                     <a href="#dynamic-switching-architecture" aria-label="Dynamic Switching Architecture">Dynamic Switching Architecture</a></li>
                 <li>
-                    <a href="#prompt-engineering" aria-label="Prompt Engineering">Prompt Engineering</a></li>
-                <li>
-                    <a href="#quality-comparison-real-entries" aria-label="Quality Comparison (Real Entries)">Quality Comparison (Real Entries)</a></li></ul>
+                    <a href="#structured-prompt-design" aria-label="Structured Prompt Design">Structured Prompt Design</a></li></ul>
                 </li>
                 <li>
                     <a href="#navigation-architecture" aria-label="Navigation Architecture">Navigation Architecture</a><ul>
                         
                 <li>
                     <a href="#navigation-3-scene-based-composition" aria-label="Navigation 3: Scene-Based Composition">Navigation 3: Scene-Based Composition</a></li></ul>
+                </li>
+                <li>
+                    <a href="#clean-code-patterns-android" aria-label="Clean Code Patterns (Android)">Clean Code Patterns (Android)</a><ul>
+                        
+                <li>
+                    <a href="#unidirectional-data-flow-uievent--viewmodel--uistate" aria-label="Unidirectional Data Flow: UiEvent → ViewModel → UiState">Unidirectional Data Flow: UiEvent → ViewModel → UiState</a></li>
+                <li>
+                    <a href="#hierarchical-error-handling-with-sealed-failure-classes" aria-label="Hierarchical Error Handling with Sealed Failure Classes">Hierarchical Error Handling with Sealed Failure Classes</a></li>
+                <li>
+                    <a href="#use-cases-with-operator-fun-invoke" aria-label="Use Cases with operator fun invoke">Use Cases with operator fun invoke</a></li>
+                <li>
+                    <a href="#baseviewmodel-shared-behavior-without-inheritance-tax" aria-label="BaseViewModel: Shared Behavior Without Inheritance Tax">BaseViewModel: Shared Behavior Without Inheritance Tax</a></li>
+                <li>
+                    <a href="#lifecycle-safe-flow-collection" aria-label="Lifecycle-Safe Flow Collection">Lifecycle-Safe Flow Collection</a></li>
+                <li>
+                    <a href="#testable-coroutine-dispatchers" aria-label="Testable Coroutine Dispatchers">Testable Coroutine Dispatchers</a></li>
+                <li>
+                    <a href="#clean-layer-boundaries-mappers" aria-label="Clean Layer Boundaries: Mappers">Clean Layer Boundaries: Mappers</a></li>
+                <li>
+                    <a href="#convention-plugins-dry-build-configuration" aria-label="Convention Plugins: DRY Build Configuration">Convention Plugins: DRY Build Configuration</a></li>
+                <li>
+                    <a href="#type-safe-navigation-with-serializable-routes" aria-label="Type-Safe Navigation with @Serializable Routes">Type-Safe Navigation with @Serializable Routes</a></li>
+                <li>
+                    <a href="#decoupled-feature-navigation" aria-label="Decoupled Feature Navigation">Decoupled Feature Navigation</a></li>
+                <li>
+                    <a href="#hilt-modules-binds-for-zero-allocation-di" aria-label="Hilt Modules: @Binds for Zero-Allocation DI">Hilt Modules: @Binds for Zero-Allocation DI</a></li>
+                <li>
+                    <a href="#pattern-summary" aria-label="Pattern Summary">Pattern Summary</a></li></ul>
                 </li>
                 <li>
                     <a href="#security-implementation" aria-label="Security Implementation">Security Implementation</a><ul>
@@ -363,6 +391,20 @@
                     <a href="#streak--emotional-journey-v220" aria-label="Streak &amp; Emotional Journey (v2.2.0)">Streak &amp; Emotional Journey (v2.2.0)</a></li>
                 <li>
                     <a href="#daily-reminder-notifications" aria-label="Daily Reminder Notifications">Daily Reminder Notifications</a></li></ul>
+                </li>
+                <li>
+                    <a href="#product-analytics--data-driven-iteration" aria-label="Product Analytics &amp; Data-Driven Iteration">Product Analytics &amp; Data-Driven Iteration</a><ul>
+                        
+                <li>
+                    <a href="#analytics-first-approach" aria-label="Analytics-First Approach">Analytics-First Approach</a></li>
+                <li>
+                    <a href="#funnel-analysis-28-day-period-android" aria-label="Funnel Analysis (28-day period, Android)">Funnel Analysis (28-day period, Android)</a></li>
+                <li>
+                    <a href="#retention--growth" aria-label="Retention &amp; Growth">Retention &amp; Growth</a></li>
+                <li>
+                    <a href="#stability-crashlytics-90-day-window" aria-label="Stability (Crashlytics, 90-day window)">Stability (Crashlytics, 90-day window)</a></li>
+                <li>
+                    <a href="#geographic-reach" aria-label="Geographic Reach">Geographic Reach</a></li></ul>
                 </li>
                 <li>
                     <a href="#safety--compliance" aria-label="Safety &amp; Compliance">Safety &amp; Compliance</a><ul>
@@ -457,6 +499,7 @@
 <p>A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik&rsquo;s psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.</p>
 </blockquote>
 <p><strong>Download DayMood:</strong> <a href="https://apps.apple.com/es/app/daymood/id6758305629">App Store (iOS)</a> · <a href="https://play.google.com/store/apps/details?id=com.jaimelxpez.daymoodApp">Google Play (Android)</a></p>
+<p><strong>Role:</strong> Sole developer — designed, architected, and shipped both platforms from zero to production. Responsible for all product decisions, UX design, architecture, implementation, analytics instrumentation, and store releases.</p>
 <hr>
 <h2 id="the-challenge">The Challenge<a hidden class="anchor" aria-hidden="true" href="#the-challenge">#</a></h2>
 <h3 id="the-real-problem">The Real Problem<a hidden class="anchor" aria-hidden="true" href="#the-real-problem">#</a></h3>
@@ -860,6 +903,63 @@ Small text (11-15sp)   → SemiBold (600) ← Maximum clarity and contrast
 <li><strong>Chips</strong>: <code>RoundedCornerShape(12.dp)</code> — Compact but friendly</li>
 </ul>
 <hr>
+<h2 id="key-product-decisions">Key Product Decisions<a hidden class="anchor" aria-hidden="true" href="#key-product-decisions">#</a></h2>
+<p>Every technical decision in DayMood is driven by a product insight. These are the most impactful ones:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Decision</th>
+          <th>User Problem</th>
+          <th>Solution</th>
+          <th>Why It Matters</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>EmotionWheel (pizza-slice)</strong></td>
+          <td>Selecting emotions from a dropdown feels detached and clinical</td>
+          <td>A visual pie-sector wheel where users tap colored slices with emojis</td>
+          <td>More engaging, mirrors how emotions are represented in psychology research (Plutchik&rsquo;s circular model), and reduces cognitive load — users recognize emotions visually instead of reading lists</td>
+      </tr>
+      <tr>
+          <td><strong>Breathing animation during AI analysis</strong></td>
+          <td>AI analysis takes ~15 seconds; a spinner creates anxiety</td>
+          <td>A gentle pulsing animation that mimics a breathing exercise</td>
+          <td>Transforms wait time into a calming micro-interaction — users report feeling less anxious about results</td>
+      </tr>
+      <tr>
+          <td><strong>User always has the last word</strong></td>
+          <td>AI is not infallible — wrong emotion detection erodes trust</td>
+          <td>After AI analysis, users can edit intensities, add/remove emotions, and change triggers before saving. AI can be fully disabled in settings</td>
+          <td>Builds trust: the AI is a suggestion engine, never an authority. Users stay in control of their own emotional narrative</td>
+      </tr>
+      <tr>
+          <td><strong>CryptoGate screen</strong></td>
+          <td>Race condition: ViewModels could access uninitialized encryption keys</td>
+          <td>A blocking intermediate screen between login and home that waits until E2E encryption is fully ready</td>
+          <td>Prevents corrupted data display; clean UX &gt; fast UX when privacy is at stake</td>
+      </tr>
+      <tr>
+          <td><strong>Crisis detection as safety net</strong></td>
+          <td>AI might miss suicidal ideation or crisis language</td>
+          <td>Local 36-pattern keyword detector (EN/ES) that runs independently of AI</td>
+          <td>Not a medical tool — a responsible safety layer. Links to real crisis hotlines for 17+ countries</td>
+      </tr>
+      <tr>
+          <td><strong>Rewarded ads over hard paywall</strong></td>
+          <td>Aggressive monetization kills retention in wellness apps</td>
+          <td>Free users hit an analysis limit, then earn 1 bonus analysis by watching a rewarded ad</td>
+          <td>Respects the user: they choose to watch an ad, they&rsquo;re not interrupted. Conversion to premium happens naturally</td>
+      </tr>
+      <tr>
+          <td><strong>Editable onboarding with &ldquo;experience&rdquo; flow</strong></td>
+          <td>Users drop off if they don&rsquo;t understand the value before signing up</td>
+          <td>A guided first experience where users write a mini-entry and see AI analysis <em>before</em> creating an account</td>
+          <td>Users experience the &ldquo;wow moment&rdquo; before any commitment — the product sells itself</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
 <h2 id="core-feature-plutchik-emotion-system">Core Feature: Plutchik Emotion System<a hidden class="anchor" aria-hidden="true" href="#core-feature-plutchik-emotion-system">#</a></h2>
 <h3 id="theoretical-foundation">Theoretical Foundation<a hidden class="anchor" aria-hidden="true" href="#theoretical-foundation">#</a></h3>
 <p>DayMood implements <strong>Plutchik&rsquo;s Wheel of Emotions</strong>, a well-established psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.</p>
@@ -1057,52 +1157,53 @@ graph TD
 <p><strong>Screenshot placeholder</strong> — The EmotionWheel screenshot will be added here before deployment. If you&rsquo;d like to see the live component, check the <a href="https://play.google.com/store/apps/details?id=com.jaime.daymood">Play Store listing</a>.</p>
 </blockquote>
 <hr>
-<h2 id="ai-integration-dual-provider-architecture">AI Integration: Dual-Provider Architecture<a hidden class="anchor" aria-hidden="true" href="#ai-integration-dual-provider-architecture">#</a></h2>
-<h3 id="strategic-decision-gemini-as-primary-provider">Strategic Decision: Gemini as Primary Provider<a hidden class="anchor" aria-hidden="true" href="#strategic-decision-gemini-as-primary-provider">#</a></h3>
-<p>After exhaustive comparative analysis with real production entries, DayMood adopted <strong>Google Gemini 2.5 Pro</strong> as the primary emotional analysis engine, maintaining <strong>OpenAI GPT-4o</strong> as fallback:</p>
+<h2 id="intelligent-analysis-engine">Intelligent Analysis Engine<a hidden class="anchor" aria-hidden="true" href="#intelligent-analysis-engine">#</a></h2>
+<h3 id="provider-selection-data-driven-decision">Provider Selection: Data-Driven Decision<a hidden class="anchor" aria-hidden="true" href="#provider-selection-data-driven-decision">#</a></h3>
+<p>Both OpenAI GPT-4o and Google Gemini 2.5 Pro were evaluated with <strong>10 real diary entries</strong> (5 Spanish, 5 English) covering diverse emotional scenarios. The evaluation prioritized analysis quality over speed, since emotional journaling is a reflective activity — not a real-time one.</p>
 <table>
   <thead>
       <tr>
           <th>Criterion</th>
           <th>Gemini 2.5 Pro</th>
           <th>OpenAI GPT-4o</th>
-          <th>Winner</th>
+          <th>Decision Factor</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><strong>Analysis depth</strong></td>
-          <td>Comprehensive detailed analysis</td>
+          <td><strong>Analysis quality</strong></td>
+          <td>Rich, nuanced insights</td>
           <td>Concise responses</td>
-          <td>Gemini</td>
+          <td>Gemini: +19% accuracy score</td>
       </tr>
       <tr>
           <td><strong>JSON consistency</strong></td>
-          <td>100% valid (native <code>response_mime_type</code>)</td>
-          <td>~85% (requires regex cleanup)</td>
-          <td>Gemini</td>
+          <td>100% valid output</td>
+          <td>~60% wrapped in markdown</td>
+          <td>Gemini: zero parsing errors</td>
       </tr>
       <tr>
           <td><strong>Cost per analysis</strong></td>
           <td>$0.00538</td>
           <td>$0.00675</td>
-          <td>Gemini (20% savings)</td>
+          <td>Gemini: 20% savings at scale</td>
       </tr>
       <tr>
-          <td><strong>Average latency</strong></td>
-          <td>16.5s</td>
-          <td>4.3s</td>
-          <td>OpenAI (3.9x faster)</td>
+          <td><strong>Latency</strong></td>
+          <td>~16s</td>
+          <td>~4s</td>
+          <td>OpenAI faster, but acceptable for reflective use</td>
       </tr>
       <tr>
-          <td><strong>Enum compliance</strong></td>
-          <td>Never invents emotions outside catalog</td>
-          <td>~2% of cases with custom emotions</td>
-          <td>Gemini</td>
+          <td><strong>Plutchik compliance</strong></td>
+          <td>Strictly within 32-emotion vocabulary</td>
+          <td>Occasionally invents emotions</td>
+          <td>Gemini: better model alignment</td>
       </tr>
   </tbody>
 </table>
-<p><strong>Accepted Trade-off:</strong> Users perform emotional analysis reflectively, not in real-time critical scenarios. The insight depth compensates for the additional wait time. A skeleton-based loading UX (breathing animation) manages perceived latency.</p>
+<p><strong>Result:</strong> Gemini 2.5 Pro as primary provider, OpenAI GPT-4o as automatic fallback. Switching is controlled via Firebase Remote Config — zero-downtime provider changes without app updates.</p>
+<p><strong>UX mitigation for latency:</strong> A breathing animation during analysis transforms wait time into a calming micro-interaction, reducing perceived wait anxiety.</p>
 <h3 id="dynamic-switching-architecture">Dynamic Switching Architecture<a hidden class="anchor" aria-hidden="true" href="#dynamic-switching-architecture">#</a></h3>
 <div class="mermaid">sequenceDiagram
     participant U as User
@@ -1134,47 +1235,16 @@ graph TD
     U->>VM: Edit intensities/triggers + Save
     VM->>R: encrypt + persist to Firestore
 </div>
-<h3 id="prompt-engineering">Prompt Engineering<a hidden class="anchor" aria-hidden="true" href="#prompt-engineering">#</a></h3>
-<p>Both providers receive carefully designed prompts that instruct them to:</p>
+<h3 id="structured-prompt-design">Structured Prompt Design<a hidden class="anchor" aria-hidden="true" href="#structured-prompt-design">#</a></h3>
+<p>Both providers receive carefully designed prompts that constrain output to Plutchik&rsquo;s framework:</p>
 <ol>
-<li>Identify emotions using exclusively Plutchik&rsquo;s 32-emotion vocabulary</li>
+<li>Identify emotions using exclusively the 32-emotion vocabulary</li>
 <li>Assign intensity on a 1–10 scale based on language cues</li>
 <li>Map triggers to the 16 predefined life domains</li>
 <li>Provide brief emotional context for each detected emotion</li>
 <li>Respond in the user&rsquo;s language (Spanish or English)</li>
 </ol>
-<h3 id="quality-comparison-real-entries">Quality Comparison (Real Entries)<a hidden class="anchor" aria-hidden="true" href="#quality-comparison-real-entries">#</a></h3>
-<table>
-  <thead>
-      <tr>
-          <th>Aspect</th>
-          <th>Gemini 2.5 Pro</th>
-          <th>OpenAI GPT-4o</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Emotional context</strong></td>
-          <td>&ldquo;The user expresses contained frustration at work situations perceived as unfair, showing constructive anger patterns&rdquo;</td>
-          <td>&ldquo;Work frustration&rdquo;</td>
-      </tr>
-      <tr>
-          <td><strong>Nuance detection</strong></td>
-          <td>Identifies secondary emotions (e.g., &ldquo;cautious optimism&rdquo; + &ldquo;apprehension&rdquo;)</td>
-          <td>Tends toward basic emotions</td>
-      </tr>
-      <tr>
-          <td><strong>Multiple triggers</strong></td>
-          <td>Assigns 2–3 interrelated triggers when appropriate</td>
-          <td>Generally 1 trigger per emotion</td>
-      </tr>
-      <tr>
-          <td><strong>Analysis notes</strong></td>
-          <td>2–3 sentence paragraphs with therapeutic observations</td>
-          <td>1 brief sentence</td>
-      </tr>
-  </tbody>
-</table>
+<p>The user always reviews and can edit the AI&rsquo;s suggestions before saving — the AI proposes, the user decides.</p>
 <hr>
 <h2 id="navigation-architecture">Navigation Architecture<a hidden class="anchor" aria-hidden="true" href="#navigation-architecture">#</a></h2>
 <h3 id="navigation-3-scene-based-composition">Navigation 3: Scene-Based Composition<a hidden class="anchor" aria-hidden="true" href="#navigation-3-scene-based-composition">#</a></h3>
@@ -1227,6 +1297,339 @@ An intermediate screen between authentication and home that blocks navigation un
 
     style CG fill:#FFF9C4,stroke:#F9A825
 </div>
+<hr>
+<h2 id="clean-code-patterns-android">Clean Code Patterns (Android)<a hidden class="anchor" aria-hidden="true" href="#clean-code-patterns-android">#</a></h2>
+<p>Good architecture needs good code habits to sustain it. Here are the patterns enforced consistently across every feature module in DayMood.</p>
+<h3 id="unidirectional-data-flow-uievent--viewmodel--uistate">Unidirectional Data Flow: UiEvent → ViewModel → UiState<a hidden class="anchor" aria-hidden="true" href="#unidirectional-data-flow-uievent--viewmodel--uistate">#</a></h3>
+<p>Every feature follows a strict <strong>UiEvent / UiState / VMEvent</strong> contract:</p>
+<ul>
+<li><strong><code>UiEvent</code></strong> — user actions flow <em>into</em> the ViewModel via a single <code>onEvent()</code> entry point</li>
+<li><strong><code>UiState</code></strong> — a single immutable <code>data class</code> exposed as <code>StateFlow</code> drives the entire screen</li>
+<li><strong><code>VMEvent</code></strong> — one-shot navigation or side-effects emitted via <code>SharedFlow</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// Feature-scoped import aliases keep ViewModels clean
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> …feature.entries.list.model.EntriesListUiEvent <span style="color:#66d9ef">as</span> UiEvent
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> …feature.entries.list.model.EntriesListUiState <span style="color:#66d9ef">as</span> UiState
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> …feature.entries.list.model.EntriesListVMEvent <span style="color:#66d9ef">as</span> VMEvent
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@HiltViewModel</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EntriesListViewModel</span> <span style="color:#a6e22e">@Inject</span> <span style="color:#66d9ef">constructor</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> getEntriesUseCase: GetDiaryEntriesUseCase,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> analyticsManager: AnalyticsManager,
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>) : BaseViewModel() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> _uiState = MutableStateFlow(UiState())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> uiState = _uiState.asStateFlow()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> _vmEvent = MutableSharedFlow&lt;VMEvent&gt;()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> vmEvent = _vmEvent.asSharedFlow()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onEvent</span>(event: UiEvent) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">when</span> (event) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">UiEvent</span>.OnEntryClick <span style="color:#f92672">-&gt;</span> { <span style="color:#960050;background-color:#1e0010">…</span> }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">UiEvent</span>.OnNewEntryClick <span style="color:#f92672">-&gt;</span> { <span style="color:#960050;background-color:#1e0010">…</span> }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">UiEvent</span>.OnSearchClick <span style="color:#f92672">-&gt;</span> { <span style="color:#960050;background-color:#1e0010">…</span> }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// exhaustive — compiler enforces every case
+</span></span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p><strong>Why it matters:</strong> Every feature in the app follows this exact same shape. A new developer can open <em>any</em> ViewModel and immediately know where state lives, where events enter, and where side-effects are emitted — zero guesswork.</p>
+</blockquote>
+<h3 id="hierarchical-error-handling-with-sealed-failure-classes">Hierarchical Error Handling with Sealed Failure Classes<a hidden class="anchor" aria-hidden="true" href="#hierarchical-error-handling-with-sealed-failure-classes">#</a></h3>
+<p>Instead of catching generic exceptions everywhere, errors are modeled as a <strong>sealed hierarchy</strong> that maps to specific recovery paths:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Failure</span> : Throwable() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DekFailure</span> : Failure() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">NotFound</span> : DekFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">GenerationFailed</span> : DekFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">InvalidKey</span> : DekFailure()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GoogleSignInFailure</span> : Failure() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">Cancelled</span> : GoogleSignInFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">NoCredentialsAvailable</span> : GoogleSignInFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">FirebaseAuthFailed</span> : GoogleSignInFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CryptoOperationFailure</span> : Failure() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">EncryptionFailed</span> : CryptoOperationFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">DecryptionFailed</span> : CryptoOperationFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">object</span> <span style="color:#a6e22e">AuthenticationFailed</span> : CryptoOperationFailure()
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// One-line conversion anywhere in the codebase
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">Throwable</span>.toFailure(): Failure =
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span> <span style="color:#66d9ef">as</span>? Failure <span style="color:#f92672">?:</span> <span style="color:#a6e22e">Failure</span>.GenericFailure()
+</span></span></code></pre></div><blockquote>
+<p><strong>6 domain-specific failure groups</strong> (Crypto, Auth, Ads, Backup, Passwords, Network), each with exhaustive <code>when</code> branches — no <code>else</code> fallthrough hiding bugs.</p>
+</blockquote>
+<h3 id="use-cases-with-operator-fun-invoke">Use Cases with <code>operator fun invoke</code><a hidden class="anchor" aria-hidden="true" href="#use-cases-with-operator-fun-invoke">#</a></h3>
+<p>Domain use cases are single-purpose classes with an <code>invoke</code> operator, making call sites read like plain function calls:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SaveDiaryEntryUseCase</span> <span style="color:#a6e22e">@Inject</span> <span style="color:#66d9ef">constructor</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> diaryRepository: DiaryRepository
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">invoke</span>(
+</span></span><span style="display:flex;"><span>        title: String,
+</span></span><span style="display:flex;"><span>        rawEntry: String,
+</span></span><span style="display:flex;"><span>        emotionFacts: List&lt;EmotionFact&gt;
+</span></span><span style="display:flex;"><span>    ): Flow&lt;Unit&gt; =
+</span></span><span style="display:flex;"><span>        diaryRepository.saveEntry(title, rawEntry, emotionFacts)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// At the call site — reads naturally:
+</span></span></span><span style="display:flex;"><span>saveDiaryEntryUseCase(title, rawEntry, emotionFacts)
+</span></span></code></pre></div><h3 id="baseviewmodel-shared-behavior-without-inheritance-tax">BaseViewModel: Shared Behavior Without Inheritance Tax<a hidden class="anchor" aria-hidden="true" href="#baseviewmodel-shared-behavior-without-inheritance-tax">#</a></h3>
+<p>A lightweight base class provides cross-cutting concerns via <strong>Flow extensions</strong> instead of abstract methods:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BaseViewModel</span> <span style="color:#a6e22e">@Inject</span> <span style="color:#66d9ef">constructor</span>() : ViewModel() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Inject</span> <span style="color:#66d9ef">lateinit</span> <span style="color:#66d9ef">var</span> loadingPresenter: LoadingPresenter
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">T</span>&gt; <span style="color:#a6e22e">Flow</span>&lt;T&gt;.handleLoading(): Flow&lt;T&gt; =
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>
+</span></span><span style="display:flex;"><span>            .onStart { loadingPresenter.showLoading() }
+</span></span><span style="display:flex;"><span>            .onCompletion { loadingPresenter.hideLoading() }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage in any ViewModel:
+</span></span></span><span style="display:flex;"><span>analyzeEmotionsUseCase(text)
+</span></span><span style="display:flex;"><span>    .handleLoading()      <span style="color:#75715e">// ← loading spinner managed automatically
+</span></span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">catch</span> { <span style="color:#960050;background-color:#1e0010">…</span> }
+</span></span><span style="display:flex;"><span>    .collect { result <span style="color:#f92672">-&gt;</span> <span style="color:#960050;background-color:#1e0010">…</span> }
+</span></span></code></pre></div><h3 id="lifecycle-safe-flow-collection">Lifecycle-Safe Flow Collection<a hidden class="anchor" aria-hidden="true" href="#lifecycle-safe-flow-collection">#</a></h3>
+<p>A reusable <code>FlowCollector</code> composable replaces boilerplate <code>LaunchedEffect</code> + <code>repeatOnLifecycle</code> in every screen:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#a6e22e">@Composable</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">T</span>&gt; <span style="color:#a6e22e">FlowCollector</span>(
+</span></span><span style="display:flex;"><span>    flow: Flow&lt;T&gt;,
+</span></span><span style="display:flex;"><span>    lifecycleState: <span style="color:#a6e22e">Lifecycle</span>.State = <span style="color:#a6e22e">Lifecycle</span>.<span style="color:#a6e22e">State</span>.STARTED,
+</span></span><span style="display:flex;"><span>    collect: (T) <span style="color:#f92672">-&gt;</span> Unit
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> lifecycle = <span style="color:#a6e22e">LocalLifecycleOwner</span>.current
+</span></span><span style="display:flex;"><span>    LaunchedEffect(Unit) {
+</span></span><span style="display:flex;"><span>        lifecycle.repeatOnLifecycle(lifecycleState) {
+</span></span><span style="display:flex;"><span>            flow.collect(collect)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// In any screen composable:
+</span></span></span><span style="display:flex;"><span>FlowCollector(viewModel.vmEvent) { event <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">when</span> (event) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">VMEvent</span>.NavigateToDetail <span style="color:#f92672">-&gt;</span> navController.navigate(<span style="color:#960050;background-color:#1e0010">…</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> <span style="color:#a6e22e">VMEvent</span>.ShowError <span style="color:#f92672">-&gt;</span> snackbar.show(<span style="color:#960050;background-color:#1e0010">…</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="testable-coroutine-dispatchers">Testable Coroutine Dispatchers<a hidden class="anchor" aria-hidden="true" href="#testable-coroutine-dispatchers">#</a></h3>
+<p>Dispatchers are <strong>never hardcoded</strong> — an injectable <code>DispatcherProvider</code> interface allows swapping <code>Dispatchers.IO</code> for <code>TestDispatcher</code> in unit tests:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">DispatcherProvider</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> main: CoroutineDispatcher
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> io: CoroutineDispatcher
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> default: CoroutineDispatcher
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Production
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StandardDispatchers</span> : DispatcherProvider { <span style="color:#960050;background-color:#1e0010">…</span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Tests — everything runs synchronously
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestDispatcherProvider</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> testDispatcher: TestDispatcher = StandardTestDispatcher()
+</span></span><span style="display:flex;"><span>) : DispatcherProvider {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> main = testDispatcher
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> io = testDispatcher
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> default = testDispatcher
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="clean-layer-boundaries-mappers">Clean Layer Boundaries: Mappers<a hidden class="anchor" aria-hidden="true" href="#clean-layer-boundaries-mappers">#</a></h3>
+<p>Data Transfer Objects (DTOs) never leak into the domain layer. Mapper extensions convert at the boundary:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// data → domain
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">DiaryEntryDTO</span>.toDomainModel(documentId: String): DiaryEntry =
+</span></span><span style="display:flex;"><span>    DiaryEntry(
+</span></span><span style="display:flex;"><span>        id = documentId,
+</span></span><span style="display:flex;"><span>        title = title,
+</span></span><span style="display:flex;"><span>        rawEntry = rawEntry,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">data</span> = <span style="color:#a6e22e">DiaryEntry</span>.EntryData(
+</span></span><span style="display:flex;"><span>            emotionFactList = <span style="color:#66d9ef">data</span>.emotionFactList
+</span></span><span style="display:flex;"><span>                .mapIndexed { i, dto <span style="color:#f92672">-&gt;</span> dto.toDomainModel(i.toString()) }
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        date = createdAt<span style="color:#f92672">?.</span>toDate()
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// domain → data
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">EmotionFact</span>.toDto(): EmotionFactDTO =
+</span></span><span style="display:flex;"><span>    EmotionFactDTO(
+</span></span><span style="display:flex;"><span>        emotion = emotion.name,
+</span></span><span style="display:flex;"><span>        intensity = intensity,
+</span></span><span style="display:flex;"><span>        triggers = triggers,
+</span></span><span style="display:flex;"><span>        context = context
+</span></span><span style="display:flex;"><span>    )
+</span></span></code></pre></div><h3 id="convention-plugins-dry-build-configuration">Convention Plugins: DRY Build Configuration<a hidden class="anchor" aria-hidden="true" href="#convention-plugins-dry-build-configuration">#</a></h3>
+<p>Instead of duplicating Gradle configuration across 19 modules, a <code>build-logic</code> module defines <strong>custom convention plugins</strong> that enforce consistency:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// build-logic/convention/AndroidFeatureConventionPlugin.kt
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AndroidFeatureConventionPlugin</span> : Plugin&lt;Project&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">apply</span>(target: Project) {
+</span></span><span style="display:flex;"><span>        with(target) {
+</span></span><span style="display:flex;"><span>            with(pluginManager) {
+</span></span><span style="display:flex;"><span>                apply(<span style="color:#e6db74">&#34;daymood.android.library&#34;</span>)
+</span></span><span style="display:flex;"><span>                apply(<span style="color:#e6db74">&#34;daymood.android.library.compose&#34;</span>)
+</span></span><span style="display:flex;"><span>                apply(<span style="color:#e6db74">&#34;daymood.hilt&#34;</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            dependencies {
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:designsystem&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:ui&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:model&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:domain&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:common&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:analytics&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;implementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:navigation&#34;</span>))
+</span></span><span style="display:flex;"><span>                add(<span style="color:#e6db74">&#34;testImplementation&#34;</span>, project(<span style="color:#e6db74">&#34;:core:testing&#34;</span>))
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Any feature module&#39;s build.gradle.kts — one line:
+</span></span></span><span style="display:flex;"><span>plugins {
+</span></span><span style="display:flex;"><span>    alias(libs.plugins.daymood.android.feature)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p><strong>Why it matters:</strong> Adding a new feature module takes 30 seconds. The plugin guarantees it gets Compose, Hilt, design system, analytics, and test dependencies — no copy-paste, no drift between modules.</p>
+</blockquote>
+<h3 id="type-safe-navigation-with-serializable-routes">Type-Safe Navigation with @Serializable Routes<a hidden class="anchor" aria-hidden="true" href="#type-safe-navigation-with-serializable-routes">#</a></h3>
+<p>Navigation routes are <code>@Serializable</code> data classes with compile-time checked parameters — no string-based route matching:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#a6e22e">@Serializable</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AnalysisPreview</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> userName: String,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> miniEntryText: String,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> isDemo: Boolean = <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>) : Route
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Serializable</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EntryNewEmotionList</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> title: String,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> rawEntry: String,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> emotionFactList: List&lt;EmotionFact&gt;,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> entryId: String? = <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>) : Route
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Navigate with compiler-checked parameters:
+</span></span></span><span style="display:flex;"><span>navigator.navigateTo(
+</span></span><span style="display:flex;"><span>    AnalysisPreview(userName = <span style="color:#e6db74">&#34;Jaime&#34;</span>, miniEntryText = text)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h3 id="decoupled-feature-navigation">Decoupled Feature Navigation<a hidden class="anchor" aria-hidden="true" href="#decoupled-feature-navigation">#</a></h3>
+<p>Each feature module exposes a <strong>NavGraphBuilder extension</strong> with lambda callbacks instead of receiving a <code>NavController</code> — features never depend on each other:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#75715e">// feature/entries — knows nothing about other features
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">NavGraphBuilder</span>.entryNewScreen(
+</span></span><span style="display:flex;"><span>    onNavigateToBreathingAnalysis: (title: String, rawEntry: String) <span style="color:#f92672">-&gt;</span> Unit,
+</span></span><span style="display:flex;"><span>    onNavigateToEmotionsList: (List&lt;EmotionFact&gt;) <span style="color:#f92672">-&gt;</span> Unit,
+</span></span><span style="display:flex;"><span>    onNavigateBack: () <span style="color:#f92672">-&gt;</span> Unit
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    composable&lt;EntryNew&gt; { backStackEntry <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        EntryNewRoute(
+</span></span><span style="display:flex;"><span>            diaryEntryToEdit = backStackEntry.toRoute&lt;EntryNew&gt;().diaryEntry,
+</span></span><span style="display:flex;"><span>            onNavigateToBreathingAnalysis = onNavigateToBreathingAnalysis,
+</span></span><span style="display:flex;"><span>            onNavigateBack = onNavigateBack
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Wired together only in :app module&#39;s NavHost
+</span></span></span></code></pre></div><blockquote>
+<p><strong>Why it matters:</strong> Feature modules can be compiled, tested, and previewed in complete isolation. The <code>:app</code> module is the only place that knows how features connect — making refactoring and reordering flows trivial.</p>
+</blockquote>
+<h3 id="hilt-modules-binds-for-zero-allocation-di">Hilt Modules: @Binds for Zero-Allocation DI<a hidden class="anchor" aria-hidden="true" href="#hilt-modules-binds-for-zero-allocation-di">#</a></h3>
+<p>Repository bindings use <code>abstract @Binds</code> instead of <code>@Provides</code> — Hilt generates no factory class, keeping the method count low:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#a6e22e">@Module</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@InstallIn</span>(SingletonComponent<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RepositoryModule</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Binds</span> <span style="color:#a6e22e">@Singleton</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bindDiaryRepository</span>(
+</span></span><span style="display:flex;"><span>        impl: DiaryRepositoryImpl
+</span></span><span style="display:flex;"><span>    ): DiaryRepository
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Binds</span> <span style="color:#a6e22e">@Singleton</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bindEmotionAnalysisRepository</span>(
+</span></span><span style="display:flex;"><span>        impl: EmotionAnalysisRepositoryImpl
+</span></span><span style="display:flex;"><span>    ): EmotionAnalysisRepository
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="pattern-summary">Pattern Summary<a hidden class="anchor" aria-hidden="true" href="#pattern-summary">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th>Pattern</th>
+          <th>Applied across</th>
+          <th>Purpose</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>UiEvent</code> / <code>UiState</code> / <code>VMEvent</code></td>
+          <td>15+ feature screens</td>
+          <td>Predictable unidirectional flow</td>
+      </tr>
+      <tr>
+          <td>Import aliases (<code>as UiEvent</code>)</td>
+          <td>Every ViewModel</td>
+          <td>Clean, scannable code</td>
+      </tr>
+      <tr>
+          <td>Sealed <code>Failure</code> hierarchy</td>
+          <td>6 domain groups</td>
+          <td>Exhaustive error handling</td>
+      </tr>
+      <tr>
+          <td><code>operator fun invoke</code> use cases</td>
+          <td>All domain operations</td>
+          <td>Readable call sites</td>
+      </tr>
+      <tr>
+          <td><code>handleLoading()</code> Flow extension</td>
+          <td>Every async operation</td>
+          <td>DRY loading state</td>
+      </tr>
+      <tr>
+          <td><code>FlowCollector</code> composable</td>
+          <td>Every screen</td>
+          <td>Lifecycle-safe one-shot events</td>
+      </tr>
+      <tr>
+          <td><code>DispatcherProvider</code> injection</td>
+          <td>All coroutine contexts</td>
+          <td>Deterministic testing</td>
+      </tr>
+      <tr>
+          <td>DTO ↔ Domain mappers</td>
+          <td>Every repository</td>
+          <td>Clean layer separation</td>
+      </tr>
+      <tr>
+          <td>Convention plugins (<code>build-logic</code>)</td>
+          <td>All 19 modules</td>
+          <td>DRY, consistent build config</td>
+      </tr>
+      <tr>
+          <td><code>@Serializable</code> routes</td>
+          <td>20+ routes</td>
+          <td>Compile-time safe navigation</td>
+      </tr>
+      <tr>
+          <td>Lambda-callback navigation</td>
+          <td>All feature modules</td>
+          <td>Zero inter-feature coupling</td>
+      </tr>
+      <tr>
+          <td><code>@Binds</code> abstract modules</td>
+          <td>All repository bindings</td>
+          <td>Zero-allocation DI</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>These aren&rsquo;t aspirational guidelines — they&rsquo;re enforced patterns applied consistently across 19 Gradle modules and 15+ feature screens. The result is a codebase where any screen can be understood in under a minute.</p>
+</blockquote>
 <hr>
 <h2 id="security-implementation">Security Implementation<a hidden class="anchor" aria-hidden="true" href="#security-implementation">#</a></h2>
 <h3 id="security-overview">Security Overview<a hidden class="anchor" aria-hidden="true" href="#security-overview">#</a></h3>
@@ -1563,6 +1966,123 @@ Google Play&rsquo;s SDK handles eligibility server-side: when a user has already
 <li>Skips notification if user already wrote today</li>
 <li>Configurable time via time picker in Profile and Streak screens</li>
 </ul>
+<hr>
+<h2 id="product-analytics--data-driven-iteration">Product Analytics &amp; Data-Driven Iteration<a hidden class="anchor" aria-hidden="true" href="#product-analytics--data-driven-iteration">#</a></h2>
+<h3 id="analytics-first-approach">Analytics-First Approach<a hidden class="anchor" aria-hidden="true" href="#analytics-first-approach">#</a></h3>
+<p>Every screen, button, and flow in DayMood is instrumented with Google Analytics events. This isn&rsquo;t just for dashboards — it drives real product decisions.</p>
+<h3 id="funnel-analysis-28-day-period-android">Funnel Analysis (28-day period, Android)<a hidden class="anchor" aria-hidden="true" href="#funnel-analysis-28-day-period-android">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th>Funnel Step</th>
+          <th>Users</th>
+          <th>Conversion</th>
+          <th>Insight</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>First open</td>
+          <td>2,296</td>
+          <td>100%</td>
+          <td>~60 new users/day organically across LATAM + Europe</td>
+      </tr>
+      <tr>
+          <td>Onboarding started</td>
+          <td>2,017</td>
+          <td>87.8%</td>
+          <td>Minimal drop before onboarding</td>
+      </tr>
+      <tr>
+          <td>Onboarding completed</td>
+          <td>1,413</td>
+          <td>70.1% of started</td>
+          <td><strong>30% drop</strong> — led to redesigning the onboarding flow</td>
+      </tr>
+      <tr>
+          <td>Login success</td>
+          <td>885</td>
+          <td>62.6% of completed</td>
+          <td>Login friction identified → simplified auth flow</td>
+      </tr>
+      <tr>
+          <td>Entry created</td>
+          <td>427</td>
+          <td>18.6% of first open</td>
+          <td>Core activation metric</td>
+      </tr>
+      <tr>
+          <td>AI analysis completed</td>
+          <td>412</td>
+          <td><strong>96.5% of creators</strong></td>
+          <td>Users who write <em>overwhelmingly</em> use AI analysis</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Key iteration:</strong> The 30% onboarding drop led to a complete redesign: a guided &ldquo;experience&rdquo; flow where users write a mini diary entry and see AI analysis results <em>before</em> creating an account. This &ldquo;wow moment first&rdquo; approach is tracked via <code>experience_mini_entry_started</code> → <code>experience_wow_moment_viewed</code> events.</p>
+<h3 id="retention--growth">Retention &amp; Growth<a hidden class="anchor" aria-hidden="true" href="#retention--growth">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th>Metric</th>
+          <th>Value</th>
+          <th>Context</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>D1 retention</strong></td>
+          <td>23.0%</td>
+          <td>Baseline — gamification (v2.2.0) and streak notifications added to improve</td>
+      </tr>
+      <tr>
+          <td><strong>D7 retention</strong></td>
+          <td>9.7%</td>
+          <td>Streak system + daily reminders designed specifically for this</td>
+      </tr>
+      <tr>
+          <td><strong>Avg sessions/user</strong></td>
+          <td>1.8</td>
+          <td>Measured across 2,434 active users</td>
+      </tr>
+      <tr>
+          <td><strong>Daily acquisitions</strong></td>
+          <td>~165 devices/day</td>
+          <td>Across Argentina, Mexico, Chile, Spain, UK</td>
+      </tr>
+      <tr>
+          <td><strong>Entries per active writer</strong></td>
+          <td>2.1</td>
+          <td>Users who write tend to come back</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="stability-crashlytics-90-day-window">Stability (Crashlytics, 90-day window)<a hidden class="anchor" aria-hidden="true" href="#stability-crashlytics-90-day-window">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th>Metric</th>
+          <th>Value</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Crash-free users</strong></td>
+          <td>98.64%</td>
+      </tr>
+      <tr>
+          <td><strong>Crash-free sessions</strong></td>
+          <td>98.11%</td>
+      </tr>
+      <tr>
+          <td><strong>Non-fatal reporting</strong></td>
+          <td>Silent tracking across 9 critical modules (crypto, AI, billing, auth)</td>
+      </tr>
+  </tbody>
+</table>
+<p>All crashes are tracked with Crashlytics, with <strong>silent non-fatal error reporting</strong> for operations that shouldn&rsquo;t crash the app but need monitoring (encryption failures, AI timeouts, billing edge cases).</p>
+<h3 id="geographic-reach">Geographic Reach<a hidden class="anchor" aria-hidden="true" href="#geographic-reach">#</a></h3>
+<p>Active users across <strong>5+ countries</strong> in the first month, with primary markets in Latin America (Argentina, Mexico, Chile) and expanding to Spain and UK — all without localized marketing, driven by organic Play Store and App Store discovery.</p>
 <hr>
 <h2 id="safety--compliance">Safety &amp; Compliance<a hidden class="anchor" aria-hidden="true" href="#safety--compliance">#</a></h2>
 <h3 id="crisis-detection--resources">Crisis Detection &amp; Resources<a hidden class="anchor" aria-hidden="true" href="#crisis-detection--resources">#</a></h3>
@@ -2225,13 +2745,15 @@ Google Play&rsquo;s SDK handles eligibility server-side: when a user has already
 </table>
 <h3 id="technical-achievements">Technical Achievements<a hidden class="anchor" aria-hidden="true" href="#technical-achievements">#</a></h3>
 <ul>
-<li><strong>0 crashes</strong> in production (Crashlytics clean, silent non-fatal reporting across 9 critical modules)</li>
+<li><strong>98.64% crash-free users</strong> (Crashlytics, 90-day window) with silent non-fatal reporting across 9 critical modules</li>
+<li><strong>2,300+ users</strong> in first 28 days, ~165 daily device acquisitions across 5+ countries</li>
+<li><strong>96.5% AI adoption</strong> among users who create entries</li>
 <li><strong>100%</strong> localization coverage (Spanish/English)</li>
 <li><strong>32 emotions</strong> mapped with psychological precision (Plutchik model)</li>
 <li><strong>19 Gradle modules</strong> (Android) + <strong>30+ SPM targets</strong> (iOS)</li>
 <li><strong>E2E encryption</strong> with AES-256-GCM: complete user privacy, cross-platform compatible</li>
 <li><strong>4-layer privacy firewall</strong>: defense-in-depth security architecture on both platforms</li>
-<li><strong>Dual AI provider</strong> with dynamic switching via Remote Config</li>
+<li><strong>Dual AI provider</strong> with data-driven selection (10-entry A/B test documented)</li>
 <li><strong>13 gamification milestones</strong> with points economy</li>
 </ul>
 <h3 id="architectural-milestones">Architectural Milestones<a hidden class="anchor" aria-hidden="true" href="#architectural-milestones">#</a></h3>
@@ -2283,8 +2805,8 @@ Google Play&rsquo;s SDK handles eligibility server-side: when a user has already
           <td>Best UX per platform, full platform capabilities, independent release cycles</td>
       </tr>
       <tr>
-          <td>Gemini over local models</td>
-          <td>Superior analysis quality (comprehensive context, nuance detection)</td>
+          <td>Gemini over OpenAI (primary)</td>
+          <td>Data-driven: 19% higher accuracy, 20% lower cost, 100% valid JSON in 10-entry A/B test</td>
       </tr>
       <tr>
           <td>Firestore over Room/CoreData</td>

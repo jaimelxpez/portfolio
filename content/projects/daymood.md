@@ -727,6 +727,114 @@ fun EmotionFact.toDto(): EmotionFactDTO =
     )
 ```
 
+### Convention Plugins: DRY Build Configuration
+
+Instead of duplicating Gradle configuration across 19 modules, a `build-logic` module defines **custom convention plugins** that enforce consistency:
+
+```kotlin
+// build-logic/convention/AndroidFeatureConventionPlugin.kt
+class AndroidFeatureConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) {
+                apply("daymood.android.library")
+                apply("daymood.android.library.compose")
+                apply("daymood.hilt")
+            }
+            dependencies {
+                add("implementation", project(":core:designsystem"))
+                add("implementation", project(":core:ui"))
+                add("implementation", project(":core:model"))
+                add("implementation", project(":core:domain"))
+                add("implementation", project(":core:common"))
+                add("implementation", project(":core:analytics"))
+                add("implementation", project(":core:navigation"))
+                add("testImplementation", project(":core:testing"))
+            }
+        }
+    }
+}
+
+// Any feature module's build.gradle.kts — one line:
+plugins {
+    alias(libs.plugins.daymood.android.feature)
+}
+```
+
+> **Why it matters:** Adding a new feature module takes 30 seconds. The plugin guarantees it gets Compose, Hilt, design system, analytics, and test dependencies — no copy-paste, no drift between modules.
+
+### Type-Safe Navigation with @Serializable Routes
+
+Navigation routes are `@Serializable` data classes with compile-time checked parameters — no string-based route matching:
+
+```kotlin
+@Serializable
+data class AnalysisPreview(
+    val userName: String,
+    val miniEntryText: String,
+    val isDemo: Boolean = false
+) : Route
+
+@Serializable
+data class EntryNewEmotionList(
+    val title: String,
+    val rawEntry: String,
+    val emotionFactList: List<EmotionFact>,
+    val entryId: String? = null
+) : Route
+
+// Navigate with compiler-checked parameters:
+navigator.navigateTo(
+    AnalysisPreview(userName = "Jaime", miniEntryText = text)
+)
+```
+
+### Decoupled Feature Navigation
+
+Each feature module exposes a **NavGraphBuilder extension** with lambda callbacks instead of receiving a `NavController` — features never depend on each other:
+
+```kotlin
+// feature/entries — knows nothing about other features
+fun NavGraphBuilder.entryNewScreen(
+    onNavigateToBreathingAnalysis: (title: String, rawEntry: String) -> Unit,
+    onNavigateToEmotionsList: (List<EmotionFact>) -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    composable<EntryNew> { backStackEntry ->
+        EntryNewRoute(
+            diaryEntryToEdit = backStackEntry.toRoute<EntryNew>().diaryEntry,
+            onNavigateToBreathingAnalysis = onNavigateToBreathingAnalysis,
+            onNavigateBack = onNavigateBack
+        )
+    }
+}
+
+// Wired together only in :app module's NavHost
+```
+
+> **Why it matters:** Feature modules can be compiled, tested, and previewed in complete isolation. The `:app` module is the only place that knows how features connect — making refactoring and reordering flows trivial.
+
+### Hilt Modules: @Binds for Zero-Allocation DI
+
+Repository bindings use `abstract @Binds` instead of `@Provides` — Hilt generates no factory class, keeping the method count low:
+
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
+
+    @Binds @Singleton
+    abstract fun bindDiaryRepository(
+        impl: DiaryRepositoryImpl
+    ): DiaryRepository
+
+    @Binds @Singleton
+    abstract fun bindEmotionAnalysisRepository(
+        impl: EmotionAnalysisRepositoryImpl
+    ): EmotionAnalysisRepository
+}
+```
+
 ### Pattern Summary
 
 | Pattern | Applied across | Purpose |
@@ -739,6 +847,10 @@ fun EmotionFact.toDto(): EmotionFactDTO =
 | `FlowCollector` composable | Every screen | Lifecycle-safe one-shot events |
 | `DispatcherProvider` injection | All coroutine contexts | Deterministic testing |
 | DTO ↔ Domain mappers | Every repository | Clean layer separation |
+| Convention plugins (`build-logic`) | All 19 modules | DRY, consistent build config |
+| `@Serializable` routes | 20+ routes | Compile-time safe navigation |
+| Lambda-callback navigation | All feature modules | Zero inter-feature coupling |
+| `@Binds` abstract modules | All repository bindings | Zero-allocation DI |
 
 > These aren't aspirational guidelines — they're enforced patterns applied consistently across 19 Gradle modules and 15+ feature screens. The result is a codebase where any screen can be understood in under a minute.
 
