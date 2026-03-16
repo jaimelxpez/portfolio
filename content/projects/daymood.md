@@ -1302,21 +1302,19 @@ Both platforms read and write to the same Firestore collections with identical f
 
 ```mermaid
 graph TD
-    subgraph Firestore["Cloud Firestore"]
+    subgraph Firestore["Cloud Firestore (shared)"]
         Users["User Document"]
         Entries["Diary Entries<br/><br/><b>Shared Fields:</b><br/>title (plain)<br/>rawEntry (encrypted)<br/>timestamps<br/><br/><b>Emotion data:</b><br/>emotion (enum rawValue)<br/>intensity (1-10)<br/>triggers (enum rawValues)<br/>context (encrypted)"]
         Crypto["Encryption Key Backup<br/>(encrypted DEK)"]
         Streak["Gamification State<br/>(streaks, points, milestones)"]
-        Sub["Subscription Status"]
     end
 
     Users --> Entries
     Users --> Crypto
     Users --> Streak
-    Users --> Sub
 
-    A["Android App"] -->|"Read/Write"| Users
-    I["iOS App"] -->|"Read/Write"| Users
+    A["Android App<br/><i>Google Play Billing</i>"] -->|"Read/Write"| Users
+    I["iOS App<br/><i>StoreKit 2</i>"] -->|"Read/Write"| Users
 
     style Firestore fill:#FFF9E6,stroke:#D2B28F
 ```

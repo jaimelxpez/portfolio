@@ -40,6 +40,11 @@ buildExpired = false
         name = "email"
         url = "mailto:hello@jaimelxpez.com"
 
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            unsafe = true
+
 [menu]
     [[menu.main]]
         identifier = "projects"

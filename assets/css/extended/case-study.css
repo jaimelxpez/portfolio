@@ -100,7 +100,25 @@
     margin-bottom: 2rem;
 }
 
+/* ── Make TOC toggle more obvious ── */
+.toc > details > summary {
+    font-weight: 700;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    background: var(--code-bg);
+    border: 1px dashed var(--border);
+    transition: background 0.2s ease;
+}
+
+.toc > details > summary:hover {
+    background: var(--border);
+}
+
 /* ── Collapsible TOC subsections ── */
+.toc .inner li:has(> details) {
+    list-style: none;
+}
+
 .toc .inner details {
     margin: 0.15rem 0;
 }
@@ -110,13 +128,13 @@
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.15rem 0;
+    gap: 0.4rem;
+    padding: 0.2rem 0;
 }
 
 .toc .inner details summary::before {
     content: '▸';
-    font-size: 0.7rem;
+    font-size: 0.95rem;
     transition: transform 0.2s ease;
     flex-shrink: 0;
     color: var(--secondary);
