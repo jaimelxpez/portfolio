@@ -1,15 +1,1153 @@
 ---
 title: "DayMood: AI-Powered Emotional Journal"
-date: 2026-01-08
-summary: "A native Android app that combines Clean Architecture, OpenAI API, and Clinical Data Analysis."
-tags: ["Kotlin", "Jetpack Compose", "OpenAI", "Clean Architecture"]
+date: 2026-03-16
+summary: "A cross-platform native mobile app combining Clean Architecture, Google Gemini AI, E2E encryption, and gamification — built on Plutchik's Wheel of Emotions. Kotlin + Swift."
+tags: ["Kotlin", "Swift", "Jetpack Compose", "SwiftUI", "Navigation 3", "Google Gemini", "OpenAI", "Clean Architecture", "Firebase", "E2E Encryption", "Material 3", "StoreKit 2", "Google Play Billing", "Gamification"]
 weight: 1
+cover:
+    image: "images/daymood-icon.png"
+    alt: "DayMood App Icon"
+    relative: false
+ShowToc: true
+TocOpen: true
+---
+
+> A cross-platform native application that transforms emotional journaling into an intelligent clinical experience, combining Plutchik's psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.
+
 ---
 
 ## The Challenge
-Write your introduction here...
+
+### The Real Problem
+
+Emotional journaling has demonstrated significant mental health benefits, but most existing applications present critical limitations:
+
+1. **Subjectivity without structure**: Users describe emotions freely without a clinical framework that enables longitudinal analysis.
+2. **Lack of actionable insights**: Apps record data but don't offer patterns or causal connections.
+3. **High entry barrier**: Writing about emotions requires emotional vocabulary that many users don't possess.
+4. **Disconnect from triggers**: The relationship between life events and emotional responses isn't identified.
+5. **Privacy concerns**: Users hesitate to write honestly when diary content could be read by developers or leaked through logs.
+
+### The Vision
+
+Create an application that acts as a **pocket clinical assistant**: the user writes freely about their day, and AI automatically identifies underlying emotions with clinical precision, revealing patterns that the user themselves doesn't consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.
+
+### High-Level Architecture
+
+```mermaid
+graph TB
+    subgraph Client["Client Layer"]
+        A["Android App<br/>Kotlin / Jetpack Compose"]
+        I["iOS App<br/>Swift / SwiftUI"]
+    end
+
+    subgraph AI["AI Analysis Layer"]
+        G["Google Gemini 2.5 Pro<br/>(Primary)"]
+        O["OpenAI GPT-4o<br/>(Fallback + OCR)"]
+    end
+
+    subgraph Backend["Firebase Backend"]
+        FA["Firebase Auth"]
+        FS["Cloud Firestore"]
+        RC["Remote Config"]
+        CR["Crashlytics"]
+        AC["App Check"]
+    end
+
+    A -->|"AES-256-GCM<br/>Encrypted"| FS
+    I -->|"AES-256-GCM<br/>Encrypted"| FS
+    A --> G
+    A --> O
+    I --> G
+    I --> O
+    A --> FA
+    I --> FA
+    RC -->|"ai_model_provider"| A
+    RC -->|"ai_model_provider"| I
+    AC -->|"Play Integrity /<br/>App Attest"| FS
+```
+
+---
+
+# Part I — Android (Primary Platform)
 
 ## Architecture
-Explain the Clean Architecture here...
 
-(Copy and paste here the content from your PROJECT_MAP.md that you want to show)
+### Multi-Module Clean Architecture
+
+DayMood Android implements Clean Architecture rigorously with **19 independent Gradle modules**, ensuring separation of responsibilities, testability, and scalability.
+
+```mermaid
+graph TD
+    subgraph App["App Module"]
+        APP[":app<br/>DI, Navigation Host, MainActivity"]
+    end
+
+    subgraph Features["Feature Modules"]
+        FS[":feature:splash"]
+        FL[":feature:login"]
+        FE[":feature:entries"]
+        FSU[":feature:summary"]
+        FP[":feature:profile"]
+        FAS[":feature:accountSettings"]
+        FSB[":feature:subscription"]
+        FST[":feature:streak"]
+    end
+
+    subgraph Core["Core Modules"]
+        CC[":core:common"]
+        CN[":core:navigation"]
+        CM[":core:model"]
+        CD[":core:domain"]
+        CDA[":core:data"]
+        CNE[":core:network"]
+        CCR[":core:crypto"]
+        CDS[":core:designsystem"]
+        CA[":core:analytics"]
+        CAL[":core:analysisLimit"]
+        CAD[":core:ads"]
+        CSB[":core:subscription"]
+        CST[":core:streak"]
+    end
+
+    APP --> Features
+    Features --> CD
+    Features --> CM
+    Features --> CDS
+    Features --> CA
+    CD --> CM
+    CDA --> CD
+    CDA --> CNE
+    CDA --> CCR
+    CSB --> CD
+    CST --> CD
+
+    style App fill:#E8F5E9,stroke:#2E7D32
+    style Features fill:#E3F2FD,stroke:#1565C0
+    style Core fill:#FFF3E0,stroke:#E65100
+```
+
+### Layer Flow
+
+```mermaid
+graph TB
+    UI["<b>UI Layer</b><br/>Composables → observe StateFlow → trigger UiEvent<br/><i>Location: :feature:* modules</i>"]
+    VM["<b>ViewModel Layer</b><br/>BaseViewModel → single UiState → emits VMEvent<br/><i>Location: :feature:* modules</i>"]
+    DOM["<b>Domain Layer</b><br/>Pure Kotlin only. UseCases + Repository Interfaces<br/><i>Location: :core:domain + :core:model</i><br/>NO Android imports | NO Firebase/AI SDKs"]
+    DATA["<b>Data Layer</b><br/>Repositories + DataSources + DTOs<br/><i>Location: :core:data + :core:network</i><br/>Maps DTOs → Domain Models immediately"]
+
+    UI -->|"depends on"| VM
+    VM -->|"depends on"| DOM
+    DOM -->|"depends on"| DATA
+
+    style UI fill:#E3F2FD,stroke:#1565C0
+    style VM fill:#E8F5E9,stroke:#2E7D32
+    style DOM fill:#FFF9C4,stroke:#F9A825
+    style DATA fill:#FBE9E7,stroke:#D84315
+```
+
+### Modularization Evolution
+
+| Phase | Date | Scope | Result |
+|-------|------|-------|--------|
+| **Phase 1** | Dec 2025 | Domain models migration to `:core:model` | Pure domain layer, no Android dependencies |
+| **Phase 2** | Jan 2026 | Repositories & infrastructure to `:core:data` and `:core:network` | Complete data layer separation |
+| **Phase 2.5** | Jan 2026 | AI services and Remote Config migration | Infrastructure ready for dual-provider |
+| **Phase 3** | Jan 2026 | Final integration + feature module activation | **19 independent modules working** |
+
+**Quantifiable Impact:**
+- **19 Gradle modules** vs 1 original monolith
+- **~2,000 legacy code lines removed** (duplicate code cleanup)
+- **Incremental compilation**: Only modified modules recompile
+- **Zero breaking changes**: All migration without affecting existing functionality
+
+### Key Applied Principles
+
+| Principle | DayMood Implementation |
+|-----------|------------------------|
+| **Single Source of Truth** | Each feature has a single immutable UiState |
+| **Unidirectional Data Flow** | UI → Event → ViewModel → UseCase → Repository → UI |
+| **Dependency Inversion** | Domain layer doesn't know Android, Firebase, or AI SDKs |
+| **DTO Isolation** | API models never reach the UI |
+
+---
+
+## Tech Stack
+
+### Core Technologies
+
+| Category | Technology | Version |
+|----------|------------|---------|
+| **Language** | Kotlin | 2.3.0 |
+| **UI Framework** | Jetpack Compose | BOM 2026.01.00 |
+| **Design System** | Material 3 | 1.4 |
+| **DI** | Hilt | 2.57.1 |
+| **Async** | Kotlin Coroutines + Flow | — |
+| **Navigation** | Navigation 3 | alpha |
+| **Networking** | Retrofit + OkHttp | 2.11.0 / 4.12.0 |
+| **Image Loading** | Coil 3 | 3.3.0 |
+| **Rich Text** | compose-rich-editor | 1.0.0-rc13 |
+| **Markdown** | multiplatform-markdown-renderer-m3 | 0.39.2 |
+
+### Backend & AI
+
+| Category | Technology | Usage |
+|----------|------------|-------|
+| **Authentication** | Firebase Auth | Google Sign-In, Email/Password |
+| **Database** | Cloud Firestore | Entry persistence (E2E encrypted) |
+| **AI Analysis (Primary)** | Google Gemini 2.5 Pro (Firebase AI SDK) | Clinical emotion analysis |
+| **AI Analysis (Fallback)** | OpenAI API (GPT-4o) | Fallback provider + OCR cleanup |
+| **AI Switching** | Firebase Remote Config | Dynamic provider switching |
+| **OCR** | ML Kit Text Recognition | Physical diary digitization |
+| **Camera** | CameraX | Capture for OCR |
+| **Crash Reporting** | Firebase Crashlytics | Error monitoring + silent non-fatal reporting |
+| **E2E Encryption** | Jetpack Security + HKDF-SHA256 | AES-256-GCM sensitive data protection |
+| **App Check** | Firebase App Check + Play Integrity | Backend protection against abuse |
+| **Subscriptions** | Google Play Billing 7.x | Premium paywall and subscription management |
+| **Ads** | Google Mobile Ads | Interstitial, app open, and rewarded ads |
+| **Notifications** | WorkManager | Daily reminders, weekly summaries |
+| **In-App Review** | Google Play In-App Review API | Review prompt after first entry |
+
+### Build System
+
+| Tool | Version |
+|------|---------|
+| Android Gradle Plugin | 8.13.2 |
+| Gradle | 8.13 |
+| Min SDK | 29 (Android 10) |
+| Target/Compile SDK | 36 |
+
+---
+
+## Design System: "Organic Wellness"
+
+### Visual Philosophy
+
+DayMood adopts a **minimalist and warm aesthetic** inspired by wellness and nature, deliberately moving away from the cold colors typical of productivity apps. The design system is shared across both platforms, adapted to each platform's conventions.
+
+### Color Palette
+
+| Token | Light Mode | Dark Mode | Usage |
+|-------|------------|-----------|-------|
+| `background` | `#F9F7F4` (Cream) | `#121212` | Screen backgrounds |
+| `white` | `#FFFDF9` (Warm White) | `#1E1E1E` | Card surfaces |
+| `sand` | `#D2B28F` | `#E5C9A8` | Buttons, accents |
+| `primary` | `#ADD6EA` (Soft Blue) | `#ADD6EA` | Primary elements |
+| `tertiary` | `#8B4513` (Sienna) | `#A0522D` | Highlights |
+| `coral` | `#FF7F7F` | `#FF9999` | Errors, emergency |
+
+### Typography: Dual-Font System
+
+**Design Decision (January 2026):** Migration from Montserrat to **Manrope** as the primary sans-serif font, optimized for WCAG 2.1 AA compliance.
+
+| Font | Usage | Characteristics |
+|------|-------|-----------------|
+| **Manrope** (Sans-Serif) | UI, body text, labels | Modern geometric with rounded terminals. Superior legibility at small sizes. 75% lighter than Montserrat (162KB vs 672KB). |
+| **Lora** (Serif) | Display, greetings, editorial content | Elegant editorial character for emotional moments and highlighted titles. |
+
+**Weight Hierarchy:**
+
+```
+Large titles (20-34sp) → Normal (400)   ← Elegance without excessive weight
+      ↓
+Body text (16-17sp)    → Medium (500)   ← Comfortable extended reading
+      ↓
+Small text (11-15sp)   → SemiBold (600) ← Maximum clarity and contrast
+```
+
+### Shapes
+
+- **Cards**: `RoundedCornerShape(24.dp)` — Very rounded corners for organic feel
+- **Buttons**: `RoundedCornerShape(16.dp)` — Soft and accessible
+- **Chips**: `RoundedCornerShape(12.dp)` — Compact but friendly
+
+---
+
+## Core Feature: Plutchik Emotion System
+
+### Theoretical Foundation
+
+DayMood implements **Plutchik's Wheel of Emotions**, a clinical psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.
+
+```mermaid
+graph TD
+    subgraph Wheel["Plutchik's Wheel — 32 Emotions"]
+        direction TB
+        J["Joy<br/>Ecstasy · Joy · Serenity"]
+        T["Trust<br/>Admiration · Trust · Acceptance"]
+        F["Fear<br/>Terror · Fear · Apprehension"]
+        S["Surprise<br/>Amazement · Surprise · Distraction"]
+        SA["Sadness<br/>Grief · Sadness · Pensiveness"]
+        D["Disgust<br/>Loathing · Disgust · Boredom"]
+        AN["Anger<br/>Rage · Anger · Annoyance"]
+        AT["Anticipation<br/>Vigilance · Anticipation · Interest"]
+    end
+
+    subgraph Secondary["Secondary Emotions (Root Combinations)"]
+        L["Love = Joy + Trust"]
+        O["Optimism = Joy + Anticipation"]
+        SB["Submission = Trust + Fear"]
+        AG["Aggressiveness = Anger + Anticipation"]
+    end
+
+    J --- L
+    T --- L
+    J --- O
+    AT --- O
+
+    style Wheel fill:#FFF9E6,stroke:#D2B28F
+    style Secondary fill:#F0F8FF,stroke:#ADD6EA
+```
+
+### 8 Emotion Roots
+
+| Root | Pastel Color | Dark Color | Emotions (Basic, Intense, Mild) |
+|------|--------------|------------|--------------------------------|
+| **Joy** | `#F9E79F` | `#C9A227` | Joy, Ecstasy, Serenity |
+| **Trust** | `#82E0AA` | `#27AE60` | Trust, Admiration, Acceptance |
+| **Fear** | `#76B84E` | `#4A7C23` | Fear, Terror, Apprehension |
+| **Surprise** | `#BB8FCE` | `#8E44AD` | Surprise, Amazement, Distraction |
+| **Sadness** | `#85C1E9` | `#2E86AB` | Sadness, Grief, Pensiveness |
+| **Disgust** | `#D7BDE2` | `#9B59B6` | Disgust, Loathing, Boredom |
+| **Anger** | `#F1948A` | `#C0392B` | Anger, Rage, Annoyance |
+| **Anticipation** | `#F8B88B` | `#D35400` | Anticipation, Vigilance, Interest |
+
+### Emoji Selection: Research-Based Approach
+
+The emoji selection is based on **Paul Ekman's foundational research** on universal emotions and peer-reviewed studies on emoji emotion recognition:
+
+- **PMC10175112**: "Emotion Recognition of Faces and Emoji" — recognition accuracy analysis
+- **PMC10045925**: "Emojis Are Comprehended Better than Facial Expressions"
+- **PMC9231464**: "The Multidimensional Lexicon of Emojis" — includes Plutchik's 8 emotions mapping
+
+### 16 Life Triggers
+
+The system maps emotions to **life domains** that act as triggers:
+
+| Domain | Example Insight |
+|--------|-----------------|
+| Family relationships | "Your family continues to be a source of joy" |
+| Work/Career | "Work has been your main source of anxiety" |
+| Mental health | "Your mental wellbeing shows positive patterns" |
+| Romantic partner | "Your relationship brings both joy and anxiety" |
+| Finances/Economy | "Finances are influencing your worry" |
+| Achievements/Goals | "Achieving goals produces consistent satisfaction" |
+
+### EmotionWheel: Pizza-Slice Visual Design
+
+The `EmotionWheel` component uses a **pizza-slice (pie sector) style** for optimal visual hierarchy and touch interaction:
+
+- 8 filled pie sectors (one per root emotion) with 2-degree gap between slices
+- Inner radius cutout creates donut shape
+- Each slice displays its emoji centered on the arc
+- Selection animation: slight scale (1.05x) + colored border + glow effect
+- Companion `EmotionWheelShowcase` for read-only analysis preview
+
+---
+
+## AI Integration: Dual-Provider Architecture
+
+### Strategic Decision: Gemini as Primary Provider
+
+After exhaustive comparative analysis with real production entries, DayMood adopted **Google Gemini 2.5 Pro** as the primary emotional analysis engine, maintaining **OpenAI GPT-4o** as fallback:
+
+| Criterion | Gemini 2.5 Pro | OpenAI GPT-4o | Winner |
+|-----------|----------------|---------------|--------|
+| **Clinical depth** | Comprehensive detailed analysis | Concise responses | Gemini |
+| **JSON consistency** | 100% valid (native `response_mime_type`) | ~85% (requires regex cleanup) | Gemini |
+| **Cost per analysis** | $0.00538 | $0.00675 | Gemini (20% savings) |
+| **Average latency** | 16.5s | 4.3s | OpenAI (3.9x faster) |
+| **Enum compliance** | Never invents emotions outside catalog | ~2% of cases with custom emotions | Gemini |
+
+**Accepted Trade-off:** Users perform emotional analysis reflectively, not in real-time critical scenarios. The insight depth compensates for the additional wait time. A skeleton-based loading UX (breathing animation) manages perceived latency.
+
+### Dynamic Switching Architecture
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant VM as ViewModel
+    participant R as Repository
+    participant F as Factory
+    participant RC as Remote Config
+    participant G as Gemini 2.5 Pro
+    participant O as OpenAI GPT-4o
+
+    U->>VM: Write diary entry + tap "Analyze"
+    VM->>R: analyzeEntry(title, rawEntry)
+    R->>F: getService()
+    F->>RC: getAiModelProvider()
+    RC-->>F: "GEMINI" or "OPENAI"
+
+    alt Provider = GEMINI
+        F-->>R: GeminiAnalysisService
+        R->>G: analyze(prompt, entry)
+        G-->>R: JSON response
+    else Provider = OPENAI
+        F-->>R: OpenAiAnalysisService
+        R->>O: analyze(prompt, entry)
+        O-->>R: JSON response
+    end
+
+    R-->>VM: EmotionAnalysisResult
+    VM-->>U: Display emotions for review
+    U->>VM: Edit intensities/triggers + Save
+    VM->>R: encrypt + persist to Firestore
+```
+
+### Clinical Prompt Engineering
+
+Both providers receive carefully designed prompts that instruct them to:
+
+1. Identify emotions using exclusively Plutchik's 32-emotion vocabulary
+2. Assign intensity on a 1–10 scale based on language cues
+3. Map triggers to the 16 predefined life domains
+4. Provide brief clinical context for each detected emotion
+5. Respond in the user's language (Spanish or English)
+
+### Quality Comparison (Real Entries)
+
+| Aspect | Gemini 2.5 Pro | OpenAI GPT-4o |
+|--------|----------------|---------------|
+| **Clinical context** | "The user expresses contained frustration at work situations perceived as unfair, showing constructive anger patterns" | "Work frustration" |
+| **Nuance detection** | Identifies secondary emotions (e.g., "cautious optimism" + "apprehension") | Tends toward basic emotions |
+| **Multiple triggers** | Assigns 2–3 interrelated triggers when appropriate | Generally 1 trigger per emotion |
+| **Clinical notes** | 2–3 sentence paragraphs with therapeutic observations | 1 brief sentence |
+
+---
+
+## Navigation Architecture
+
+### Navigation 3: Scene-Based Composition
+
+DayMood Android uses **Navigation 3**, Google's next-generation navigation library featuring a declarative scene-based approach with direct backstack manipulation.
+
+```mermaid
+graph LR
+    subgraph Nav3["Navigation 3 Architecture"]
+        AN["AppNavigator<br/><i>SnapshotStateList&lt;Route&gt;</i>"]
+        AND["AppNavDisplay<br/><i>NavDisplay + entryProvider</i>"]
+        R["Routes.kt<br/><i>@Serializable sealed types</i>"]
+    end
+
+    AN -->|"backStack state"| AND
+    R -->|"type-safe routes"| AN
+    AND -->|"when(route) { ... }"| Screens
+
+    subgraph Screens["Feature Screens"]
+        S1["EntriesList"]
+        S2["EntryNew"]
+        S3["EntryDetail"]
+        S4["Summary"]
+        S5["Streak"]
+        S6["Profile"]
+        S7["Subscription"]
+        S8["CryptoGate"]
+    end
+
+    style Nav3 fill:#E8F5E9,stroke:#2E7D32
+    style Screens fill:#E3F2FD,stroke:#1565C0
+```
+
+**Key Principles:**
+- `SnapshotStateList<Route>` as single source of truth — navigation is list manipulation
+- `NavDisplay` renders current route via `when(route) { ... }` lambda
+- Type-safe routes using Kotlin Serialization (`@Serializable` data classes/objects)
+- ViewModels emit `VMEvent`s, UI invokes navigation callbacks
+- No `NavController` abstraction — direct, testable backstack manipulation
+
+**Custom Transitions:**
+- Forward: slides from right with parallax effect on old screen + fade
+- Back: slides from left while current exits right
+- Predictive back gesture matching for Android 14+
+
+**CryptoGate Screen:**
+An intermediate screen between authentication and home that blocks navigation until E2E encryption is fully initialized (15-second timeout). This eliminates race conditions where ViewModels accessed uninitialized DEKs.
+
+```mermaid
+graph LR
+    Login["Login / SignUp"] -->|"clearAndNavigateTo"| CG["CryptoGate"]
+    CG -->|"Crypto ready"| Home["EntriesList"]
+    CG -->|"Timeout / Error"| Error["Error UI<br/>Retry / Logout"]
+
+    style CG fill:#FFF9C4,stroke:#F9A825
+```
+
+---
+
+## Security Implementation
+
+### Security Overview
+
+| Area | Implementation |
+|------|----------------|
+| **API Keys** | `BuildConfig` via Gradle secrets plugin |
+| **Session Storage** | `EncryptedSharedPreferences` (AES-256-SIV + AES-256-GCM) |
+| **Input Validation** | `InputValidator` sanitizes before API calls |
+| **E2E Encryption** | AES-256-GCM for diary entries (DEK/KEK dual-key system) |
+| **Key Management** | DEK in Keystore, KEK derived from Firebase ID Token via HKDF |
+| **App Check** | Firebase App Check with Play Integrity (release) / Debug provider (debug) |
+| **Privacy Firewall** | 4-layer defense-in-depth: content redaction, SDK guards, analytics filtering, secure logging |
+| **Crisis Detection** | 36-pattern keyword detector (EN/ES) as AI safety net |
+
+### End-to-End Encryption Architecture
+
+DayMood implements **end-to-end encryption** that ensures not even the developer can read user diary content. The same encryption protocol is used on both Android and iOS, enabling cross-device data access.
+
+```mermaid
+graph TD
+    IDT["Firebase ID Token (JWT)"]
+    HKDF["HKDF-SHA256<br/>Extract stable claims:<br/>sub | aud | provider"]
+    KEK["KEK (Key Encryption Key)<br/>256-bit, derived, never stored"]
+    DEK["DEK (Data Encryption Key)<br/>256-bit, SecureRandom"]
+    ESP["EncryptedSharedPreferences<br/>(local storage)"]
+    FS["Firestore Backup<br/>(encrypted DEK)"]
+    AES["AES-256-GCM<br/>12-byte IV + 128-bit Auth Tag"]
+    RE["rawEntry<br/>(encrypted)"]
+    EC["emotionFact[].context<br/>(encrypted)"]
+
+    IDT --> HKDF
+    HKDF --> KEK
+    KEK -->|"encrypt/decrypt DEK"| FS
+    KEK -->|"encrypt/decrypt DEK"| DEK
+    DEK --> ESP
+    DEK --> AES
+    AES --> RE
+    AES --> EC
+
+    style KEK fill:#FFCDD2,stroke:#C62828
+    style DEK fill:#C8E6C9,stroke:#2E7D32
+    style AES fill:#E3F2FD,stroke:#1565C0
+```
+
+**Dual-Key System:**
+
+| Key | Purpose | Storage | Derivation |
+|-----|---------|---------|------------|
+| **KEK** (Key Encryption Key) | Encrypts/decrypts the DEK for cloud backup | Never stored — derived on demand | HKDF-SHA256 from stable JWT claims (`sub`, `aud`, `sign_in_provider`) |
+| **DEK** (Data Encryption Key) | Encrypts/decrypts diary entry content | `EncryptedSharedPreferences` (hardware-backed Keystore) | `SecureRandom` (generated once per user) |
+
+**Encrypted Fields:**
+
+| Field | Reason |
+|-------|--------|
+| `rawEntry` | Diary content (sensitive text) |
+| `emotionFactList[].context` | Clinical context of each emotion |
+
+**Fields in Cleartext (for analytics):**
+
+| Field | Reason |
+|-------|--------|
+| `title` | Entry identification |
+| `emotionFactList[].emotion` | Emotional distribution charts |
+| `emotionFactList[].intensity` | Intensity metrics |
+| `createdAt`, `updatedAt` | Temporal ordering |
+
+**Multi-device Recovery:** The encrypted DEK is backed up to Firestore, allowing recovery on new devices with the same account.
+
+### Fail-Safe Privacy Firewall (Defense-in-Depth)
+
+DayMood implements a **4-layer defense-in-depth privacy firewall** that makes it physically impossible for diary entries to leak through logging or monitoring — regardless of Firebase Console configuration, debug settings, or developer errors.
+
+```mermaid
+graph TD
+    Entry["User Diary Entry<br/>(Sensitive PII)"]
+
+    L1["<b>Layer 1: SanitizingLoggingInterceptor</b><br/>HTTP/Retrofit content redaction<br/>Detects AI endpoints, redacts JSON fields<br/>Fail-safe: if parsing fails, redact entire body"]
+
+    L2["<b>Layer 2: Gemini SecurityException Handler</b><br/>Wraps Firebase AI SDK calls<br/>Catches security policy violations<br/>Fails fast on telemetry/logging breach"]
+
+    L3["<b>Layer 3: Analytics Content Filter</b><br/>Runtime validation before event logging<br/>Rejects strings > 100 chars<br/>Blocks diary-like keywords"]
+
+    L4["<b>Layer 4: SecureLogger Utility</b><br/>All logging passes through sanitizer<br/>Redacts tokens, API keys, emails<br/>Debug-only (disabled in production)"]
+
+    Entry --> L1
+    L1 --> L2
+    L2 --> L3
+    L3 --> L4
+    L4 --> Safe["Safe Output<br/>No PII leakage possible"]
+
+    style Entry fill:#FFCDD2,stroke:#C62828
+    style Safe fill:#C8E6C9,stroke:#2E7D32
+    style L1 fill:#E3F2FD,stroke:#1565C0
+    style L2 fill:#E3F2FD,stroke:#1565C0
+    style L3 fill:#E3F2FD,stroke:#1565C0
+    style L4 fill:#E3F2FD,stroke:#1565C0
+```
+
+**Security Guarantees:**
+- Diary entries in Logcat → **Impossible** (Layer 1 redacts)
+- AI responses in HTTP logs → **Impossible** (Layer 1 redacts)
+- PII in Firebase Analytics → **Blocked** (Layer 3 filters)
+- Tokens/API keys in logs → **Sanitized** (Layer 4)
+- Debug logging exposing content → **Redacted** (Layers 1 + 4)
+
+### Privacy-Safe AI Telemetry
+
+AI performance metrics (latency, token counts, error rates) are tracked without logging sensitive content, using type-safe event classes with primitive-only fields:
+
+```kotlin
+AiPerformanceEvent(
+    provider = AiModelProvider.GEMINI,
+    latencyMs = 16500L,
+    inputTokens = 150,
+    outputTokens = 250,
+    totalTokens = 400,
+    isSuccess = true,
+    errorCode = null
+)
+```
+
+---
+
+## Subscription & Monetization
+
+### Premium Subscription
+
+DayMood uses **Google Play Billing 7.x** (not RevenueCat) with a dedicated `:core:subscription` module:
+
+| Plan | Price | Savings | Trial |
+|------|-------|---------|-------|
+| **Monthly** | €3.00/month | — | 7-day free trial |
+| **Annual** | €19.99/year | 44% vs monthly | 7-day free trial |
+
+**Trial Eligibility Detection:**
+Google Play's SDK handles eligibility server-side: when a user has already redeemed a free trial, Google excludes the trial offer from `subscriptionOfferDetails`. The `BillingMapper` detects the presence of a zero-cost pricing phase to determine eligibility, ensuring the UI never shows trial messaging to ineligible users.
+
+### Premium Features
+
+| Feature | Free | Premium |
+|---------|------|---------|
+| Daily AI analyses | 5/day | Unlimited |
+| Entry search | — | Full-text search |
+| Summary periods | Week only | Today, week, month, year, custom |
+| Ads | Interstitial + App Open | None |
+| Weekly summary notification | Yes | Yes |
+
+### Ad Strategy
+
+| Ad Type | Trigger | Cooldown | Notes |
+|---------|---------|----------|-------|
+| **Interstitial** | After saving entry | 90 seconds | Grace period: 24h OR 3 entries |
+| **App Open** | Foreground resume | 4 hours | `ProcessLifecycleOwner` detection |
+| **Rewarded** | At analysis limit | 1/day max | Non-dismissible modal, earns 1 bonus analysis |
+
+### In-App Review
+
+Triggered after the user creates their **first diary entry** (capitalizing on the "aha moment" of first AI analysis). Maximum once per 30 days, skipped during ad display.
+
+---
+
+## Gamification & Retention
+
+### Streak & Emotional Journey (v2.2.0)
+
+A full gamification system designed to improve D7 retention through positive reinforcement:
+
+```mermaid
+graph LR
+    subgraph Streak["Streak System"]
+        SC["Streak Counter<br/>Current + Best"]
+        WC["Weekly Calendar<br/>Plutchik colors per day"]
+    end
+
+    subgraph Milestones["13 Hybrid Milestones"]
+        SM["8 Streak-Based<br/>1 → 3 → 7 → 14 →<br/>30 → 50 → 100 days"]
+        EM["5 Emotional<br/>Emotion Explorer (5)<br/>Emotion Palette (10)<br/>Emotion Master (20+)<br/>Trigger Aware (3)<br/>Trigger Expert (5+)"]
+    end
+
+    subgraph Points["Points Economy"]
+        PE["Earn points<br/>from milestones"]
+        PR["Redeem<br/>100 pts = 1 analysis"]
+    end
+
+    SC --> SM
+    SM --> PE
+    EM --> PE
+    PE --> PR
+
+    style Streak fill:#FFF3E0,stroke:#E65100
+    style Milestones fill:#E8F5E9,stroke:#2E7D32
+    style Points fill:#E3F2FD,stroke:#1565C0
+```
+
+**Key Features:**
+- Streak counter with fire emoji, best streak tracking
+- 13 hybrid milestones: 8 streak-based (1 to 100 days) + 5 emotional diversity
+- Points system: earn from milestones, redeem 100 points for 1 extra analysis
+- Multi-quantity redemption with atomic Firestore transactions
+- Weekly emotion calendar showing Plutchik root colors per day
+- Personal insights (top trigger, dominant emotion, motivational)
+- Notification warning cards with loss-aversion copy tied to streak length
+- Sequential milestone progression (one active at a time)
+
+### Daily Reminder Notifications
+
+WorkManager-based with dynamic scheduling:
+- 8 message variants + 3 title variants rotated by day
+- Streak-aware messaging for users with 3+ day streaks
+- Skips notification if user already wrote today
+- Configurable time via time picker in Profile and Streak screens
+
+---
+
+## Safety & Compliance
+
+### Crisis Detection & Resources
+
+DayMood includes a **local keyword-based crisis content detector** as a safety net when AI misses crisis indicators:
+
+- **36 crisis patterns** in English and Spanish (e.g., "I want to die", "no quiero vivir")
+- **Region-aware crisis resources** with emergency contacts and hotlines for 17+ countries
+- **IASP international fallback** for unrecognized regions
+- Automatic scanning after AI analysis and when saving without analysis
+- Manual access via dedicated card in Profile screen
+
+### Medical Device Disclaimer
+
+Non-dismissible bottom sheet with consent checkbox shown before first AI consent:
+- Explains AI limitations and when to seek professional help
+- Material 3 Checkbox with mandatory acceptance
+- Bilingual (Spanish/English)
+- One-time display per user, persisted in `AIConsentPreferences`
+
+### GDPR Compliance
+
+- **Data export**: Export all diary entries as JSON via Android share intent
+- **Account deletion**: Full account and data deletion from Account Settings
+- **Data minimization**: Privacy firewall ensures no PII leaks to analytics
+
+---
+
+## Insights & Analytics Engine
+
+### Trigger Insights: Causal Connections with Transparency
+
+The differentiating feature: DayMood visualizes how life triggers cause specific emotions, with complete transparency about the evidence supporting each correlation.
+
+```mermaid
+graph TD
+    Entries["Diary Entries<br/>(decrypted)"]
+    Group["Group EmotionFacts<br/>by TriggerDomain"]
+    Filter["Filter triggers<br/>with 2+ occurrences"]
+    Correlate["Calculate<br/>EmotionCorrelation<br/>per root"]
+    Evidence["Build evidence<br/>timeline (max 3)"]
+    Narrative["Determine<br/>NarrativeType"]
+    Cards["TriggerInsightCards<br/>with evidence timeline"]
+
+    Entries --> Group
+    Group --> Filter
+    Filter --> Correlate
+    Correlate --> Evidence
+    Evidence --> Narrative
+    Narrative --> Cards
+
+    style Entries fill:#E3F2FD,stroke:#1565C0
+    style Cards fill:#E8F5E9,stroke:#2E7D32
+```
+
+**Narrative Types:**
+- *"Your work has been your main source of anxiety"* (Primary Source)
+- *"Your family continues to be a source of joy"* (Positive Source)
+- *"Finances are influencing your worry and hope"* (Mixed Influence)
+
+Each card includes animated horizontal bars with emotional distribution, evidence timeline below each bar (max 3 contexts), and a "see X more" link that opens a bottom sheet with all contexts.
+
+### Summary Metrics
+
+| Metric | Calculation |
+|--------|-------------|
+| `totalEntries` | Entry count in the period |
+| `averageMood` | Weighted average of emotional intensity |
+| `moodDistribution` | Frequency and percentage per emotion |
+| `topEmotions` | Top 5 most frequent emotions |
+| `emotionTrends` | Intensity evolution (day/week/month/year) |
+| `triggerInsights` | Top 4 triggers with evidence correlation |
+
+### PDF Export
+
+Multi-page therapeutic report with emotion distribution pie chart, trigger correlations, evidence timelines, and pattern analysis — designed to be shared with therapists.
+
+---
+
+## Internationalization (i18n)
+
+### Full Bilingual Support
+
+| Language | File | Role |
+|----------|------|------|
+| Spanish | `res/values/strings.xml` | Default |
+| English | `res/values-en/strings.xml` | Alternative |
+
+- **Enum localization** via extension functions (`emotion.localizedName()`, `trigger.localizedName()`)
+- **Bilingual AI prompts** via `PromptProvider.kt` (auto-detects language)
+- **Per-app language** configured via `locales_config.xml` + `LanguagePreferences.kt`
+- **Plural strings** using Android `<plurals>` resources for correct singular/plural forms
+
+---
+
+# Part II — iOS (Native Companion)
+
+## iOS Architecture
+
+DayMood iOS is a **native SwiftUI implementation** with Clean Architecture, mirroring the Android app's modular structure using Swift Package Manager.
+
+**Current Version:** 1.2.0 (Build 26031501) | **Min iOS:** 17.0 | **Swift:** 6.0
+
+### Module Structure (Swift Package Manager)
+
+```mermaid
+graph TD
+    subgraph App["App Target"]
+        DA["DayMoodApp.swift"]
+        CV["ContentView.swift"]
+    end
+
+    subgraph Features["Feature Modules"]
+        direction TB
+        FSp["FeatureSplash"]
+        FOn["FeatureOnboarding"]
+        FCG["FeatureCryptoGate"]
+        FLo["FeatureLogin"]
+        FEn["FeatureEntries<br/>(List, Detail, New, Edit,<br/>EmotionEdit, Search, OCR)"]
+        FSm["FeatureSummary"]
+        FSt["FeatureStreak"]
+        FPr["FeatureProfile"]
+        FSu["FeatureSubscription"]
+    end
+
+    subgraph Core["Core Modules"]
+        direction TB
+        CrM["CoreModel"]
+        CrD["CoreDomain"]
+        CrN["CoreNetwork"]
+        DL["DataLayer"]
+        CrC["CoreCrypto"]
+        CrS["CoreSecurity"]
+        CrSe["CoreSession"]
+        CrDS["CoreDesignSystem"]
+        CrA["CoreAnalytics"]
+        CrSub["CoreSubscription"]
+        CrStr["CoreStreak"]
+        CrDI["CoreDI"]
+    end
+
+    App --> Features
+    Features --> Core
+
+    style App fill:#E8F5E9,stroke:#2E7D32
+    style Features fill:#E3F2FD,stroke:#1565C0
+    style Core fill:#FFF3E0,stroke:#E65100
+```
+
+### ViewModel Pattern
+
+iOS uses Swift's `@Observable` macro with `@MainActor` for thread-safe state management:
+
+```swift
+@Observable
+@MainActor
+final class EntryNewViewModel {
+    var uiState = EntryNewUIState()
+    var isLoading = false
+
+    private let repository: DiaryRepository
+
+    func analyzeEntry() async {
+        isLoading = true
+        defer { isLoading = false }
+        uiState.result = try? await repository.analyze(uiState.entry)
+    }
+}
+```
+
+---
+
+## iOS Tech Stack
+
+| Category | Android | iOS |
+|----------|---------|-----|
+| **Language** | Kotlin 2.3.0 | Swift 6.0 |
+| **UI** | Jetpack Compose | SwiftUI |
+| **Package Manager** | Gradle (19 modules) | SPM (30+ targets) |
+| **DI** | Hilt | Manual DI / Factory Pattern |
+| **Async** | Coroutines + Flow | async/await + AsyncSequence |
+| **Navigation** | Navigation 3 | NavigationStack + AppRouter |
+| **Crypto** | javax.crypto + Jetpack Security | CryptoKit + Keychain |
+| **OCR** | ML Kit | Apple Vision Framework |
+| **Auth** | Google Sign-In | Google + Apple Sign-In |
+| **Subscriptions** | Google Play Billing 7.x | StoreKit 2 |
+| **App Check** | Play Integrity | App Attest |
+| **Secure Storage** | EncryptedSharedPreferences | Keychain Services |
+
+---
+
+## iOS Navigation
+
+iOS uses a **SwiftUI NavigationStack** with a custom `@Observable AppRouter`:
+
+```swift
+@MainActor
+@Observable
+final class AppRouter {
+    var path: [AppRoute] = []
+    var selectedTab: TabBarItem = .entries
+    var presentedSheet: AppRoute?
+    var presentedFullScreenCover: AppRoute?
+
+    func navigate(to route: AppRoute) { path.append(route) }
+    func pop() { path.removeLast() }
+    func switchTab(to tab: TabBarItem) { ... }
+}
+```
+
+**Tab Bar (4 items):** Entries, Summary, Streak, Profile
+
+---
+
+## iOS-Specific Features
+
+| Feature | iOS | Android Equivalent |
+|---------|-----|--------------------|
+| **Apple Sign-In** | Native (required by App Store) | N/A |
+| **Vision OCR** | Apple Vision Framework | ML Kit |
+| **Secure Enclave** | Hardware-backed key storage | Android Keystore |
+| **App Attest** | App integrity verification | Play Integrity |
+| **StoreKit 2** | Subscription management | Google Play Billing |
+| **Trial eligibility** | `isEligibleForIntroductoryOffer` | Offer-based detection |
+| **Privacy manifest** | `PrivacyInfo.xcprivacy` | Play Data Safety section |
+
+---
+
+# Cross-Platform Strategy
+
+## Design Philosophy
+
+DayMood follows a **native-per-platform** approach: no cross-platform framework (KMM, Flutter, React Native). Each platform uses its native language and UI toolkit, sharing only the backend (Firebase) and cryptographic protocols.
+
+**Rationale:**
+- Best UX per platform, following each platform's design guidelines
+- Full access to platform capabilities (Keychain, Keystore, Vision, ML Kit)
+- Independent release cycles
+- No cross-platform framework limitations or abstractions
+
+## Shared Firestore Schema
+
+Both platforms read and write to the same Firestore collections with identical field names and enum storage conventions:
+
+```mermaid
+graph TD
+    subgraph Firestore["Cloud Firestore"]
+        Users["users/{userId}"]
+        Entries["entries/{entryId}<br/><br/><b>Shared Fields:</b><br/>title (plain)<br/>rawEntry (encrypted)<br/>createdAt, updatedAt<br/><br/><b>data.emotionFactList[]:</b><br/>emotion (enum rawValue)<br/>intensity (1-10)<br/>triggers (enum rawValues)<br/>context (encrypted)"]
+        Crypto["crypto/keyBackup<br/><br/>encryptedDek (Base64)<br/>version: 1"]
+        Streak["metadata/streak<br/><br/>currentStreak<br/>bestStreak<br/>totalPoints<br/>completedMilestones"]
+        Sub["subscription/current<br/><br/>status<br/>planId<br/>expiresAt"]
+    end
+
+    Users --> Entries
+    Users --> Crypto
+    Users --> Streak
+    Users --> Sub
+
+    A["Android App"] -->|"Read/Write"| Users
+    I["iOS App"] -->|"Read/Write"| Users
+
+    style Firestore fill:#FFF9E6,stroke:#D2B28F
+```
+
+**Enum Storage Rule:** Both platforms store `.rawValue` strings (e.g., `"JOY"`, `"WORK_CAREER"`), never display names or localized strings. This ensures cross-platform compatibility.
+
+**Streak Parity:** Both platforms use identical milestone keys (`STREAK_7`, `EMOTION_EXPLORER`, etc.) and the same points system, ensuring a user's progress is visible on both devices.
+
+## Cross-Platform E2E Encryption
+
+The encryption protocol is designed for **cross-device and cross-platform compatibility**: a user who creates entries on Android can read them on iOS and vice versa.
+
+```mermaid
+graph TD
+    subgraph Android["Android Encryption"]
+        AID["Firebase ID Token"]
+        AHKDF["HKDF-SHA256<br/>(javax.crypto)"]
+        AKEK["KEK (256-bit)"]
+        ADEK["DEK (256-bit)<br/>EncryptedSharedPrefs"]
+        AAES["AES-256-GCM<br/>(javax.crypto.Cipher)"]
+    end
+
+    subgraph Shared["Shared Infrastructure"]
+        FS["Firestore<br/>encrypted DEK backup<br/>encrypted entries"]
+    end
+
+    subgraph iOS["iOS Encryption"]
+        IID["Firebase ID Token"]
+        IHKDF["HKDF-SHA256<br/>(CryptoKit)"]
+        IKEK["KEK (256-bit)"]
+        IDEK["DEK (256-bit)<br/>Keychain"]
+        IAES["AES-256-GCM<br/>(CryptoKit)"]
+    end
+
+    AID --> AHKDF --> AKEK
+    AKEK -->|"encrypt DEK"| FS
+    ADEK --> AAES -->|"encrypt entries"| FS
+
+    IID --> IHKDF --> IKEK
+    IKEK -->|"decrypt DEK"| FS
+    FS -->|"decrypt entries"| IAES
+    IDEK --> IAES
+
+    style Android fill:#E8F5E9,stroke:#2E7D32
+    style iOS fill:#E3F2FD,stroke:#1565C0
+    style Shared fill:#FFF9E6,stroke:#D2B28F
+```
+
+### Cross-Platform Compatibility Details
+
+| Concern | Solution |
+|---------|----------|
+| **Key derivation** | Both use HKDF-SHA256 with identical salt (`"daymood-e2e-v1"`) and info (`"encryption-key-backup"`) |
+| **Stable JWT claims** | Both extract `sub`, `aud`, `sign_in_provider` from Firebase ID Token |
+| **Cipher format** | Both produce `Base64(IV[12] \|\| Ciphertext \|\| AuthTag[16])` |
+| **Empty field handling** | Both skip encryption for empty strings |
+| **KEK versioning** | iOS V2 excludes `sign_in_provider` for provider-independent restoration; fallback tries all known providers |
+| **Fallback parsing** | iOS includes manual nonce/ciphertext/tag extraction if CryptoKit standard parsing fails (handles Android-serialized data) |
+
+### Key Derivation from JWT (Deterministic KEK)
+
+Firebase ID Tokens are JWTs that change every session (`iat`, `exp`, `auth_time`). To ensure the **same KEK is derived regardless of when the user logs in**, both platforms extract only the **stable claims**:
+
+- `sub` (subject): Firebase UID — always the same
+- `aud` (audience): Firebase project ID — always the same
+- `firebase.sign_in_provider`: Authentication method — stable per provider
+
+These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA256 to produce a deterministic 256-bit KEK.
+
+## Feature Parity Matrix
+
+| Feature | Android | iOS | Notes |
+|---------|---------|-----|-------|
+| Plutchik 32 emotions | ✅ | ✅ | Identical enum values |
+| EmotionWheel (pizza slice) | ✅ | ✅ | Same visual design |
+| Gemini 2.5 Pro (primary AI) | ✅ | ✅ | Firebase AI SDK on both |
+| OpenAI GPT-4o (fallback) | ✅ | ✅ | Retrofit / URLSession |
+| Remote Config AI switching | ✅ | ✅ | Same config keys |
+| E2E Encryption | ✅ | ✅ | Cross-platform compatible |
+| CryptoGate screen | ✅ | ✅ | Blocks until crypto ready |
+| Google Sign-In | ✅ | ✅ | Credential Manager / GoogleSignIn-iOS |
+| Apple Sign-In | — | ✅ | iOS-only (App Store requirement) |
+| Email/Password auth | ✅ | ✅ | Firebase Auth |
+| OCR text recognition | ✅ (ML Kit) | ✅ (Vision) | Platform-native |
+| Rich text / Markdown | ✅ | ✅ | compose-rich-editor / native |
+| Premium subscription | ✅ (Play Billing) | ✅ (StoreKit 2) | Platform-native billing |
+| Streak & gamification | ✅ | ✅ | Shared Firestore milestones |
+| Points redemption | ✅ | ✅ | Atomic Firestore transactions |
+| Daily reminders | ✅ (WorkManager) | ✅ (UNNotification) | Platform-native scheduling |
+| Summary & insights | ✅ | ✅ | Same calculation algorithm |
+| Trigger evidence timeline | ✅ | ✅ | Same UX pattern |
+| PDF export | ✅ | ✅ | Platform-native rendering |
+| Crisis detection | ✅ | ✅ | Same keyword patterns |
+| Medical disclaimer | ✅ | ✅ | Same content, platform UI |
+| Privacy firewall | ✅ (4 layers) | ✅ (4 layers) | Same architecture |
+| App Check | ✅ (Play Integrity) | ✅ (App Attest) | Platform-native attestation |
+| GDPR data export | ✅ | ✅ | JSON via share intent |
+| Bilingual (ES/EN) | ✅ | ✅ | Per-app language support |
+| Rewarded ads | ✅ | ✅ | Google Mobile Ads |
+| In-app review | ✅ | ✅ | Play Review / SKStoreReview |
+
+---
+
+## Results & Impact
+
+### Production Timeline
+
+| Version | Date | Key Milestone |
+|---------|------|---------------|
+| **1.0.0** | Jan 2026 | Production release (Android) |
+| **2.0.0** | Feb 8, 2026 | Premium subscription + Search |
+| **2.1.0** | Feb 28, 2026 | Optional AI + Rich text + Ads |
+| **2.2.0** | Mar 9, 2026 | Streak & gamification |
+| **2.3.2** | Mar 16, 2026 | Crisis detection + Medical disclaimer + GDPR |
+| **iOS 1.0.0** | Feb 2026 | iOS App Store release |
+| **iOS 1.2.0** | Mar 2026 | Feature parity alignment |
+
+### Technical Achievements
+
+- **0 crashes** in production (Crashlytics clean, silent non-fatal reporting across 9 critical modules)
+- **100%** localization coverage (Spanish/English)
+- **32 emotions** mapped with clinical precision (Plutchik model)
+- **19 Gradle modules** (Android) + **30+ SPM targets** (iOS)
+- **E2E encryption** with AES-256-GCM: complete user privacy, cross-platform compatible
+- **4-layer privacy firewall**: defense-in-depth security architecture on both platforms
+- **Dual AI provider** with dynamic switching via Remote Config
+- **13 gamification milestones** with points economy
+
+### Architectural Milestones
+
+- **Multi-module Clean Architecture** on both platforms with strict layer separation
+- **Dual AI provider system** with Factory pattern + Remote Config for zero-downtime switching
+- **Navigation 3** (Android) and **NavigationStack + AppRouter** (iOS) — modern, type-safe navigation
+- **Cross-platform E2E encryption** with deterministic key derivation from JWT stable claims
+- **CryptoGate screen** pattern adopted on both platforms to eliminate crypto initialization race conditions
+- **Gradle Configuration Cache** compatibility for build optimization
+
+---
+
+## Learnings & Challenges
+
+### Technical Challenges Overcome
+
+1. **Cross-platform encryption compatibility**: Ensuring AES-256-GCM ciphertext serialization format is identical between Android's `javax.crypto` and iOS's `CryptoKit`. Solved with explicit `Base64(IV || Ciphertext || AuthTag)` format and fallback parsing on iOS.
+
+2. **Deterministic KEK from rotating JWTs**: Firebase ID Tokens change every session. Solved by extracting only stable JWT claims (`sub`, `aud`, `sign_in_provider`) for HKDF derivation, ensuring the same KEK is produced regardless of when the user logs in.
+
+3. **KEK versioning across auth providers**: iOS V1 included `sign_in_provider`, causing issues when users switched between Google and Apple sign-in. V2 excludes provider for provider-independent restoration, with fallback tries for legacy keys.
+
+4. **AI analysis consistency**: Designing prompts that produce structured output consistent with Plutchik's model across two different AI providers with different response characteristics.
+
+5. **Crypto initialization race condition**: ViewModels accessing uninitialized DEK on cold start. Solved with the CryptoGate pattern — a blocking intermediate screen adopted on both platforms.
+
+6. **Privacy firewall at scale**: Building a 4-layer defense-in-depth system that prevents PII leakage through logs, analytics, and monitoring, while still allowing useful telemetry (latency, token counts, error rates).
+
+7. **Trial eligibility across platforms**: Google Play Billing uses offer-based detection (presence of zero-cost pricing phase), while StoreKit 2 uses `isEligibleForIntroductoryOffer`. Both needed unified UI behavior.
+
+### Key Architectural Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| Native per-platform (no KMM) | Best UX per platform, full platform capabilities, independent release cycles |
+| Gemini over local models | Superior clinical analysis quality (comprehensive context, nuance detection) |
+| Firestore over Room/CoreData | Multi-device sync and cross-platform compatibility without custom backend |
+| AES-256-GCM with HKDF | Absolute privacy: developer can't read entries; deterministic key derivation enables multi-device |
+| DEK backup in Firestore | Multi-device recovery without compromising security |
+| Navigation 3 (Android) | Future-proof: official successor to Compose Navigation; direct backstack manipulation |
+| CryptoGate screen | Eliminates race conditions; clean separation between auth and crypto initialization |
+| Factory pattern for AI | Zero-downtime provider switching via Remote Config |
+| 4-layer privacy firewall | Defense-in-depth: no single point of failure for PII protection |
+| Play Billing / StoreKit 2 | Direct integration without third-party abstraction layer (RevenueCat explored and reverted) |
+
+---
+
+## Future Roadmap
+
+- [x] PDF/CSV data export for therapists
+- [x] Smart notifications based on emotional patterns
+- [x] iOS App Store release
+- [x] Premium subscription with cross-platform feature gating
+- [x] Streak & gamification system
+- [x] Crisis detection and mental health resources
+- [x] GDPR data portability (JSON export)
+- [ ] Offline mode with deferred sync
+- [ ] Apple Health / Google Fit integration
+- [ ] Daily emotional status widget
+- [ ] KMP migration for shared business logic
+- [ ] Wearable companion (Wear OS / watchOS)
+- [ ] Therapist collaboration portal
+
+---
+
+*Developed by Jaime Lopez — Senior Mobile Developer*
+
+*Stack: Kotlin 2.3.0 | Swift 6.0 | Jetpack Compose | SwiftUI | Navigation 3 | Material 3 | Google Gemini 2.5 Pro | OpenAI GPT-4o | Firebase | AES-256-GCM | HKDF-SHA256 | Google Play Billing | StoreKit 2*
+
+---
+
+*Last updated: March 16, 2026 — Android v2.3.2 | iOS v1.2.0*
