@@ -12,7 +12,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-> A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik's psychological theory with dual-provider AI analysis, military-grade encryption, and gamification — available on Android and iOS.
+> A cross-platform native application that transforms emotional journaling into an intelligent, science-backed experience, combining Plutchik's psychological theory with dual-provider AI analysis, end-to-end encryption, and gamification — available on Android and iOS.
 
 **Download DayMood:** [App Store (iOS)](https://apps.apple.com/es/app/daymood/id6758305629) · [Google Play (Android)](https://play.google.com/store/apps/details?id=com.jaimelxpez.daymoodApp)
 
@@ -34,7 +34,7 @@ Emotional journaling has demonstrated significant mental health benefits, but mo
 
 ### The Vision
 
-Create an application that acts as a **pocket wellness companion**: the user writes freely about their day, and AI automatically identifies underlying emotions with psychological precision, revealing patterns that the user themselves doesn't consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.
+Create an application that acts as a **pocket wellness companion**: the user writes freely about their day, and AI automatically identifies underlying emotions using Plutchik's psychological model, revealing patterns that the user themselves doesn't consciously perceive — all protected by end-to-end encryption that makes it physically impossible for anyone (including the developer) to read user entries.
 
 ### High-Level Architecture
 
@@ -66,8 +66,8 @@ graph TB
     I --> O
     A --> FA
     I --> FA
-    RC -->|"ai_model_provider"| A
-    RC -->|"ai_model_provider"| I
+    RC -->|"AI provider config"| A
+    RC -->|"AI provider config"| I
     AC -->|"Play Integrity /<br/>App Attest"| FS
 ```
 
@@ -172,7 +172,7 @@ graph TB
 | **Design System** | Material 3 | 1.4 |
 | **DI** | Hilt | 2.57.1 |
 | **Async** | Kotlin Coroutines + Flow | — |
-| **Navigation** | Navigation 3 | alpha |
+| **Navigation** | Navigation 3 | 1.0.1 (stable) |
 | **Networking** | Retrofit + OkHttp | 2.11.0 / 4.12.0 |
 | **Image Loading** | Coil 3 | 3.3.0 |
 | **Rich Text** | compose-rich-editor | 1.0.0-rc13 |
@@ -259,7 +259,7 @@ Every technical decision in DayMood is driven by a product insight. These are th
 | Decision | User Problem | Solution | Why It Matters |
 |----------|-------------|----------|----------------|
 | **EmotionWheel (pizza-slice)** | Selecting emotions from a dropdown feels detached and clinical | A visual pie-sector wheel where users tap colored slices with emojis | More engaging, mirrors how emotions are represented in psychology research (Plutchik's circular model), and reduces cognitive load — users recognize emotions visually instead of reading lists |
-| **Breathing animation during AI analysis** | AI analysis takes ~15 seconds; a spinner creates anxiety | A gentle pulsing animation that mimics a breathing exercise | Transforms wait time into a calming micro-interaction — users report feeling less anxious about results |
+| **Breathing animation during AI analysis** | AI analysis takes ~15 seconds; a spinner creates anxiety | A gentle pulsing animation that mimics a breathing exercise | Transforms wait time into a calming micro-interaction — designed to reduce perceived wait anxiety |
 | **User always has the last word** | AI is not infallible — wrong emotion detection erodes trust | After AI analysis, users can edit intensities, add/remove emotions, and change triggers before saving. AI can be fully disabled in settings | Builds trust: the AI is a suggestion engine, never an authority. Users stay in control of their own emotional narrative |
 | **CryptoGate screen** | Race condition: ViewModels could access uninitialized encryption keys | A blocking intermediate screen between login and home that waits until E2E encryption is fully ready | Prevents corrupted data display; clean UX > fast UX when privacy is at stake |
 | **Crisis detection as safety net** | AI might miss suicidal ideation or crisis language | Local 36-pattern keyword detector (EN/ES) that runs independently of AI | Not a medical tool — a responsible safety layer. Links to real crisis hotlines for 17+ countries |
@@ -274,84 +274,9 @@ Every technical decision in DayMood is driven by a product insight. These are th
 
 DayMood implements **Plutchik's Wheel of Emotions**, a well-established psychological model that categorizes human emotions into 8 primary roots with intensity variations — totaling 32 distinct emotions.
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '13px'}}}%%
-graph TD
-    subgraph Outer["Intense Emotions (Outer Ring)"]
-        E1["🌟 Ecstasy"]
-        E2["🤩 Admiration"]
-        E3["😨 Terror"]
-        E4["😲 Amazement"]
-        E5["😭 Grief"]
-        E6["🤮 Loathing"]
-        E7["🤬 Rage"]
-        E8["👁️ Vigilance"]
-    end
+![Plutchik's Wheel of Emotions — 8 primary emotions with intensity variations and secondary combinations](/images/plutchik-wheel.png)
 
-    subgraph Middle["Primary Emotions (Middle Ring)"]
-        M1["😊 Joy"]
-        M2["🤝 Trust"]
-        M3["😰 Fear"]
-        M4["😮 Surprise"]
-        M5["😢 Sadness"]
-        M6["😒 Disgust"]
-        M7["😠 Anger"]
-        M8["🔮 Anticipation"]
-    end
-
-    subgraph Inner["Mild Emotions (Inner Ring)"]
-        I1["😌 Serenity"]
-        I2["🙂 Acceptance"]
-        I3["😟 Apprehension"]
-        I4["🫨 Distraction"]
-        I5["😔 Pensiveness"]
-        I6["😑 Boredom"]
-        I7["😤 Annoyance"]
-        I8["🤔 Interest"]
-    end
-
-    subgraph Secondary["Secondary Emotions (Adjacent Combinations)"]
-        S1["❤️ Love = Joy + Trust"]
-        S2["🙇 Submission = Trust + Fear"]
-        S3["😶 Awe = Fear + Surprise"]
-        S4["🥺 Disapproval = Surprise + Sadness"]
-        S5["💔 Remorse = Sadness + Disgust"]
-        S6["🫣 Contempt = Disgust + Anger"]
-        S7["💪 Aggressiveness = Anger + Anticipation"]
-        S8["🌈 Optimism = Anticipation + Joy"]
-    end
-
-    E1 --- M1 --- I1
-    E2 --- M2 --- I2
-    E3 --- M3 --- I3
-    E4 --- M4 --- I4
-    E5 --- M5 --- I5
-    E6 --- M6 --- I6
-    E7 --- M7 --- I7
-    E8 --- M8 --- I8
-
-    M1 --- S1
-    M2 --- S1
-    M2 --- S2
-    M3 --- S2
-    M3 --- S3
-    M4 --- S3
-    M4 --- S4
-    M5 --- S4
-    M5 --- S5
-    M6 --- S5
-    M6 --- S6
-    M7 --- S6
-    M7 --- S7
-    M8 --- S7
-    M8 --- S8
-    M1 --- S8
-
-    style Outer fill:#FFF0F0,stroke:#E57373
-    style Middle fill:#FFF9E6,stroke:#D2B28F
-    style Inner fill:#F0F8FF,stroke:#ADD6EA
-    style Secondary fill:#F0FFF0,stroke:#81C784
-```
+*Source: [Six Seconds — The Emotional Intelligence Network](https://www.6seconds.org)*
 
 ### 8 Emotion Roots
 
@@ -397,7 +322,9 @@ The `EmotionWheel` component uses a **pizza-slice (pie sector) style** for optim
 - Selection animation: slight scale (1.05x) + colored border + glow effect
 - Companion `EmotionWheelShowcase` for read-only analysis preview
 
-> **Screenshot placeholder** — The EmotionWheel screenshot will be added here before deployment. If you'd like to see the live component, check the [Play Store listing](https://play.google.com/store/apps/details?id=com.jaime.daymood).
+![EmotionWheel component — pizza-slice design with Plutchik colors](/images/emotion_wheel_edit.png)
+
+![Emotion analysis results — AI-detected emotions with intensity and context](/images/emotion_analysis_results.png)
 
 ---
 
@@ -409,8 +336,8 @@ Both OpenAI GPT-4o and Google Gemini 2.5 Pro were evaluated with **10 real diary
 
 | Criterion | Gemini 2.5 Pro | OpenAI GPT-4o | Decision Factor |
 |-----------|----------------|---------------|-----------------|
-| **Analysis quality** | Rich, nuanced insights | Concise responses | Gemini: +19% accuracy score |
-| **JSON consistency** | 100% valid output | ~60% wrapped in markdown | Gemini: zero parsing errors |
+| **Analysis quality** | Rich, nuanced insights with full Plutchik mapping | Concise, surface-level responses | Gemini: consistently deeper emotional analysis |
+| **JSON consistency** | 100% valid structured output | Frequently wrapped in markdown code fences | Gemini: zero parsing errors in production |
 | **Cost per analysis** | $0.00538 | $0.00675 | Gemini: 20% savings at scale |
 | **Latency** | ~16s | ~4s | OpenAI faster, but acceptable for reflective use |
 | **Plutchik compliance** | Strictly within 32-emotion vocabulary | Occasionally invents emotions | Gemini: better model alignment |
@@ -474,15 +401,14 @@ The user always reviews and can edit the AI's suggestions before saving — the 
 DayMood Android uses **Navigation 3**, Google's next-generation navigation library featuring a declarative scene-based approach with direct backstack manipulation.
 
 ```mermaid
-graph LR
+graph TD
     subgraph Nav3["Navigation 3 Architecture"]
+        R["Routes.kt<br/><i>@Serializable sealed types</i>"]
         AN["AppNavigator<br/><i>SnapshotStateList&lt;Route&gt;</i>"]
         AND["AppNavDisplay<br/><i>NavDisplay + entryProvider</i>"]
-        R["Routes.kt<br/><i>@Serializable sealed types</i>"]
+        R -->|"type-safe routes"| AN -->|"backStack state"| AND
     end
 
-    AN -->|"backStack state"| AND
-    R -->|"type-safe routes"| AN
     AND -->|"when(route) { ... }"| Screens
 
     subgraph Screens["Feature Screens"]
@@ -513,7 +439,7 @@ graph LR
 - Predictive back gesture matching for Android 14+
 
 **CryptoGate Screen:**
-An intermediate screen between authentication and home that blocks navigation until E2E encryption is fully initialized (15-second timeout). This eliminates race conditions where ViewModels accessed uninitialized DEKs.
+An intermediate screen between authentication and home that blocks navigation until E2E encryption is fully initialized (with a configurable timeout). This eliminates race conditions where ViewModels accessed uninitialized DEKs.
 
 ```mermaid
 graph LR
@@ -701,30 +627,40 @@ class TestDispatcherProvider(
 
 ### Clean Layer Boundaries: Mappers
 
-Data Transfer Objects (DTOs) never leak into the domain layer. Mapper extensions convert at the boundary:
+Data Transfer Objects (DTOs) never leak into the domain layer. A `BaseDTO<T>` interface enforces that every DTO knows how to convert itself, and Flow extensions eliminate boilerplate at the repository level:
 
 ```kotlin
-// data → domain
-fun DiaryEntryDTO.toDomainModel(documentId: String): DiaryEntry =
-    DiaryEntry(
-        id = documentId,
+// BaseDTO contract — every DTO must map to its domain model
+interface BaseDTO<T> {
+    fun toDomainModel(): T
+}
+
+// Flow extensions — zero-boilerplate mapping in repositories
+fun <T> Flow<List<BaseDTO<T>>>.mapListToDomain(): Flow<List<T>> =
+    map { items -> items.map { it.toDomainModel() } }
+
+fun <T> Flow<BaseDTO<T>>.mapToDomain(): Flow<T> =
+    map { it.toDomainModel() }
+```
+
+Each DTO implements the contract with self-contained conversion logic — no external mapper classes needed:
+
+```kotlin
+data class DiaryEntryDTO(
+    val title: String = "",
+    val rawEntry: String = "",
+    val data: EntryDataDTO = EntryDataDTO(),
+    @ServerTimestamp
+    val createdAt: Timestamp? = null
+): BaseDTO<DiaryEntry> {
+
+    override fun toDomainModel(): DiaryEntry = DiaryEntry(
         title = title,
         rawEntry = rawEntry,
-        data = DiaryEntry.EntryData(
-            emotionFactList = data.emotionFactList
-                .mapIndexed { i, dto -> dto.toDomainModel(i.toString()) }
-        ),
+        data = data.toDomainModel(),
         date = createdAt?.toDate()
     )
-
-// domain → data
-fun EmotionFact.toDto(): EmotionFactDTO =
-    EmotionFactDTO(
-        emotion = emotion.name,
-        intensity = intensity,
-        triggers = triggers,
-        context = context
-    )
+}
 ```
 
 ### Convention Plugins: DRY Build Configuration
@@ -814,9 +750,9 @@ fun NavGraphBuilder.entryNewScreen(
 
 > **Why it matters:** Feature modules can be compiled, tested, and previewed in complete isolation. The `:app` module is the only place that knows how features connect — making refactoring and reordering flows trivial.
 
-### Hilt Modules: @Binds for Zero-Allocation DI
+### Hilt Modules: @Binds for Declarative DI
 
-Repository bindings use `abstract @Binds` instead of `@Provides` — Hilt generates no factory class, keeping the method count low:
+Repository bindings use `abstract @Binds` instead of `@Provides` — a declarative approach where Hilt resolves the interface-to-implementation mapping directly, without generating intermediate factory classes:
 
 ```kotlin
 @Module
@@ -869,7 +805,7 @@ abstract class RepositoryModule {
 | **Key Management** | DEK in Keystore, KEK derived from Firebase ID Token via HKDF |
 | **App Check** | Firebase App Check with Play Integrity (release) / Debug provider (debug) |
 | **Privacy Firewall** | 4-layer defense-in-depth: content redaction, SDK guards, analytics filtering, secure logging |
-| **Crisis Detection** | 36-pattern keyword detector (EN/ES) as AI safety net |
+| **Crisis Detection** | Extensive keyword detector (EN/ES) as AI safety net |
 
 ### End-to-End Encryption Architecture
 
@@ -878,12 +814,12 @@ DayMood implements **end-to-end encryption** that ensures not even the developer
 ```mermaid
 graph TD
     IDT["Firebase ID Token (JWT)"]
-    HKDF["HKDF-SHA256<br/>Extract stable claims:<br/>sub | aud | provider"]
+    HKDF["HKDF-SHA256<br/>Extract stable claims"]
     KEK["KEK (Key Encryption Key)<br/>256-bit, derived, never stored"]
     DEK["DEK (Data Encryption Key)<br/>256-bit, SecureRandom"]
     ESP["EncryptedSharedPreferences<br/>(local storage)"]
     FS["Firestore Backup<br/>(encrypted DEK)"]
-    AES["AES-256-GCM<br/>12-byte IV + 128-bit Auth Tag"]
+    AES["AES-256-GCM"]
     RE["rawEntry<br/>(encrypted)"]
     EC["emotionFact[].context<br/>(encrypted)"]
 
@@ -905,7 +841,7 @@ graph TD
 
 | Key | Purpose | Storage | Derivation |
 |-----|---------|---------|------------|
-| **KEK** (Key Encryption Key) | Encrypts/decrypts the DEK for cloud backup | Never stored — derived on demand | HKDF-SHA256 from stable JWT claims (`sub`, `aud`, `sign_in_provider`) |
+| **KEK** (Key Encryption Key) | Encrypts/decrypts the DEK for cloud backup | Never stored — derived on demand | HKDF-SHA256 from stable Firebase ID Token claims |
 | **DEK** (Data Encryption Key) | Encrypts/decrypts diary entry content | `EncryptedSharedPreferences` (hardware-backed Keystore) | `SecureRandom` (generated once per user) |
 
 **Encrypted Fields:**
@@ -915,14 +851,7 @@ graph TD
 | `rawEntry` | Diary content (sensitive text) |
 | `emotionFactList[].context` | Emotional context of each emotion |
 
-**Fields in Cleartext (for analytics):**
-
-| Field | Reason |
-|-------|--------|
-| `title` | Entry identification |
-| `emotionFactList[].emotion` | Emotional distribution charts |
-| `emotionFactList[].intensity` | Intensity metrics |
-| `createdAt`, `updatedAt` | Temporal ordering |
+**Fields in Cleartext (for analytics):** Metadata needed for charts and temporal ordering (emotion enums, intensity scores, timestamps) is stored unencrypted. Sensitive content (diary text, emotional context) is always encrypted.
 
 **Multi-device Recovery:** The encrypted DEK is backed up to Firestore, allowing recovery on new devices with the same account.
 
@@ -1082,12 +1011,12 @@ Every screen, button, and flow in DayMood is instrumented with Google Analytics 
 
 | Funnel Step | Users | Conversion | Insight |
 |-------------|-------|------------|---------|
-| First open | 2,296 | 100% | ~60 new users/day organically across LATAM + Europe |
+| First open | 2,296 | 100% | Organic discovery across LATAM + Europe |
 | Onboarding started | 2,017 | 87.8% | Minimal drop before onboarding |
 | Onboarding completed | 1,413 | 70.1% of started | **30% drop** — led to redesigning the onboarding flow |
 | Login success | 885 | 62.6% of completed | Login friction identified → simplified auth flow |
 | Entry created | 427 | 18.6% of first open | Core activation metric |
-| AI analysis completed | 412 | **96.5% of creators** | Users who write *overwhelmingly* use AI analysis |
+| AI analysis completed | 412 | **96.5% of entry creators** | Of users who reach the "create entry" step, nearly all complete AI analysis |
 
 **Key iteration:** The 30% onboarding drop led to a complete redesign: a guided "experience" flow where users write a mini diary entry and see AI analysis results *before* creating an account. This "wow moment first" approach is tracked via `experience_mini_entry_started` → `experience_wow_moment_viewed` events.
 
@@ -1095,10 +1024,10 @@ Every screen, button, and flow in DayMood is instrumented with Google Analytics 
 
 | Metric | Value | Context |
 |--------|-------|---------|
-| **D1 retention** | 23.0% | Baseline — gamification (v2.2.0) and streak notifications added to improve |
-| **D7 retention** | 9.7% | Streak system + daily reminders designed specifically for this |
+| **D1 retention** | 23.0% | Pre-gamification baseline (v2.1.x) — gamification and streak notifications added in v2.2.0 to improve |
+| **D7 retention** | 9.7% | Pre-gamification baseline — streak system + daily reminders designed specifically for this metric |
 | **Avg sessions/user** | 1.8 | Measured across 2,434 active users |
-| **Daily acquisitions** | ~165 devices/day | Across Argentina, Mexico, Chile, Spain, UK |
+| **Peak daily acquisitions** | ~165 devices/day | Peak day across Argentina, Mexico, Chile, Spain, UK |
 | **Entries per active writer** | 2.1 | Users who write tend to come back |
 
 ### Stability (Crashlytics, 90-day window)
@@ -1123,7 +1052,7 @@ Active users across **5+ countries** in the first month, with primary markets in
 
 DayMood includes a **local keyword-based crisis content detector** as a safety net when AI misses crisis indicators:
 
-- **36 crisis patterns** in English and Spanish (e.g., "I want to die", "no quiero vivir")
+- **Extensive crisis patterns** in English and Spanish covering a wide range of distress expressions
 - **Region-aware crisis resources** with emergency contacts and hotlines for 17+ countries
 - **IASP international fallback** for unrecognized regions
 - Automatic scanning after AI analysis and when saving without analysis
@@ -1364,11 +1293,11 @@ Both platforms read and write to the same Firestore collections with identical f
 ```mermaid
 graph TD
     subgraph Firestore["Cloud Firestore"]
-        Users["users/{userId}"]
-        Entries["entries/{entryId}<br/><br/><b>Shared Fields:</b><br/>title (plain)<br/>rawEntry (encrypted)<br/>createdAt, updatedAt<br/><br/><b>data.emotionFactList[]:</b><br/>emotion (enum rawValue)<br/>intensity (1-10)<br/>triggers (enum rawValues)<br/>context (encrypted)"]
-        Crypto["crypto/keyBackup<br/><br/>encryptedDek (Base64)<br/>version: 1"]
-        Streak["metadata/streak<br/><br/>currentStreak<br/>bestStreak<br/>totalPoints<br/>completedMilestones"]
-        Sub["subscription/current<br/><br/>status<br/>planId<br/>expiresAt"]
+        Users["User Document"]
+        Entries["Diary Entries<br/><br/><b>Shared Fields:</b><br/>title (plain)<br/>rawEntry (encrypted)<br/>timestamps<br/><br/><b>Emotion data:</b><br/>emotion (enum rawValue)<br/>intensity (1-10)<br/>triggers (enum rawValues)<br/>context (encrypted)"]
+        Crypto["Encryption Key Backup<br/>(encrypted DEK)"]
+        Streak["Gamification State<br/>(streaks, points, milestones)"]
+        Sub["Subscription Status"]
     end
 
     Users --> Entries
@@ -1430,22 +1359,15 @@ graph TD
 
 | Concern | Solution |
 |---------|----------|
-| **Key derivation** | Both use HKDF-SHA256 with identical salt (`"daymood-e2e-v1"`) and info (`"encryption-key-backup"`) |
-| **Stable JWT claims** | Both extract `sub`, `aud`, `sign_in_provider` from Firebase ID Token |
-| **Cipher format** | Both produce `Base64(IV[12] \|\| Ciphertext \|\| AuthTag[16])` |
-| **Empty field handling** | Both skip encryption for empty strings |
-| **KEK versioning** | iOS V2 excludes `sign_in_provider` for provider-independent restoration; fallback tries all known providers |
-| **Fallback parsing** | iOS includes manual nonce/ciphertext/tag extraction if CryptoKit standard parsing fails (handles Android-serialized data) |
+| **Key derivation** | Both use HKDF-SHA256 with identical application-specific salt and context parameters |
+| **Stable JWT claims** | Both extract the same stable claims from Firebase ID Token for deterministic KEK derivation |
+| **Cipher format** | Both use an identical ciphertext serialization format (AES-256-GCM) for cross-platform compatibility |
+| **KEK versioning** | Multiple KEK versions with automatic fallback to handle auth provider migration scenarios |
+| **Fallback parsing** | iOS includes fallback ciphertext parsing to handle Android-serialized data gracefully |
 
 ### Key Derivation from JWT (Deterministic KEK)
 
-Firebase ID Tokens are JWTs that change every session (`iat`, `exp`, `auth_time`). To ensure the **same KEK is derived regardless of when the user logs in**, both platforms extract only the **stable claims**:
-
-- `sub` (subject): Firebase UID — always the same
-- `aud` (audience): Firebase project ID — always the same
-- `firebase.sign_in_provider`: Authentication method — stable per provider
-
-These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA256 to produce a deterministic 256-bit KEK.
+Firebase ID Tokens are JWTs that change every session (`iat`, `exp`, `auth_time`). To ensure the **same KEK is derived regardless of when the user logs in**, both platforms extract only the **stable, user-specific claims** from the token. These are combined and passed through HKDF-SHA256 with application-specific parameters to produce a deterministic 256-bit KEK — ensuring the same user always derives the same key, on any device and platform.
 
 ## Feature Parity Matrix
 
@@ -1498,10 +1420,10 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 ### Technical Achievements
 
 - **98.64% crash-free users** (Crashlytics, 90-day window) with silent non-fatal reporting across 9 critical modules
-- **2,300+ users** in first 28 days, ~165 daily device acquisitions across 5+ countries
+- **2,296 first opens** in a 28-day measurement window, peaking at ~165 devices/day across 5+ countries
 - **96.5% AI adoption** among users who create entries
 - **100%** localization coverage (Spanish/English)
-- **32 emotions** mapped with psychological precision (Plutchik model)
+- **32 emotions** mapped based on Plutchik's psychological model
 - **19 Gradle modules** (Android) + **30+ SPM targets** (iOS)
 - **E2E encryption** with AES-256-GCM: complete user privacy, cross-platform compatible
 - **4-layer privacy firewall**: defense-in-depth security architecture on both platforms
@@ -1523,11 +1445,11 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 
 ### Technical Challenges Overcome
 
-1. **Cross-platform encryption compatibility**: Ensuring AES-256-GCM ciphertext serialization format is identical between Android's `javax.crypto` and iOS's `CryptoKit`. Solved with explicit `Base64(IV || Ciphertext || AuthTag)` format and fallback parsing on iOS.
+1. **Cross-platform encryption compatibility**: Ensuring AES-256-GCM ciphertext serialization is identical between Android's `javax.crypto` and iOS's `CryptoKit`. Solved with a shared serialization format and fallback parsing on iOS for Android-generated data.
 
-2. **Deterministic KEK from rotating JWTs**: Firebase ID Tokens change every session. Solved by extracting only stable JWT claims (`sub`, `aud`, `sign_in_provider`) for HKDF derivation, ensuring the same KEK is produced regardless of when the user logs in.
+2. **Deterministic KEK from rotating JWTs**: Firebase ID Tokens change every session. Solved by extracting only stable, user-specific claims for HKDF derivation, ensuring the same KEK is produced regardless of when or where the user logs in.
 
-3. **KEK versioning across auth providers**: iOS V1 included `sign_in_provider`, causing issues when users switched between Google and Apple sign-in. V2 excludes provider for provider-independent restoration, with fallback tries for legacy keys.
+3. **KEK versioning across auth providers**: Early versions included provider-specific claims, causing issues when users switched auth methods. Solved with provider-independent key derivation and automatic fallback for legacy keys.
 
 4. **AI analysis consistency**: Designing prompts that produce structured output consistent with Plutchik's model across two different AI providers with different response characteristics.
 
@@ -1542,7 +1464,7 @@ These claims are concatenated (`"sub|aud|provider"`) and passed through HKDF-SHA
 | Decision | Rationale |
 |----------|-----------|
 | Native per-platform (no KMM) | Best UX per platform, full platform capabilities, independent release cycles |
-| Gemini over OpenAI (primary) | Data-driven: 19% higher accuracy, 20% lower cost, 100% valid JSON in 10-entry A/B test |
+| Gemini over OpenAI (primary) | Data-driven: deeper analysis quality, 20% lower cost, 100% valid JSON in 10-entry evaluation |
 | Firestore over Room/CoreData | Multi-device sync and cross-platform compatibility without custom backend |
 | AES-256-GCM with HKDF | Absolute privacy: developer can't read entries; deterministic key derivation enables multi-device |
 | DEK backup in Firestore | Multi-device recovery without compromising security |
