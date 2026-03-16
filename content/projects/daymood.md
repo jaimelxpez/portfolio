@@ -18,6 +18,15 @@ TocOpen: true
 
 **Role:** Sole developer — designed, architected, and shipped both platforms from zero to production. Responsible for all product decisions, UX design, architecture, implementation, analytics instrumentation, and store releases.
 
+### At a Glance
+
+- **19 Gradle modules + 30 SPM targets** — Clean Architecture on both platforms with strict layer separation → [Architecture](#architecture)
+- **Cross-platform E2E encryption** — AES-256-GCM with deterministic key derivation (HKDF-SHA256) so entries created on Android decrypt on iOS → [Encryption Architecture](#end-to-end-encryption-architecture)
+- **Dual AI provider** — Gemini 2.5 Pro (primary) + OpenAI GPT-4o (fallback), switchable via Remote Config with zero downtime → [Analysis Engine](#intelligent-analysis-engine)
+- **2,296 users in 28 days** — Organic discovery across 5+ countries; funnel analysis drove a complete onboarding redesign → [Analytics & Iteration](#product-analytics--data-driven-iteration)
+- **98.64% crash-free** — Silent non-fatal reporting across 9 critical modules (crypto, AI, billing, auth) → [Stability](#stability-crashlytics-90-day-window)
+- **4-layer privacy firewall** — Defense-in-depth that makes it physically impossible for diary content to leak through logs, analytics, or monitoring → [Privacy Firewall](#fail-safe-privacy-firewall-defense-in-depth)
+
 ---
 
 ## The Challenge
