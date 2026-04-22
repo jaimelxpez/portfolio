@@ -1,1 +1,54 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Jaime López</title><link>https://jaimelxpez.com/</link><description>Recent content on Jaime López</description><generator>Hugo -- 0.154.3</generator><language>en-us</language><lastBuildDate>Fri, 27 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://jaimelxpez.com/index.xml" rel="self" type="application/rss+xml"/><item><title>DayMood: AI-Powered Emotional Journal</title><link>https://jaimelxpez.com/projects/daymood/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/projects/daymood/</guid><description>A cross-platform native mobile app combining Clean Architecture, Google Gemini AI, E2E encryption, and gamification — built on Plutchik&amp;rsquo;s Wheel of Emotions. Kotlin + Swift.</description></item><item><title>Privacy Policy</title><link>https://jaimelxpez.com/sequency/privacy-policy.html</link><pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/sequency/privacy-policy.html</guid><description>How Sequency manages, protects, and uses your personal data.</description></item><item><title>Terms and Conditions of Use</title><link>https://jaimelxpez.com/sequency/terms-of-use.html</link><pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/sequency/terms-of-use.html</guid><description>Legal terms for using the Sequency application.</description></item><item><title>Privacy Policy</title><link>https://jaimelxpez.com/daymood/privacy-policy.html</link><pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/daymood/privacy-policy.html</guid><description>How DayMood manages, protects, and uses your personal data.</description></item><item><title>Terms and Conditions of Use</title><link>https://jaimelxpez.com/daymood/terms-of-use.html</link><pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/daymood/terms-of-use.html</guid><description>Legal terms for using the DayMood application.</description></item><item><title>DayMood - Support</title><link>https://jaimelxpez.com/daymood/support.html</link><pubDate>Thu, 12 Feb 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/daymood/support.html</guid><description>Get help, report bugs, or request features for DayMood.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Jaime López</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Jaime López</description>
+    <generator>Hugo -- 0.154.3</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DayMood: AI-Powered Emotional Journal</title>
+      <link>http://localhost:1313/projects/daymood/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/projects/daymood/</guid>
+      <description>A cross-platform native mobile app combining Clean Architecture, Google Gemini AI, E2E encryption, and gamification — built on Plutchik&amp;rsquo;s Wheel of Emotions. Kotlin + Swift.</description>
+    </item>
+    <item>
+      <title>Privacy Policy</title>
+      <link>http://localhost:1313/sequency/privacy-policy.html</link>
+      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/sequency/privacy-policy.html</guid>
+      <description>How Sequency manages, protects, and uses your personal data.</description>
+    </item>
+    <item>
+      <title>Terms and Conditions of Use</title>
+      <link>http://localhost:1313/sequency/terms-of-use.html</link>
+      <pubDate>Fri, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/sequency/terms-of-use.html</guid>
+      <description>Legal terms for using the Sequency application.</description>
+    </item>
+    <item>
+      <title>Privacy Policy</title>
+      <link>http://localhost:1313/daymood/privacy-policy.html</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/daymood/privacy-policy.html</guid>
+      <description>How DayMood manages, protects, and uses your personal data.</description>
+    </item>
+    <item>
+      <title>Terms and Conditions of Use</title>
+      <link>http://localhost:1313/daymood/terms-of-use.html</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/daymood/terms-of-use.html</guid>
+      <description>Legal terms for using the DayMood application.</description>
+    </item>
+    <item>
+      <title>DayMood - Support</title>
+      <link>http://localhost:1313/daymood/support.html</link>
+      <pubDate>Thu, 12 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/daymood/support.html</guid>
+      <description>Get help, report bugs, or request features for DayMood.</description>
+    </item>
+  </channel>
+</rss>

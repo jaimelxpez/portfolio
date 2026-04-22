@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DayMood - Tu Diario Emocional Inteligente</title>
-    <meta name="description" content="DayMood - Your emotional wellness companion powered by artificial intelligence and Plutchik's advanced model.">
-    <link rel="canonical" href="http://localhost:1313/daymood/">
+    <title>Secuency - Daily Math Challenge</title>
+    <meta name="description" content="Secuency - The daily math sequence challenge. Sharpen your mind, climb the leaderboard.">
+    <link rel="canonical" href="{{ .Permalink }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background: #F9F7F4;
-            --card-surface: #FFFDF9;
-            --text-primary: #1E1E1E;
-            --text-secondary: #6B5E52;
-            --primary: #ADD6EA;
-            --secondary: #D2B28F;
-            --text-on-secondary: #3D2E1F;
-            --grey: #A9A9A9;
-            --disabled: #E5E5E5;
-            --shadow: rgba(0, 0, 0, 0.08);
-            --input-bg: #F5F3F0;
-            --input-border: #E8E4DF;
+            --background: #F8FAFC;
+            --card-surface: #FFFFFF;
+            --surface-variant: #F1F5F9;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --primary: #6C5CE7;
+            --primary-light: #A29BFE;
+            --secondary: #FBBF24;
+            --outline: #E2E8F0;
+            --shadow: rgba(108, 92, 231, 0.10);
+            --input-bg: #F1F5F9;
+            --input-border: #E2E8F0;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --background: #121212;
-                --card-surface: #1E1E1E;
-                --text-primary: #F5F5F5;
-                --text-secondary: #B8A898;
-                --primary: #ADD6EA;
-                --secondary: #E5C9A8;
-                --text-on-secondary: #3D2E1F;
-                --grey: #666666;
-                --disabled: #333333;
-                --shadow: rgba(0, 0, 0, 0.3);
-                --input-bg: #2A2A2A;
-                --input-border: #3D3D3D;
+                --background: #0F172A;
+                --card-surface: #1E293B;
+                --surface-variant: #334155;
+                --text-primary: #F1F5F9;
+                --text-secondary: #94A3B8;
+                --primary: #A29BFE;
+                --primary-light: #6C5CE7;
+                --secondary: #FBBF24;
+                --outline: #475569;
+                --shadow: rgba(0, 0, 0, 0.30);
+                --input-bg: #1E293B;
+                --input-border: #334155;
             }
         }
 
@@ -49,8 +49,8 @@
         }
 
         body {
-            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-weight: 500;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 400;
             font-size: 16px;
             line-height: 1.5;
             color: var(--text-primary);
@@ -74,9 +74,9 @@
             width: 120px;
             height: 120px;
             margin-bottom: 25px;
-            border-radius: 24px;
+            border-radius: 28px;
             overflow: hidden;
-            box-shadow: 0 10px 25px var(--shadow);
+            box-shadow: 0 10px 30px var(--shadow);
         }
 
         .logo-container img {
@@ -86,26 +86,27 @@
         }
 
         h1 {
-            font-family: 'Lora', Georgia, serif;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
             font-size: 2.5rem;
             color: var(--text-primary);
             margin-bottom: 10px;
+            letter-spacing: -0.5px;
         }
 
         .subtitle {
-            font-family: 'Manrope', sans-serif;
-            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
             font-size: 1rem;
             color: var(--text-secondary);
             margin-bottom: 40px;
-            max-width: 600px;
-            line-height: 1.5;
+            max-width: 480px;
+            line-height: 1.6;
         }
 
         .card-container {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             flex-wrap: wrap;
             justify-content: center;
             max-width: 1200px;
@@ -114,51 +115,60 @@
 
         .link-card {
             background-color: var(--card-surface);
-            border-radius: 24px;
-            padding: 25px;
-            width: 250px;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 24px;
+            width: 240px;
+            transition: all 0.2s ease;
             text-decoration: none;
             color: inherit;
-            box-shadow: 0 4px 24px var(--shadow);
+            box-shadow: 0 2px 12px var(--shadow);
+            border: 1px solid var(--outline);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .link-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px var(--shadow);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px var(--shadow);
+            border-color: var(--primary);
         }
 
         .card-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background-color: var(--surface-variant);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
         }
 
         .card-title {
-            font-family: 'Manrope', sans-serif;
-            font-weight: 500;
-            font-size: 1.125rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .card-desc {
-            font-family: 'Manrope', sans-serif;
-            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
             font-size: 0.8125rem;
             color: var(--text-secondary);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         footer {
             margin-top: auto;
-            padding: 30px;
+            padding: 28px;
             text-align: center;
             color: var(--text-secondary);
-            font-family: 'Manrope', sans-serif;
-            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
             font-size: 0.75rem;
         }
 
@@ -175,10 +185,10 @@
         }
 
         .lang-btn {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.875rem;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8125rem;
             font-weight: 600;
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Inter', sans-serif;
             border-radius: 8px;
             background: var(--input-bg);
             color: var(--text-secondary);
@@ -188,13 +198,13 @@
         }
 
         .lang-btn:hover {
-            background: var(--disabled);
+            background: var(--outline);
         }
 
         .lang-btn.active {
-            background: var(--secondary);
-            color: var(--text-on-secondary);
-            border-color: var(--secondary);
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
         }
 
         @media (max-width: 600px) {
@@ -215,32 +225,26 @@
 
     <main>
         <div class="logo-container">
-            <img src="/images/daymood-icon.png" alt="Logo de DayMood">
+            <img src="/images/sequency-icon.webp" alt="Secuency logo">
         </div>
 
-        <h1>DayMood</h1>
-        <p class="subtitle" data-i18n="subtitle">Tu compañero de bienestar emocional impulsado por inteligencia artificial y el modelo avanzado de Plutchik.</p>
+        <h1>Secuency</h1>
+        <p class="subtitle" data-i18n="subtitle">El reto matemático diario. Entrena tu mente, escala en el ranking.</p>
 
         <div class="card-container">
-            <a href="/daymood/privacy-policy.html" class="link-card">
+            <a href="/sequency/privacy-policy.html" class="link-card">
                 <div class="card-icon">🔒</div>
                 <div class="card-title" data-i18n="privacyTitle">Política de Privacidad</div>
                 <div class="card-desc" data-i18n="privacyDesc">Cómo protegemos y tratamos tus datos personales.</div>
             </a>
 
-            <a href="/daymood/terms-of-use.html" class="link-card">
+            <a href="/sequency/terms-of-use.html" class="link-card">
                 <div class="card-icon">📄</div>
                 <div class="card-title" data-i18n="termsTitle">Términos de Uso</div>
                 <div class="card-desc" data-i18n="termsDesc">Reglas, derechos y responsabilidades al usar la aplicación.</div>
             </a>
 
-            <a href="/daymood/support.html" class="link-card">
-                <div class="card-icon">🛟</div>
-                <div class="card-title" data-i18n="supportTitle">Soporte</div>
-                <div class="card-desc" data-i18n="supportDesc">Preguntas frecuentes, ayuda y contacto técnico.</div>
-            </a>
-
-            <a href="mailto:daymood@jaimelxpez.com" class="link-card">
+            <a href="mailto:sequency@jaimelxpez.com" class="link-card">
                 <div class="card-icon">✉️</div>
                 <div class="card-title" data-i18n="contactTitle">Contacto</div>
                 <div class="card-desc" data-i18n="contactDesc">¿Tienes dudas? Escríbenos para obtener soporte.</div>
@@ -249,34 +253,30 @@
     </main>
 
     <footer>
-        <p>© 2026 DayMood - Jaime López Muñoz</p>
+        <p>© 2026 Secuency - Jaime López Muñoz</p>
         <p data-i18n="footerRights">Todos los derechos reservados</p>
     </footer>
 
     <script>
         const translations = {
             es: {
-                pageTitle: "DayMood - Tu Diario Emocional Inteligente",
-                subtitle: "Tu compañero de bienestar emocional impulsado por inteligencia artificial y el modelo avanzado de Plutchik.",
+                pageTitle: "Secuency - El Reto Matemático Diario",
+                subtitle: "El reto matemático diario. Entrena tu mente, escala en el ranking.",
                 privacyTitle: "Política de Privacidad",
                 privacyDesc: "Cómo protegemos y tratamos tus datos personales.",
                 termsTitle: "Términos de Uso",
                 termsDesc: "Reglas, derechos y responsabilidades al usar la aplicación.",
-                supportTitle: "Soporte",
-                supportDesc: "Preguntas frecuentes, ayuda y contacto técnico.",
                 contactTitle: "Contacto",
                 contactDesc: "¿Tienes dudas? Escríbenos para obtener soporte.",
                 footerRights: "Todos los derechos reservados"
             },
             en: {
-                pageTitle: "DayMood - Your Intelligent Emotional Diary",
-                subtitle: "Your emotional wellness companion powered by artificial intelligence and Plutchik's advanced model.",
+                pageTitle: "Secuency - Daily Math Challenge",
+                subtitle: "The daily math sequence challenge. Sharpen your mind, climb the leaderboard.",
                 privacyTitle: "Privacy Policy",
                 privacyDesc: "How we protect and handle your personal data.",
                 termsTitle: "Terms of Use",
                 termsDesc: "Rules, rights, and responsibilities when using the app.",
-                supportTitle: "Support",
-                supportDesc: "FAQs, help, and technical support.",
                 contactTitle: "Contact",
                 contactDesc: "Have questions? Write to us for support.",
                 footerRights: "All rights reserved"
@@ -284,7 +284,7 @@
         };
 
         function detectLanguage() {
-            const saved = localStorage.getItem('daymood-lang');
+            const saved = localStorage.getItem('sequency-lang');
             if (saved && translations[saved]) return saved;
             const browserLang = navigator.language || navigator.userLanguage;
             return browserLang.startsWith('es') ? 'es' : 'en';
@@ -310,7 +310,7 @@
         function setLanguage(lang) {
             if (!translations[lang]) return;
             currentLang = lang;
-            localStorage.setItem('daymood-lang', lang);
+            localStorage.setItem('sequency-lang', lang);
             updatePage();
         }
 

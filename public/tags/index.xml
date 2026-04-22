@@ -1,1 +1,110 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Tags on Jaime López</title><link>https://jaimelxpez.com/tags/</link><description>Recent content in Tags on Jaime López</description><generator>Hugo -- 0.154.3</generator><language>en-us</language><lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://jaimelxpez.com/tags/index.xml" rel="self" type="application/rss+xml"/><item><title>Clean Architecture</title><link>https://jaimelxpez.com/tags/clean-architecture/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/clean-architecture/</guid><description/></item><item><title>E2E Encryption</title><link>https://jaimelxpez.com/tags/e2e-encryption/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/e2e-encryption/</guid><description/></item><item><title>Firebase</title><link>https://jaimelxpez.com/tags/firebase/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/firebase/</guid><description/></item><item><title>Gamification</title><link>https://jaimelxpez.com/tags/gamification/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/gamification/</guid><description/></item><item><title>Google Gemini</title><link>https://jaimelxpez.com/tags/google-gemini/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/google-gemini/</guid><description/></item><item><title>Google Play Billing</title><link>https://jaimelxpez.com/tags/google-play-billing/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/google-play-billing/</guid><description/></item><item><title>Jetpack Compose</title><link>https://jaimelxpez.com/tags/jetpack-compose/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/jetpack-compose/</guid><description/></item><item><title>Kotlin</title><link>https://jaimelxpez.com/tags/kotlin/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/kotlin/</guid><description/></item><item><title>Material 3</title><link>https://jaimelxpez.com/tags/material-3/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/material-3/</guid><description/></item><item><title>Navigation 3</title><link>https://jaimelxpez.com/tags/navigation-3/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/navigation-3/</guid><description/></item><item><title>OpenAI</title><link>https://jaimelxpez.com/tags/openai/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/openai/</guid><description/></item><item><title>StoreKit 2</title><link>https://jaimelxpez.com/tags/storekit-2/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/storekit-2/</guid><description/></item><item><title>Swift</title><link>https://jaimelxpez.com/tags/swift/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/swift/</guid><description/></item><item><title>SwiftUI</title><link>https://jaimelxpez.com/tags/swiftui/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>https://jaimelxpez.com/tags/swiftui/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Jaime López</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on Jaime López</description>
+    <generator>Hugo -- 0.154.3</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Clean Architecture</title>
+      <link>http://localhost:1313/tags/clean-architecture/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/clean-architecture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>E2E Encryption</title>
+      <link>http://localhost:1313/tags/e2e-encryption/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/e2e-encryption/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Firebase</title>
+      <link>http://localhost:1313/tags/firebase/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/firebase/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gamification</title>
+      <link>http://localhost:1313/tags/gamification/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/gamification/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Google Gemini</title>
+      <link>http://localhost:1313/tags/google-gemini/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/google-gemini/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Google Play Billing</title>
+      <link>http://localhost:1313/tags/google-play-billing/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/google-play-billing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Jetpack Compose</title>
+      <link>http://localhost:1313/tags/jetpack-compose/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/jetpack-compose/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kotlin</title>
+      <link>http://localhost:1313/tags/kotlin/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Material 3</title>
+      <link>http://localhost:1313/tags/material-3/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/material-3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Navigation 3</title>
+      <link>http://localhost:1313/tags/navigation-3/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/navigation-3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>OpenAI</title>
+      <link>http://localhost:1313/tags/openai/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/openai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>StoreKit 2</title>
+      <link>http://localhost:1313/tags/storekit-2/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/storekit-2/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Swift</title>
+      <link>http://localhost:1313/tags/swift/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/swift/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SwiftUI</title>
+      <link>http://localhost:1313/tags/swiftui/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/swiftui/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
